@@ -1,0 +1,18 @@
+{
+	"keywords" : [
+		"tools",
+		"libs"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Braga\\Tools" : "src"
+		}
+	},
+	"name" : "Braga/BragaTools",
+	"type" : "library",
+	"description" : "Many difrent tools lib",
+	"license" : "MIT",
+	"require" : {
+		"php" : ">=5.4"
+	}
+}
