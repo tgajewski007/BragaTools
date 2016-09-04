@@ -1,4 +1,5 @@
 <?php
+namespace braga\tools\html;
 
 /**
  *
@@ -7,7 +8,6 @@
  * Created on 2010-06-16 14:24:41
  * klasa gromadząca statyczne metody tworzące tragi HTML
  */
-namespace braga\tools\html;
 class BaseTags
 {
 	// -------------------------------------------------------------------------
