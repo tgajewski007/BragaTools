@@ -8,7 +8,7 @@
 			"braga\\tools" : "src"
 		}
 	},
-	"name" : "Braga/BragaTools",
+	"name" : "braga/tools",
 	"type" : "library",
 	"description" : "Many difrent tools lib",
 	"license" : "MIT",
