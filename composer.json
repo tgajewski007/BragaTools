@@ -5,7 +5,7 @@
 	],
 	"autoload" : {
 		"psr-4" : {
-			"braga\\tools" : "src"
+			"braga\tools" : "src"
 		}
 	},
 	"name" : "braga/tools",
