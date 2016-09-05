@@ -1,5 +1,7 @@
 <?php
 namespace braga\tools\tools;
+use braga\tools\html\BaseControler;
+
 /**
  * Created on 17-10-2011 22:01:45
  * @author Tomasz Gajewski
@@ -11,13 +13,12 @@ class PostChecker
 	// -------------------------------------------------------------------------
 	private static $instance = null;
 	// -------------------------------------------------------------------------
-	static function getAll()
-	{
-		return self::$instance;
-	}
-	// -------------------------------------------------------------------------
 	static function get($key)
 	{
+		if(empty(self::$instance))
+		{
+			self::setInstance();
+		}
 		if(isset(self::$instance[$key]))
 		{
 			return self::$instance[$key];
@@ -33,103 +34,66 @@ class PostChecker
 		self::$instance[$key] = $value;
 	}
 	// -------------------------------------------------------------------------
-	protected function logAction(BaseAction $objAction)
+	public function checkPost(BaseControler $controler)
 	{
-		$u = Uzytkownik::getCurrent();
-		if($u instanceof Uzytkownik)
+		$this->setInstance();
+		if(isset(self::$instance["js"]))
 		{
-			$l = Log::get();
-			$l->setAction($objAction->action);
-			$l->setArg1($objAction->arg1);
-			$l->setArg2($objAction->arg2);
-			$l->setArg3($objAction->arg3);
-			$l->setCreateDate(date(PHP_DATETIME_FORMAT));
-			$l->setIdUzytkownik($u->getIdUzytkownik());
-			$l->setIpAdres($_SERVER["REMOTE_ADDR"]);
-			$l->setVariables(var_export($objAction->post, true));
-			$l->setIdModul(Modul::getCurrent()->getIdModul());
-			$l->save();
+			$controler->js = true;
 		}
 	}
 	// -------------------------------------------------------------------------
-	public function checkPost(BaseAction $objAction)
+	protected static function setInstance()
 	{
-		$daneG = $this->preCheckVal($_GET, "GET");
-		$daneP = $this->preCheckVal($_POST, "POST");
+		$daneGET = self::preCheckVal($_GET, "GET");
+		$danePOST = self::preCheckVal($_POST, "POST");
 
-		if(is_array($daneG) && is_array($daneP))
+		if(is_array($daneGET) && is_array($danePOST))
 		{
-			$dane = array_merge($daneG, $daneP);
+			$request = array_merge($daneGET, $danePOST);
 		}
-		else if(is_array($daneG))
+		else if(is_array($daneGET))
 		{
-			$dane = $daneG;
+			$request = $daneGET;
 		}
-		else if(is_array($daneP))
+		else if(is_array($danePOST))
 		{
-			$dane = $daneP;
+			$request = $danePOST;
 		}
 		else
 		{
-			$dane = null;
+			$request = null;
 		}
 
-		$objAction->post = $dane;
-		self::$instance = $dane;
-		// ================= GET =================
-		if(isset($dane["action"]))
-		{
-			$objAction->action = $dane["action"];
-		}
-		if(isset($dane["arg1"]))
-		{
-			$objAction->arg1 = $dane["arg1"];
-		}
-		if(isset($dane["arg2"]))
-		{
-			$objAction->arg2 = $dane["arg2"];
-		}
-		if(isset($dane["arg3"]))
-		{
-			$objAction->arg3 = $dane["arg3"];
-		}
-		if(isset($dane["js"]))
-		{
-			$objAction->js = true;
-		}
-		// ============================================
-		if($objAction->action != "")
-		{
-			$this->logAction($objAction);
-		}
+		self::$instance = $request;
 	}
 	// -------------------------------------------------------------------------
-	protected function preCheckVal($array, $argName)
+	protected static function preCheckVal($array, $argName)
 	{
 		$retval = array();
 		foreach($array as $name => $val)
 		{
 			$name = strtolower($name);
-			$retval[$name] = $this->checkVal($val, $argName . "[" . $name . "]");
+			$retval[$name] = self::checkVal($val, $argName . "[" . $name . "]");
 		}
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	protected function checkVal($napis, $argName)
+	protected static function checkVal($argumentValue, $argumentName)
 	{
 		$retval = "";
-		if(!is_array($napis))
+		if(!is_array($argumentValue))
 		{
-			$retval = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F]/u', '', $napis);
-			$retval = htmlspecialchars($retval, ENT_QUOTES, "UTF-8");
+			$retval = preg_replace('/[[:cntrl:]]/', '', $retval);
+			$retval = htmlspecialchars($argumentValue, ENT_QUOTES, "UTF-8");
 			$retval = trim($retval);
 		}
 		else
 		{
-			foreach($napis as $klucz => $wartosc)
+			foreach($argumentValue as $klucz => $wartosc)
 			{
 				$klucz = strtolower($klucz);
-				$retval[$klucz] = $this->checkVal($wartosc, $argName);
+				$retval[$klucz] = self::checkVal($wartosc, $argumentName);
 			}
 		}
 		return $retval;
