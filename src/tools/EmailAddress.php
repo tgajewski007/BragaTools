@@ -29,7 +29,7 @@ class EmailAddress
 		}
 		else
 		{
-			throw new Exception("HT:10001 Błąd utworzenia obiektu Email. Adres email jest wymagany {" . $fullName . "}");
+			throw new \Exception("HT:10001 Błąd utworzenia obiektu Email. Adres email jest wymagany {" . $fullName . "}");
 		}
 	}
 	// -------------------------------------------------------------------------
