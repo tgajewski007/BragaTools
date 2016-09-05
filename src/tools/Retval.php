@@ -1,5 +1,7 @@
 <?php
 namespace braga\tools\tools;
+use braga\tools\html\BaseTags;
+
 /**
  *
  * @package common
@@ -9,12 +11,12 @@ namespace braga\tools\tools;
  * klasa opisująca dane zwracane do przeglądarki
  * zarówno w formie Ajax jak i w normalnym trybie
  */
-class Retval
+abstract class Retval
 {
 	private $page = "";
 	private $ajax = "";
 	// -------------------------------------------------------------------------
-	public function clear()
+	public function Clear()
 	{
 		$this->page = "";
 		$this->ajax = "";
@@ -25,33 +27,38 @@ class Retval
 		$this->page .= $retval;
 	}
 	// -------------------------------------------------------------------------
+	public function reload($url)
+	{
+		$this->ajax .= BaseTags::customShortXML("reload", "url='" . $url . "'");
+	}
+	// -------------------------------------------------------------------------
 	public function sustain($idContener = "#InputBox")
 	{
 		$id = str_replace("#", "", $idContener);
-		$this->ajax .= Tags::customShortXML("sustain", "id='" . $id . "'");
+		$this->ajax .= BaseTags::customShortXML("sustain", "id='" . $id . "'");
 	}
 	// -------------------------------------------------------------------------
 	public function remove($idContener = "#InputBox")
 	{
-		$this->ajax .= Tags::customShortXML("remove", "id='" . $idContener . "'");
+		$this->ajax .= BaseTags::customShortXML("remove", "id='" . $idContener . "'");
 	}
 	// -------------------------------------------------------------------------
 	public function closePopUp($idContener = "#InputBox")
 	{
 		$id = str_replace("#", "", $idContener);
-		$this->ajax .= Tags::customShortXML("closePopUp", "id='" . $id . "'");
+		$this->ajax .= BaseTags::customShortXML("closePopUp", "id='" . $id . "'");
 	}
 	// -------------------------------------------------------------------------
 	public function popUpWin($title, $retval, $idContener = "#InputBox")
 	{
 		$id = str_replace("#", "", $idContener);
-		$this->ajax .= Tags::customShortXML("popup", "id='" . $id . "' title='" . $title . "'");
+		$this->ajax .= BaseTags::customShortXML("popup", "id='" . $id . "' title='" . $title . "'");
 		$this->addChange($retval, $idContener);
 	}
 	// -------------------------------------------------------------------------
-	public function changeAttrib($idContener, $name, $value)
+	public function changeAttrib($idContener, $Name, $Value)
 	{
-		$this->ajax .= Tags::customShortXML("atrybut", "id='" . $idContener . "' name='" . $name . "' value='" . $value . "'");
+		$this->ajax .= BaseTags::customShortXML("atrybut", "id='" . $idContener . "' name='" . $Name . "' value='" . $Value . "'");
 	}
 	// -------------------------------------------------------------------------
 	public function centerContener($idContener)
@@ -61,12 +68,12 @@ class Retval
 	// -------------------------------------------------------------------------
 	public function appendChange($retval, $idContener = "#MainBox")
 	{
-		$this->ajax .= Tags::custom("append", "<![CDATA[" . $retval . "]]>", "id='" . $idContener . "'");
+		$this->ajax .= BaseTags::custom("append", "<![CDATA[" . $retval . "]]>", "id='" . $idContener . "'");
 	}
 	// -------------------------------------------------------------------------
 	public function addChange($retval, $idContener = "#MainBox")
 	{
-		$this->ajax .= Tags::custom("change", "<![CDATA[" . $retval . "]]>", "id='" . $idContener . "'", "");
+		$this->ajax .= BaseTags::custom("change", "<![CDATA[" . $retval . "]]>", "id='" . $idContener . "'", "");
 		if($idContener == "MainBody")
 		{
 			$this->page = $retval;
@@ -80,16 +87,15 @@ class Retval
 	// -------------------------------------------------------------------------
 	public function getAjax()
 	{
-		$this->addChange(GetMsg(), "#MsgBox");
+		$msg = $this->getFormatedMessage();
+		$this->addChange($msg, "#MsgBox");
+
 		$retval = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		$retval .= Tags::custom("changes", $this->ajax . $this->getProcesingTime(), "date='" . date(PHP_DATETIME_FORMAT) . "'");
+		$retval .= BaseTags::custom("changes", $this->ajax, "date='" . date(PHP_DATETIME_FORMAT) . "'");
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	protected function getProcesingTime()
-	{
-		return Tags::custom("time", ProcesingTime::getInstance()->getProcessTime(), "");
-	}
+	abstract protected function getFormatedMessage();
 	// -------------------------------------------------------------------------
 }
 ?>
