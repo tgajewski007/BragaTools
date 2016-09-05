@@ -1,5 +1,4 @@
 <?php
-namespace braga\tools\tools;
 /**
  *
  * @author Tomasz.Gajewski

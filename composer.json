@@ -6,7 +6,10 @@
 	"autoload" : {
 		"psr-4" : {
 			"braga\\tools\\" : "src"
-		}
+		},
+		"files" : [
+		    "src/tools/tools.php"
+		]
 	},
 	"name" : "braga/tools",
 	"type" : "library",
