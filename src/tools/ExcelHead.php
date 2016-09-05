@@ -1,10 +1,10 @@
 <?php
+namespace braga\tools\tools;
 /**
  * Created on 11-03-2012 18:53:41
  * @author Tomasz Gajewski
  * @package package_name
  * error prefix
- *
  */
 class ExcelHead
 {
@@ -13,7 +13,7 @@ class ExcelHead
 	{
 		header("Cache-Control: no-cache");
 		header("Pragma: no-cache");
-		header("Content-Disposition: attachment; filename=\"".$fileName."\"");
+		header("Content-Disposition: attachment; filename=\"" . $fileName . "\"");
 		header("Content-type: application/vnd.ms-excel");
 		$retval = "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"
 xmlns:x=\"urn:schemas-microsoft-com:office:excel\"
@@ -28,8 +28,8 @@ xmlns=\"http://www.w3.org/TR/REC-html40\">
  <o:DocumentProperties>
   <o:Author>TransSped</o:Author>
   <o:LastAuthor>TransSped</o:LastAuthor>
-  <o:Created>".date("%Y-%m-%d")."T".date("%H:%i:%s")."Z</o:Created>
-  <o:LastSaved>".date("%Y-%m-%d")."T".date("%H:%i:%s")."Z</o:LastSaved>
+  <o:Created>" . date("%Y-%m-%d") . "T" . date("%H:%i:%s") . "Z</o:Created>
+  <o:LastSaved>" . date("%Y-%m-%d") . "T" . date("%H:%i:%s") . "Z</o:LastSaved>
   <o:Company>Tomasz Gajewski INC</o:Company>
   <o:Version>9.6926</o:Version>
  </o:DocumentProperties>
@@ -196,7 +196,7 @@ td.no_border
  <x:ExcelWorkbook>
   <x:ExcelWorksheets>
    <x:ExcelWorksheet>
-	<x:Name>Stan na dzień ".date("Y-m-d H.i")."</x:Name>
+	<x:Name>Stan na dzień " . date("Y-m-d H.i") . "</x:Name>
 	<x:WorksheetOptions>
 	 <x:FitToPage/>
 	 <x:Print>
