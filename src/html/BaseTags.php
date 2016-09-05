@@ -122,6 +122,11 @@ class BaseTags
 		return self::custom("option", $innerHTML, $attributes);
 	}
 	// -------------------------------------------------------------------------
+	static function legend($innerHTML, $attributes = "")
+	{
+		return self::custom("legend", $innerHTML, $attributes);
+	}
+	// -------------------------------------------------------------------------
 	static function select($innerHTML, $attributes = "")
 	{
 		return self::custom("select", $innerHTML, $attributes);
