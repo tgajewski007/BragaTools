@@ -1,4 +1,6 @@
 <?php
+use braga\tools\html\BaseTags;
+
 /**
  *
  * @author Tomasz.Gajewski
@@ -7,130 +9,6 @@
  * error_prexix EM:903
  * klasa odpowiedzialna za sprawdzanie danych przychodzących z przeglądarki
  */
-// =============================================================================
-function WebHitelGetMsg()
-{
-	$retval = "";
-	if(isset($_SESSION["info"]))
-	{
-		foreach($_SESSION["info"] as $value) /* @var $value Message */
-		{
-			$retval .= Tags::h3($value->getNumer() . " " . $value->getOpis());
-		}
-		unset($_SESSION["info"]);
-	}
-
-	if(isset($_SESSION["warning"]))
-	{
-
-		foreach($_SESSION["warning"] as $value)/* @var $value Message */
-		{
-			$retval .= Tags::h3($value->getNumer() . " " . $value->getOpis());
-		}
-		unset($_SESSION["warning"]);
-	}
-
-	if(isset($_SESSION["alert"]))
-	{
-		foreach($_SESSION["alert"] as $value)/* @var $value Message */
-		{
-			$retval .= Tags::h3($value->getNumer() . " " . $value->getOpis());
-		}
-		unset($_SESSION["alert"]);
-	}
-
-	if(isset($_SESSION["sqlError"]))
-	{
-		foreach($_SESSION["sqlError"] as $value)/* @var $value Message */
-		{
-			$retval .= Tags::h3($value->getOpis());
-		}
-		unset($_SESSION["sqlError"]);
-	}
-	return $retval;
-}
-// =============================================================================
-function GetMsg()
-{
-	$retval = "";
-	if(isset($_SESSION["info"]))
-	{
-
-		$wiadomosci = "";
-		foreach($_SESSION["info"] as $value)
-		{
-			$id = "MSG" . getRandomString(5);
-			$wiadomosci .= Tags::p($value->getOpis(), "class='clear' id='" . $id . "'");
-			$wiadomosci .= Tags::script("$(\"#" . $id . "\").parent().parent().delay(5000).hide(\"slide\",{direction: \"up\"})");
-		}
-		unset($_SESSION["info"]);
-		$title = icon("ui-icon-notice");
-		$title .= "Info";
-		$title .= Tags::span("", "class='ui-icon ui-icon-close hand' style='float:right;' onclick='\$(this).parent().parent().remove(); HideToolTip(); return false;' " . ToolTip("Zamknij"));
-		$title = Tags::div($title, "class='ui-widget-header ui-corner-all ui-helper-clearfix' style='padding:2px'");
-		$content = Tags::div($wiadomosci, "class='ui-corner-bottom ui-priority-primary clear' style='padding:8px'");
-		$tmp = $title . $content;
-		$retval .= Tags::div($tmp, " style='width:auto;margin-bottom:4px;padding:2px' class='ui-widget-content ui-state-highlight ui-corner-all'");
-	}
-
-	if(isset($_SESSION["warning"]))
-	{
-
-		$wiadomosci = "";
-		foreach($_SESSION["warning"] as $value)
-		{
-			$id = "MSG" . getRandomString(5);
-			$wiadomosci .= Tags::p(Tags::span(Tags::i($value->getNumer()), "style='float:right;font-size:75%;'") . $value->getOpis(), "class='clear' id='" . $id . "'");
-			$wiadomosci .= Tags::script("$(\"#" . $id . "\").parent().parent().delay(5000).hide(\"slide\",{direction: \"up\"})");
-		}
-		unset($_SESSION["warning"]);
-		$title = icon("ui-icon-info");
-		$title .= "Ostrzeżenie";
-		$title .= Tags::span("", "class='ui-icon ui-icon-close hand' style='float:right;' onclick='\$(this).parent().parent().remove(); HideToolTip(); return false;' " . ToolTip("Zamknij"));
-		$title = Tags::div($title, "class='ui-widget-header ui-corner-all ui-helper-clearfix ui-state-error' style='padding:2px'");
-		$content = Tags::div($wiadomosci, "class='ui-corner-bottom ui-priority-primary clear' style='padding:8px'");
-		$tmp = $title . $content;
-		$retval .= Tags::div($tmp, " style='width:auto;margin-bottom:4px;padding:2px' class='ui-widget-content ui-state-highlight ui-corner-all'");
-	}
-
-	if(isset($_SESSION["alert"]))
-	{
-		$wiadomosci = "";
-		foreach($_SESSION["alert"] as $value)
-		{
-			$id = "MSG" . getRandomString(5);
-			$wiadomosci .= Tags::p(Tags::span(Tags::i($value->getNumer()), "style='float:right;font-size:75%;'") . $value->getOpis(), "class='clear' id='" . $id . "'");
-			$wiadomosci .= Tags::script("$(\"#" . $id . "\").parent().parent().delay(10000).hide(\"slide\",{direction: \"up\"})");
-		}
-		unset($_SESSION["alert"]);
-		$title = icon("ui-icon-alert");
-		$title .= "Alert";
-		$title .= Tags::span("", "class='ui-icon ui-icon-close hand' style='float:right;' onclick='\$(this).parent().parent().remove(); HideToolTip(); return false;' " . ToolTip("Zamknij"));
-		$title = Tags::div($title, "class='ui-widget-header ui-corner-all ui-helper-clearfix ui-state-highlight' style='padding:2px'");
-		$content = Tags::div($wiadomosci, "class='ui-corner-bottom ui-priority-primary clear' style='padding:8px'");
-		$tmp = $title . $content;
-		$retval .= Tags::div($tmp, " style='margin-bottom:4px;padding:2px' class='ui-widget-content ui-state-error ui-corner-all'");
-	}
-
-	if(isset($_SESSION["sqlError"]))
-	{
-		$wiadomosci = "";
-		foreach($_SESSION["sqlError"] as $value)
-		{
-			$wiadomosci .= Tags::p($value->getOpis());
-		}
-		unset($_SESSION["sqlError"]);
-
-		$title = icon("ui-icon-alert");
-		$title .= "SQLError";
-		$title .= Tags::span("", "class='ui-icon ui-icon-close hand' style='float:right;' onclick='\$(this).parent().parent().remove(); HideToolTip(); return false;' " . ToolTip("Zamknij"));
-		$title = Tags::div($title, "class='ui-widget-header ui-corner-all ui-helper-clearfix ui-state-highlight' style='padding:2px'");
-		$content = Tags::div($wiadomosci, "class='ui-corner-bottom ui-priority-primary clear' style='padding:8px'");
-		$tmp = $title . $content;
-		$retval .= Tags::div($tmp, " style='margin-bottom:4px;padding:2px' class='ui-widget-content ui-state-error ui-corner-all'");
-	}
-	return $retval;
-}
 // =============================================================================
 function getmicrotime()
 {
@@ -441,11 +319,6 @@ function getMonthName($nr)
 	$m[11] = "Listopad";
 	$m[12] = "Grudzień";
 	return $m[$nr];
-}
-// =============================================================================
-function icon($icon = "", $float = "left")
-{
-	return Tags::span("", "class='ui-icon " . $icon . "' style='float:" . $float . "'");
 }
 // =============================================================================
 function groupCollection(Iterator $collection, $groupFunctionName)
