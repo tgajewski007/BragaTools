@@ -1,5 +1,5 @@
 <?php
-namespace braga\tools\html;
+namespace braga\tools\tools;
 
 /**
  * Created on 19-10-2011 20:27:32
