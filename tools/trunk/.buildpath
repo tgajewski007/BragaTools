@@ -3,5 +3,4 @@
 	<buildpathentry kind="src" path="src/tools"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 	<buildpathentry excluding="tools/" kind="src" path="src"/>
-	<buildpathentry kind="src" path="vendor/composer"/>
 </buildpath>

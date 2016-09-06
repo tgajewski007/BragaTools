@@ -1,5 +1,8 @@
 <?php
+
 namespace braga\tools\html;
+
+use braga\tools\tools\Retval;
 
 /**
  * Created on 22-09-2010 09:07:11
