@@ -13,8 +13,8 @@ use braga\tools\html\BaseTags;
  */
 abstract class Retval
 {
-	private $page = "";
-	private $ajax = "";
+	protected $page = "";
+	protected $ajax = "";
 	// -------------------------------------------------------------------------
 	public function Clear()
 	{
