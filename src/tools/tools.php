@@ -1,5 +1,6 @@
 <?php
 use braga\tools\html\BaseTags;
+use braga\tools\tools\Message;
 
 /**
  *
@@ -59,16 +60,8 @@ function addErrorLog($text)
 	{
 		$text = var_export($text, true);
 	}
-	if(Uzytkownik::getCurrent() instanceof Uzytkownik)
-	{
-		$idUzytkownik = Uzytkownik::getCurrent()->getIdUzytkownik();
-	}
-	else
-	{
-		$idUzytkownik = 0;
-	}
 
-	$retval = date("Y-m-d H:i:s") . "," . $idUzytkownik . "," . $text . "\r\n";
+	$retval = date("Y-m-d H:i:s") . "," . $text . "\r\n";
 	$filename = INSTALL_DIRECTORY . "log/Error." . date(PHP_DATE_FORMAT) . ".log";
 	file_put_contents($filename, $retval, FILE_APPEND);
 }
