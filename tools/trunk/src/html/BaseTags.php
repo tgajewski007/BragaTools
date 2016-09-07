@@ -112,9 +112,9 @@ class BaseTags
 		return self::customShort("img", "src='" . $src . "' " . $attributes);
 	}
 	// -------------------------------------------------------------------------
-	static function fieldset($innerHTML, $attributes = "", $legend = "", $legendAttributes = "")
+	static function fieldset($innerHTML, $attributes = "")
 	{
-		return self::custom("fieldset", self::custom("legend", $legend, $legendAttributes) . $innerHTML, $attributes);
+		return self::custom("fieldset", $innerHTML, $attributes);
 	}
 	// -------------------------------------------------------------------------
 	static function option($innerHTML, $attributes = "")
