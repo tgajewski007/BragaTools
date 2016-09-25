@@ -1,6 +1,7 @@
 <?php
 use braga\tools\html\BaseTags;
 use braga\tools\tools\Message;
+use braga\tools\tools\SessManager;
 
 /**
  *
@@ -19,20 +20,21 @@ function getmicrotime()
 // =============================================================================
 function addAlert($text)
 {
+	addErrorLog($text);
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		$_SESSION["alert"][] = $m;
+		SessManager::add(SessManager::MESSAGE_ALERT, $m);
 	}
-	addErrorLog($text);
 }
 // =============================================================================
 function addSQLError($text)
 {
-	$m = Message::import($text);
+	addErrorLog($text);
+	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		$_SESSION["sqlError"][] = $m;
+		SessManager::add(SessManager::MESSAGE_SQL, $m);
 	}
 }
 // =============================================================================
@@ -41,7 +43,7 @@ function addMsg($text)
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		$_SESSION["info"][] = $m;
+		SessManager::add(SessManager::MESSAGE_INFO, $m);
 	}
 }
 // =============================================================================
@@ -50,7 +52,7 @@ function addWarn($text)
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		$_SESSION["warning"][] = $m;
+		SessManager::add(SessManager::MESSAGE_WARNING, $m);
 	}
 }
 // =============================================================================
