@@ -447,7 +447,7 @@ function sizeFileFormat($bytes)
 // =============================================================================
 function getHashPass($pass, $idUzytkownik = null)
 {
-	return hash(HASH_ALGORYTM, $pass);
+	return hash(HASH_ALGORYTM, $pass . $idUzytkownik);
 }
 // =============================================================================
 function formatKodPocztowy($kod)
