@@ -13,6 +13,17 @@ class PostChecker
 	// -------------------------------------------------------------------------
 	private static $instance = null;
 	// -------------------------------------------------------------------------
+	/**
+	 *
+	 * @var PostLogger
+	 */
+	private static $logger = null;
+	// -------------------------------------------------------------------------
+	public static function setLogger(PostLogger $l)
+	{
+		self::$logger = $l;
+	}
+	// -------------------------------------------------------------------------
 	static function get($key)
 	{
 		if(empty(self::$instance))
@@ -45,7 +56,7 @@ class PostChecker
 	// -------------------------------------------------------------------------
 	protected static function setInstance()
 	{
-		$daneGET = self::preCheckVal($_GET, "GET");
+		$daneGET = self::preCheckVal($_REQUEST, "GET");
 		$danePOST = self::preCheckVal($_POST, "POST");
 
 		if(is_array($daneGET) && is_array($danePOST))
@@ -66,6 +77,10 @@ class PostChecker
 		}
 
 		self::$instance = $request;
+		if(!empty(self::$logger))
+		{
+			self::$logger->save(self::$instance);
+		}
 	}
 	// -------------------------------------------------------------------------
 	protected static function preCheckVal($array, $argName)
