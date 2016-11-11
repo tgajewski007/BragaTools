@@ -1,4 +1,5 @@
 <?php
+
 namespace braga\tools\html;
 
 /**
@@ -270,6 +271,11 @@ class BaseTags
 	static function code($innerHTML, $attributes = "")
 	{
 		return self::custom("code", $innerHTML, $attributes);
+	}
+	// -------------------------------------------------------------------------
+	static function strong($innerHTML, $attributes = "")
+	{
+		return self::custom("strong", $innerHTML, $attributes);
 	}
 	// -------------------------------------------------------------------------
 	static function meta($attributes)
