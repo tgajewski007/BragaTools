@@ -14,7 +14,7 @@ namespace braga\tools\tools;
 class Poczta
 {
 	protected $from;
-	protected $subject = "EnMarket - powiadomienie";
+	protected $subject = null;
 	protected $message = null;
 	protected $adresaci = array(); // array EmailAddress
 	protected $priority = self::NORMAL;
@@ -24,11 +24,6 @@ class Poczta
 	const NORMAL = "X-Priority: 3 (Normal)\r\n";
 	const LOW = "X-Priority: 5 (Low)\r\n";
 	// -------------------------------------------------------------------------
-	public function __construct()
-	{
-		$this->from = new EmailAddress("Hitel", "noreply@hitel.pl");
-	}
-	// -------------------------------------------------------------------------
 	protected function realSendMail(EmailAddress $to)
 	{
 		$headers = "From: " . $this->from->getFormatedAddress() . "\r\n";
@@ -37,7 +32,6 @@ class Poczta
 		{
 			$headers .= "CC: " . $this->doWiadomosci->getFormatedAddress() . "\r\n";
 		}
-		$headers .= "Bcc: kopia@daiglob.pl\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= $this->priority;
 		$headers .= "Content-Type: text/html; charset=UTF-8; \r\n";
