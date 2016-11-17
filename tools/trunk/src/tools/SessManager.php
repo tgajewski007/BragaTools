@@ -1,5 +1,7 @@
 <?php
+
 namespace braga\tools\tools;
+
 /**
  * Created on 20 mar 2015 20:07:29
  * error prefix
@@ -23,7 +25,7 @@ class SessManager
 		}
 		else
 		{
-			return null;
+			return array();
 		}
 	}
 	// -------------------------------------------------------------------------
