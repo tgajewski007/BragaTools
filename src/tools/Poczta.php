@@ -16,10 +16,15 @@ class Poczta
 	protected $from;
 	protected $subject = null;
 	protected $message = null;
-	protected $adresaci = array(); // array EmailAddress
+	/**
+	 *
+	 * @var array EmailAddress
+	 */
+	protected $adresaci = array();
 	protected $priority = self::NORMAL;
 	protected $cc = array();
 	protected $bcc = array();
+	protected $realMode = true;
 	// -------------------------------------------------------------------------
 	const HIGH = "X-Priority: 1 (High)";
 	const NORMAL = "X-Priority: 3 (Normal)";
@@ -29,11 +34,11 @@ class Poczta
 	{
 		$headers = "From: " . $this->from->getFormatedAddress() . "\n";
 		// $headers .= "To: " . $to->getFormatedAddress() . "\n";
-		foreach($this->cc as $cc)
+		foreach($this->cc as $cc) /* @var $cc EmailAddress */
 		{
 			$headers .= "CC: " . $cc->getFormatedAddress() . "\n";
 		}
-		foreach($this->bcc as $bcc)
+		foreach($this->bcc as $bcc)/* @var $bcc EmailAddress */
 		{
 			$headers .= "BCC: " . $bcc->getFormatedAddress() . "\n";
 		}
@@ -52,7 +57,7 @@ class Poczta
 		$body .= $this->message;
 		$body .= "</body>";
 		$body .= "</html>";
-		if(PRODUCTION)
+		if($this->realMode)
 		{
 			return @mail($to->getFormatedAddress(), $this->getSubject(), $body, $headers);
 		}
