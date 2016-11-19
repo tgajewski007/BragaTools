@@ -18,24 +18,29 @@ class Poczta
 	protected $message = null;
 	protected $adresaci = array(); // array EmailAddress
 	protected $priority = self::NORMAL;
-	protected $doWiadomosci = null;
+	protected $cc = array();
+	protected $bcc = array();
 	// -------------------------------------------------------------------------
-	const HIGH = "X-Priority: 1 (High)\r\n";
-	const NORMAL = "X-Priority: 3 (Normal)\r\n";
-	const LOW = "X-Priority: 5 (Low)\r\n";
+	const HIGH = "X-Priority: 1 (High)";
+	const NORMAL = "X-Priority: 3 (Normal)";
+	const LOW = "X-Priority: 5 (Low)";
 	// -------------------------------------------------------------------------
 	protected function realSendMail(EmailAddress $to)
 	{
-		$headers = "From: " . $this->from->getFormatedAddress() . "\r\n";
-		$headers .= "To: " . $to->getFormatedAddress() . "\r\n";
-		if($this->doWiadomosci != null)
+		$headers = "From: " . $this->from->getFormatedAddress() . "\n";
+		// $headers .= "To: " . $to->getFormatedAddress() . "\n";
+		foreach($this->cc as $cc)
 		{
-			$headers .= "CC: " . $this->doWiadomosci->getFormatedAddress() . "\r\n";
+			$headers .= "CC: " . $cc->getFormatedAddress() . "\n";
 		}
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= $this->priority;
-		$headers .= "Content-Type: text/html; charset=UTF-8; \r\n";
-		$headers .= "Content-Transfer-Encoding: 8bit; \r\n";
+		foreach($this->bcc as $bcc)
+		{
+			$headers .= "BCC: " . $bcc->getFormatedAddress() . "\n";
+		}
+		$headers .= "MIME-Version: 1.0\n";
+		$headers .= $this->priority . "\n";
+		$headers .= "Content-Type: text/html; charset=UTF-8; \n";
+		$headers .= "Content-Transfer-Encoding: 8bit; \n";
 
 		$body = "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n";
 		$body .= "<html>";
@@ -49,7 +54,7 @@ class Poczta
 		$body .= "</html>";
 		if(PRODUCTION)
 		{
-			return @mail($to->getEmail(), $this->getSubject(), $body, $headers);
+			return @mail($to->getFormatedAddress(), $this->getSubject(), $body, $headers);
 		}
 	}
 	// -------------------------------------------------------------------------
@@ -59,9 +64,14 @@ class Poczta
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	public function setDoWiadomosci(EmailAddress $adresatDW)
+	public function setDoWiadomosci(EmailAddress $adresat)
 	{
-		$this->doWiadomosci = $adresatDW;
+		$this->cc[] = $adresat;
+	}
+	// -------------------------------------------------------------------------
+	public function setUkrytyDoWiadomosci(EmailAddress $adresat)
+	{
+		$this->bcc[] = $adresat;
 	}
 	// -------------------------------------------------------------------------
 	public function setFrom(EmailAddress $from)
