@@ -510,4 +510,33 @@ function isMobile($mobile)
 	return true;
 }
 // =============================================================================
+function dodajMiesiac($data, $iloscMiesiecy)
+{
+	$dzien = date("d", $data);
+	$miesiac = date("m", $data);
+	$rok = date("Y", $data);
+	$dataOut = mktime(0, 0, 0, $miesiac + $iloscMiesiecy, $dzien, $rok);
+
+	$miesiacOut = date("m", $dataOut);
+	$rokOut = date("Y", $dataOut);
+
+	if(($miesiac + $iloscMiesiecy) % 12 != $miesiacOut)
+	{
+		if($rok != $rokOut)
+		{
+			$m = $miesiac + $iloscMiesiecy;
+			$m = $m % 12;
+			$ostatniDzienMiesiaca = cal_days_in_month(CAL_GREGORIAN, $m, $rokOut);
+			$dataOut = mktime(0, 0, 0, $m, $ostatniDzienMiesiaca, $rokOut);
+		}
+		else
+		{
+			$ostatniDzienMiesiaca = cal_days_in_month(CAL_GREGORIAN, $miesiac + $iloscMiesiecy, $rok);
+			$dataOut = mktime(0, 0, 0, $miesiac + $iloscMiesiecy, $ostatniDzienMiesiaca, $rok);
+		}
+	}
+
+	return date(PHP_DATE_FORMAT, $dataOut);
+}
+// =============================================================================
 ?>
