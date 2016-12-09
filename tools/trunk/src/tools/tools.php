@@ -510,33 +510,33 @@ function isMobile($mobile)
 	return true;
 }
 // =============================================================================
-function dodajMiesiac($data, $iloscMiesiecy)
+function addMonth($date, $countOfMonth)
 {
-	$dzien = date("d", $data);
-	$miesiac = date("m", $data);
-	$rok = date("Y", $data);
-	$dataOut = mktime(0, 0, 0, $miesiac + $iloscMiesiecy, $dzien, $rok);
+	$day = date("d", $date);
+	$month = date("m", $date);
+	$year = date("Y", $date);
+	$dateOut = mktime(0, 0, 0, $month + $countOfMonth, $day, $year);
 
-	$miesiacOut = date("m", $dataOut);
-	$rokOut = date("Y", $dataOut);
+	$monthOut = date("m", $dateOut);
+	$yearOut = date("Y", $dateOut);
 
-	if(($miesiac + $iloscMiesiecy) % 12 != $miesiacOut)
+	if(($month + $countOfMonth) % 12 != $monthOut)
 	{
-		if($rok != $rokOut)
+		if($year != $yearOut)
 		{
-			$m = $miesiac + $iloscMiesiecy;
+			$m = $month + $countOfMonth;
 			$m = $m % 12;
-			$ostatniDzienMiesiaca = cal_days_in_month(CAL_GREGORIAN, $m, $rokOut);
-			$dataOut = mktime(0, 0, 0, $m, $ostatniDzienMiesiaca, $rokOut);
+			$lastDayOfMonth = cal_days_in_month(CAL_GREGORIAN, $m, $yearOut);
+			$dateOut = mktime(0, 0, 0, $m, $lastDayOfMonth, $yearOut);
 		}
 		else
 		{
-			$ostatniDzienMiesiaca = cal_days_in_month(CAL_GREGORIAN, $miesiac + $iloscMiesiecy, $rok);
-			$dataOut = mktime(0, 0, 0, $miesiac + $iloscMiesiecy, $ostatniDzienMiesiaca, $rok);
+			$lastDayOfMonth = cal_days_in_month(CAL_GREGORIAN, $month + $countOfMonth, $year);
+			$dateOut = mktime(0, 0, 0, $month + $countOfMonth, $lastDayOfMonth, $year);
 		}
 	}
 
-	return date(PHP_DATE_FORMAT, $dataOut);
+	return date(PHP_DATE_FORMAT, $dateOut);
 }
 // =============================================================================
 ?>
