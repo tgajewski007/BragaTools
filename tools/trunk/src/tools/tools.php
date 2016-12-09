@@ -520,12 +520,15 @@ function addMonth($date, $countOfMonth)
 	$monthOut = date("m", $dateOut);
 	$yearOut = date("Y", $dateOut);
 
-	if(($month + $countOfMonth) % 12 != $monthOut)
+	$m = ($month + $countOfMonth) % 12;
+	if($m == 0)
+	{
+		$m = 12;
+	}
+	if($m != $monthOut)
 	{
 		if($year != $yearOut)
 		{
-			$m = $month + $countOfMonth;
-			$m = $m % 12;
 			$lastDayOfMonth = cal_days_in_month(CAL_GREGORIAN, $m, $yearOut);
 			$dateOut = mktime(0, 0, 0, $m, $lastDayOfMonth, $yearOut);
 		}

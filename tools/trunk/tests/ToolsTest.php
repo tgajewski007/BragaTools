@@ -95,5 +95,11 @@ class ToolsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("2016-03-15", addMonth($date, 14));
 	}
 	// -------------------------------------------------------------------------
+	function testErr001()
+	{
+		$date = strtotime("2015-12-09");
+		$this->assertEquals("2016-12-09", addMonth($date, 12));
+	}
+	// -------------------------------------------------------------------------
 }
 ?>
