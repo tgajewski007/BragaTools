@@ -1,5 +1,4 @@
 <?php
-use braga\tools\html\BaseTags;
 use braga\tools\tools\Message;
 use braga\tools\tools\SessManager;
 
