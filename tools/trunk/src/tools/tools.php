@@ -272,6 +272,20 @@ function formatBytes($bytes)
 	return $bytes;
 }
 // =============================================================================
+function formatNrb($numer)
+{
+	// from http://forum.php.pl/index.php?showtopic=118827
+	$suma = substr($numer, 0, 2); // 2 cyfry
+	$nr_roz1 = substr($numer, 2, 4); // pierwsze 4 cyfry
+	$nr_roz2 = substr($numer, 6, 4); // drugie 4 cyfry
+	$nr_rach1 = substr($numer, 10, 4); // pierwsze 4 cyfry
+	$nr_rach2 = substr($numer, 14, 4); // drugie 4 cyfry
+	$nr_rach3 = substr($numer, 18, 4); // trzecie 4 cyfry
+	$nr_rach4 = substr($numer, 22, 4); // czwarte 4 cyfry
+
+	return $suma . ' ' . $nr_roz1 . ' ' . $nr_roz2 . ' ' . $nr_rach1 . ' ' . $nr_rach2 . ' ' . $nr_rach3 . ' ' . $nr_rach4;
+}
+// =============================================================================
 function formatText($text)
 {
 	return nl2br($text, true);
