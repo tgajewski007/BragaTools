@@ -214,7 +214,7 @@ function plCharset($string)
 // =============================================================================
 function formatMonney($kwota)
 {
-	if(!empty($date))
+	if(!empty($kwota))
 	{
 		return number_format($kwota, 2, ",", " ");
 	}
