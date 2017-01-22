@@ -65,40 +65,40 @@ class ErrorHandler
 		switch($errno)
 		{
 			case E_ERROR:
-				$filePrefix = "error";
+				$filePrefix = "php_error";
 				break;
 			case E_WARNING:
-				$filePrefix = "warn";
+				$filePrefix = "php_warn";
 				break;
 			case E_PARSE:
-				$filePrefix = "parse";
+				$filePrefix = "php_parse";
 				break;
 			case E_NOTICE:
-				$filePrefix = "notice";
+				$filePrefix = "php_notice";
 				break;
 			case E_CORE_ERROR:
-				$filePrefix = "core_error";
+				$filePrefix = "php_core_error";
 				break;
 			case E_CORE_WARNING:
-				$filePrefix = "core_warn";
+				$filePrefix = "php_core_warn";
 				break;
 			case E_COMPILE_ERROR:
-				$filePrefix = "compile_error";
+				$filePrefix = "php_compile_error";
 				break;
 			case E_COMPILE_WARNING:
-				$filePrefix = "compile_warn";
+				$filePrefix = "php_compile_warn";
 				break;
 			case E_USER_ERROR:
-				$filePrefix = "user_error";
+				$filePrefix = "php_user_error";
 				break;
 			case E_USER_WARNING:
-				$filePrefix = "user_warn";
+				$filePrefix = "php_user_warn";
 				break;
 			case E_USER_NOTICE:
-				$filePrefix = "user_notice";
+				$filePrefix = "php_user_notice";
 				break;
 			case E_STRICT:
-				$filePrefix = "strict";
+				$filePrefix = "php_strict";
 				break;
 			case E_RECOVERABLE_ERROR:
 				$filePrefix = "recoverable_error";
@@ -106,16 +106,16 @@ class ErrorHandler
 				throw new \Exception($errstr, $errno);
 				break;
 			case E_DEPRECATED:
-				$filePrefix = "deprec";
+				$filePrefix = "php_deprec";
 				break;
 			case E_USER_DEPRECATED:
-				$filePrefix = "deprec_error";
+				$filePrefix = "php_deprec_error";
 				break;
 			case E_ALL:
-				$filePrefix = "all_error";
+				$filePrefix = "php_all_error";
 				break;
 			default :
-				$filePrefix = "unknow";
+				$filePrefix = "php_unknow";
 				break;
 		}
 		self::saveErrorToLogFile($filePrefix, $retval);
@@ -127,7 +127,7 @@ class ErrorHandler
 	 */
 	public static function exceptionHandler(\Exception $exception)
 	{
-		$filePrefix = "exception";
+		$filePrefix = "php_exception";
 		$retval = date("Y-m-d H:i:s");
 		$retval .= ";" . $exception->getCode();
 		$retval .= ";" . $exception->getMessage();
