@@ -46,7 +46,7 @@ abstract class Controler extends BaseControler
 	{
 		if($this->isXhr())
 		{
-			if(!headers_sent())
+			if(!headers_sent() && ob_get_length() == 0)
 			{
 				header("Content-type: text/xml; charset-utf-8");
 				echo $this->r->getAjax();
