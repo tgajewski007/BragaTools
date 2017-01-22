@@ -167,7 +167,7 @@ class ErrorHandler
 	 */
 	private static function saveErrorToLogFile($filePrefix, $retval)
 	{
-		$file = self::$logFolder . $filePrefix . "." . date("Y-m-d H:i:s") . ".log";
+		$file = self::$logFolder . $filePrefix . "." . date("Y-m-d") . ".log";
 		$h = @fopen($file, "a");
 		@fwrite($h, $retval, strlen($retval));
 		@fclose($h);
