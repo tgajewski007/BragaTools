@@ -476,7 +476,7 @@ function formatKodPocztowy($kod)
 // =============================================================================
 function isEmail($email)
 {
-	return (bool)(preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $email));
+	return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 // -----------------------------------------------------------------------------
 function isMobile($mobile)
