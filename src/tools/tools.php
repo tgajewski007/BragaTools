@@ -583,4 +583,12 @@ function roundFloor($number, $precision = 2, $separator = '.')
 	}
 }
 // =============================================================================
+function cleanVariableForLikeParam($var)
+{
+	$var = str_replace("%", "", $var);
+	$var = explode(" ", $var);
+	$var = current($var);
+	return $var;
+}
+// =============================================================================
 ?>
