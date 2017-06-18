@@ -19,7 +19,7 @@ function getmicrotime()
 // =============================================================================
 function addAlert($text)
 {
-	addErrorLog($text);
+	Logger::getLogger("braga")->error($txt);
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -29,7 +29,7 @@ function addAlert($text)
 // =============================================================================
 function addSQLError($text)
 {
-	addErrorLog($text);
+	Logger::getLogger("braga")->fatal($txt);
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -39,6 +39,7 @@ function addSQLError($text)
 // =============================================================================
 function addMsg($text)
 {
+	Logger::getLogger("braga")->info($txt);
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -48,23 +49,12 @@ function addMsg($text)
 // =============================================================================
 function addWarn($text)
 {
+	Logger::getLogger("braga")->warn($txt);
 	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
 	if(!is_null($m))
 	{
 		SessManager::add(SessManager::MESSAGE_WARNING, $m);
 	}
-}
-// =============================================================================
-function addErrorLog($text)
-{
-	if(is_object($text) || is_array($text))
-	{
-		$text = var_export($text, true);
-	}
-
-	$retval = date("Y-m-d H:i:s") . "," . $text . "\r\n";
-	$filename = INSTALL_DIRECTORY . "log/Error." . date(PHP_DATE_FORMAT) . ".log";
-	file_put_contents($filename, $retval, FILE_APPEND);
 }
 // =============================================================================
 function addDebugInfo($text)
@@ -73,11 +63,7 @@ function addDebugInfo($text)
 	{
 		$text = var_export($text, true);
 	}
-	$retval = date("Y-m-d H:i:s") . "," . $text;
-	$h = fopen(INSTALL_DIRECTORY . "log/Debug.log", "a");
-	fwrite($h, $retval, mb_strlen($retval));
-	fwrite($h, "\r\n", 2);
-	fclose($h);
+	Logger::getLogger("braga")->debug($txt);
 }
 // =============================================================================
 function getRandomStringLetterOnly($dlugosc)
