@@ -17,51 +17,51 @@ function getmicrotime()
 	return ((float)$usec + (float)$sec);
 }
 // =============================================================================
-function addAlert($text)
+function addAlert($txt)
 {
 	Logger::getLogger("braga")->error($txt);
-	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
+	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
 		SessManager::add(SessManager::MESSAGE_ALERT, $m);
 	}
 }
 // =============================================================================
-function addSQLError($text)
+function addSQLError($txt)
 {
 	Logger::getLogger("braga")->fatal($txt);
-	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
+	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
 		SessManager::add(SessManager::MESSAGE_SQL, $m);
 	}
 }
 // =============================================================================
-function addMsg($text)
+function addMsg($txt)
 {
 	Logger::getLogger("braga")->info($txt);
-	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
+	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
 		SessManager::add(SessManager::MESSAGE_INFO, $m);
 	}
 }
 // =============================================================================
-function addWarn($text)
+function addWarn($txt)
 {
 	Logger::getLogger("braga")->warn($txt);
-	$m = Message::import(htmlspecialchars($text, ENT_QUOTES));
+	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
 		SessManager::add(SessManager::MESSAGE_WARNING, $m);
 	}
 }
 // =============================================================================
-function addDebugInfo($text)
+function addDebugInfo($txt)
 {
-	if(is_object($text) || is_array($text))
+	if(is_object($txt) || is_array($txt))
 	{
-		$text = var_export($text, true);
+		$txt = var_export($txt, true);
 	}
 	Logger::getLogger("braga")->debug($txt);
 }
