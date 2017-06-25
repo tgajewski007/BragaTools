@@ -90,6 +90,15 @@ class UploadFileManager
 		return $this->orginalFilename;
 	}
 	// -------------------------------------------------------------------------
+	public function getOrginalFilenameFlated()
+	{
+		$file = new \SplFileInfo($this->orginalFilename);
+		$retval = plCharset($file->getBasename('.' . $file->getExtension()));
+		$retval .= ".";
+		$retval .= $file->getExtension();
+		return $retval;
+	}
+	// -------------------------------------------------------------------------
 	public function setOrginalFilename($orginalFilename)
 	{
 		$this->orginalFilename = $orginalFilename;
