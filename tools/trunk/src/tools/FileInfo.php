@@ -37,7 +37,7 @@ class FileInfo
 		{
 			if(is_file($folder . $fileName))
 			{
-				$retval[] = new self($fileName);
+				$retval[] = new static($fileName);
 			}
 		}
 		return $retval;
