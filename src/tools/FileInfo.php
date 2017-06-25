@@ -29,9 +29,8 @@ class FileInfo
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	public static function scan()
+	public static function scan($folder)
 	{
-		$folder = INSTALL_DIRECTORY . "public/download/";
 		$dir = scandir($folder);
 		$retval = array();
 		foreach($dir as $fileName)
