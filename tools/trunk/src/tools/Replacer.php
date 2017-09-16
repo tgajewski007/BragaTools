@@ -19,6 +19,7 @@ class Replacer
 	function __construct($message = null)
 	{
 		$this->message = $message;
+		$this->data = array();
 	}
 	// -------------------------------------------------------------------------
 	public function add($search, $replace)
@@ -28,7 +29,7 @@ class Replacer
 	// -------------------------------------------------------------------------
 	public function getFormated()
 	{
-		$retval = $this->msg;
+		$retval = $this->message;
 		foreach($this->data as $search => $replace)
 		{
 			$retval = str_replace($search, $replace, $retval);
