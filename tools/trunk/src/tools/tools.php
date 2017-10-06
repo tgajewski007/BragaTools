@@ -577,4 +577,11 @@ function cleanVariableForLikeParam($var)
 	return $var;
 }
 // =============================================================================
+function cleanFullTextSearch($search)
+{
+	$search = preg_replace('/[^\p{L}\p{N}_]+/u', ' ', $search);
+	$search = preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search);
+	return $search;
+}
+// =============================================================================
 ?>
