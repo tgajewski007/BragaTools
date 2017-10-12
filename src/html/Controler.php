@@ -1,4 +1,5 @@
 <?php
+
 namespace braga\tools\html;
 
 /**
@@ -48,6 +49,10 @@ abstract class Controler extends BaseControler
 		{
 			if(!headers_sent() && ob_get_length() == 0)
 			{
+				header("Expires:" . date("D, d M Y H:i:s") . "");
+				header("Cache-Control: no-transform; max-age=0; proxy-revalidate ");
+				header("Cache-Control: no-cache; must-revalidate; no-store; post-check=0; pre-check=0 ");
+				header("Pragma: no-cache");
 				header("Content-type: text/xml; charset-utf-8");
 				echo $this->r->getAjax();
 			}
