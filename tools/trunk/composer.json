@@ -21,6 +21,13 @@
 	},
 	"minimum-stability" : "stable",
 	"require-dev" : {
-		"phpunit/phpunit" : "3.7.38"
-	}
+		"phpunit/phpunit" : "~6",
+		"piece/stagehand-testrunner" : "~4"
+	},
+	"repositories" : [{
+			"type" : "svn",
+			"url" : "https://svn.code.sf.net/p/braga/code/tools",
+			"name" : "Main"
+		}
+	]
 }
