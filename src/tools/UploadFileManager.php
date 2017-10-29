@@ -95,7 +95,7 @@ class UploadFileManager
 		$file = new \SplFileInfo($this->orginalFilename);
 		$retval = plCharset($file->getBasename('.' . $file->getExtension()));
 		$retval .= ".";
-		$retval .= $file->getExtension();
+		$retval .= plCharset($file->getExtension());
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
