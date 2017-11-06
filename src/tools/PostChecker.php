@@ -6,7 +6,6 @@ use braga\tools\html\BaseControler;
  * Created on 17-10-2011 22:01:45
  * @author Tomasz Gajewski
  * @package common
- * error prefix EM:107
  */
 class PostChecker
 {
@@ -63,18 +62,20 @@ class PostChecker
 		{
 			$request = array_merge($daneGET, $danePOST);
 		}
-		else if(is_array($daneGET))
-		{
-			$request = $daneGET;
-		}
-		else if(is_array($danePOST))
-		{
-			$request = $danePOST;
-		}
 		else
-		{
-			$request = null;
-		}
+			if(is_array($daneGET))
+			{
+				$request = $daneGET;
+			}
+			else
+				if(is_array($danePOST))
+				{
+					$request = $danePOST;
+				}
+				else
+				{
+					$request = null;
+				}
 
 		self::$instance = $request;
 		if(!empty(self::$logger))
@@ -96,22 +97,24 @@ class PostChecker
 	// -------------------------------------------------------------------------
 	protected static function checkVal($argumentValue, $argumentName)
 	{
-		$retval = "";
 		if(!is_array($argumentValue))
 		{
+			$retval = "";
 			$retval = preg_replace('/[[:cntrl:]]/', '', $retval);
 			$retval = htmlspecialchars($argumentValue, ENT_QUOTES, "UTF-8");
 			$retval = trim($retval);
+			return $retval;
 		}
 		else
 		{
+			$retval = array();
 			foreach($argumentValue as $klucz => $wartosc)
 			{
 				$klucz = strtolower($klucz);
 				$retval[$klucz] = self::checkVal($wartosc, $argumentName);
 			}
+			return $retval;
 		}
-		return $retval;
 	}
 	// -------------------------------------------------------------------------
 }
