@@ -94,91 +94,91 @@ function plCharset($string)
 {
 	$string = mb_strtolower($string);
 	$polskie = array(
-			',',
-			' ',
-			' ',
-			'ę',
-			'Ę',
-			'ó',
-			'Ó',
-			'Ą',
-			'ą',
-			'Ś',
-			's',
-			'ł',
-			'Ł',
-			'ż',
-			'Ż',
-			'Ź',
-			'ź',
-			'ć',
-			'Ć',
-			'ń',
-			'Ń',
-			'-',
-			"'",
-			"/",
-			"?",
-			'"',
-			":",
-			'ś',
-			'!',
-			'.',
-			'&',
-			'&amp;',
-			'#',
-			';',
-			'[',
-			']',
-			'(',
-			')',
-			'`',
-			'%',
-			'”',
-			'„',
-			'…');
+					',',
+					' ',
+					' ',
+					'ę',
+					'Ę',
+					'ó',
+					'Ó',
+					'Ą',
+					'ą',
+					'Ś',
+					's',
+					'ł',
+					'Ł',
+					'ż',
+					'Ż',
+					'Ź',
+					'ź',
+					'ć',
+					'Ć',
+					'ń',
+					'Ń',
+					'-',
+					"'",
+					"/",
+					"?",
+					'"',
+					":",
+					'ś',
+					'!',
+					'.',
+					'&',
+					'&amp;',
+					'#',
+					';',
+					'[',
+					']',
+					'(',
+					')',
+					'`',
+					'%',
+					'”',
+					'„',
+					'…' );
 	$miedzyn = array(
-			'-',
-			'-',
-			'-',
-			'e',
-			'e',
-			'o',
-			'o',
-			'a',
-			'a',
-			's',
-			's',
-			'l',
-			'l',
-			'z',
-			'z',
-			'z',
-			'z',
-			'c',
-			'c',
-			'n',
-			'n',
-			'-',
-			"",
-			"",
-			"",
-			"",
-			"",
-			's',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'',
-			'');
+					'-',
+					'-',
+					'-',
+					'e',
+					'e',
+					'o',
+					'o',
+					'a',
+					'a',
+					's',
+					's',
+					'l',
+					'l',
+					'z',
+					'z',
+					'z',
+					'z',
+					'c',
+					'c',
+					'n',
+					'n',
+					'-',
+					"",
+					"",
+					"",
+					"",
+					"",
+					's',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'' );
 	$string = str_replace($polskie, $miedzyn, $string);
 
 	// usuń wszytko co jest niedozwolonym znakiem
@@ -200,7 +200,7 @@ function plCharset($string)
 // =============================================================================
 function formatMonney($kwota)
 {
-	if(!empty($kwota))
+	if(!is_null($kwota))
 	{
 		return number_format($kwota, 2, ",", " ");
 	}
@@ -248,10 +248,10 @@ function formatBytes($bytes)
 	{
 		$unit = intval(log($bytes, 1024));
 		$units = array(
-				'B',
-				'kiB',
-				'MiB',
-				'GiB');
+						'B',
+						'kiB',
+						'MiB',
+						'GiB' );
 
 		if(array_key_exists($unit, $units) === true)
 		{
@@ -324,8 +324,8 @@ function groupCollection(Iterator $collection, $groupFunctionName)
 	foreach($collection as $key => $value)
 	{
 		$groupKey = call_user_func(array(
-				$value,
-				$groupFunctionName));
+						$value,
+						$groupFunctionName ));
 		$retval[$groupKey][$key] = $value;
 	}
 	return $retval;
@@ -340,15 +340,15 @@ function checkNIP($str)
 	}
 
 	$arrSteps = array(
-			6,
-			5,
-			7,
-			2,
-			3,
-			4,
-			5,
-			6,
-			7);
+					6,
+					5,
+					7,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7 );
 	$intSum = 0;
 	for($i = 0; $i < 9; $i++)
 	{
@@ -374,14 +374,14 @@ function checkREGON($str)
 	if(strlen($str) == 9)
 	{
 		$arrSteps = array(
-				8,
-				9,
-				2,
-				3,
-				4,
-				5,
-				6,
-				7);
+						8,
+						9,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7 );
 		$intSum = 0;
 		for($i = 0; $i < 8; $i++)
 		{
@@ -398,19 +398,19 @@ function checkREGON($str)
 	elseif(strlen($str) == 14)
 	{
 		$arrSteps = array(
-				2,
-				4,
-				8,
-				5,
-				0,
-				9,
-				7,
-				3,
-				6,
-				1,
-				2,
-				4,
-				8);
+						2,
+						4,
+						8,
+						5,
+						0,
+						9,
+						7,
+						3,
+						6,
+						1,
+						2,
+						4,
+						8 );
 		$intSum = 0;
 		for($i = 0; $i < 13; $i++)
 		{
@@ -436,10 +436,10 @@ function sizeFileFormat($bytes)
 	{
 		$unit = intval(log($bytes, 1024));
 		$units = array(
-				'B',
-				'kiB',
-				'MiB',
-				'GiB');
+						'B',
+						'kiB',
+						'MiB',
+						'GiB' );
 
 		if(array_key_exists($unit, $units) === true)
 		{
@@ -559,8 +559,8 @@ function roundFloor($number, $precision = 2, $separator = '.')
 			$numberpart[1] = substr(ceil('1' . $numberpart[1]), 1);
 		}
 		$ceil_number = array(
-				$numberpart[0],
-				$numberpart[1]);
+						$numberpart[0],
+						$numberpart[1] );
 		return (float)implode($separator, $ceil_number);
 	}
 	else
