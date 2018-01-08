@@ -54,6 +54,22 @@ class EmailAddress
 	}
 	// -------------------------------------------------------------------------
 	/**
+	 *
+	 * @param unknown $string
+	 * @return EmailAddress
+	 */
+	public static function convert($string)
+	{
+		$string = trim($string);
+		$string = html_entity_decode($string, ENT_QUOTES);
+		$mark1 = mb_stripos($string, "<");
+		$mark2 = mb_stripos($string, ">");
+		$fullName = mb_substr($string, 0, $mark1);
+		$email = mb_substr($string, $mark1 + 1, -1);
+		return new EmailAddress($fullName, $email);
+	}
+	// -------------------------------------------------------------------------
+	/**
 	 * getFormatedAddress
 	 * zwraca sformatowany adres zgodny ze standardami POP3
 	 * fullname&lt;email&gt;
