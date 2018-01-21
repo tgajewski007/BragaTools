@@ -1,5 +1,4 @@
 <?php
-
 namespace braga\tools\html;
 
 /**
@@ -291,6 +290,11 @@ class BaseTags
 	static function param($attributes)
 	{
 		return self::customShort("param", $attributes);
+	}
+	// -------------------------------------------------------------------------
+	static function u($attributes)
+	{
+		return self::customShort("u", $attributes);
 	}
 	// -------------------------------------------------------------------------
 }
