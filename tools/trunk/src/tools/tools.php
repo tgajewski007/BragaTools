@@ -350,12 +350,11 @@ function CheckPESEL($str)
 					1,
 					3 );
 	$intSum = 0;
-	for($i = 0; $i < 9; $i++)
+	for($i = 0; $i < 10; $i++)
 	{
 		$intSum += $arrSteps[$i] * $str[$i];
 	}
-	$int = $intSum % 11;
-
+	$int = 10 - $intSum % 10;
 	$intControlNr = ($int == 10) ? 0 : $int;
 	if($intControlNr == $str[10])
 	{
