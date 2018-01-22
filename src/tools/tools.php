@@ -331,6 +331,39 @@ function groupCollection(Iterator $collection, $groupFunctionName)
 	return $retval;
 }
 // =============================================================================
+function CheckPESEL($str)
+{
+	if(!preg_match('/^[0-9]{11}$/', $str)) // sprawdzamy czy ciąg ma 11 cyfr
+	{
+		return false;
+	}
+
+	$arrSteps = array(
+					1,
+					3,
+					7,
+					9,
+					1,
+					3,
+					7,
+					9,
+					1,
+					3 );
+	$intSum = 0;
+	for($i = 0; $i < 9; $i++)
+	{
+		$intSum += $arrSteps[$i] * $str[$i];
+	}
+	$int = $intSum % 11;
+
+	$intControlNr = ($int == 10) ? 0 : $int;
+	if($intControlNr == $str[10])
+	{
+		return true;
+	}
+	return false;
+}
+// =============================================================================
 function checkNIP($str)
 {
 	$str = preg_replace("/[^0-9]+/", "", $str);
