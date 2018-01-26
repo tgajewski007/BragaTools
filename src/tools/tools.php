@@ -1,6 +1,5 @@
 <?php
 use braga\tools\tools\Message;
-use braga\tools\tools\SessManager;
 
 /**
  *
@@ -8,7 +7,6 @@ use braga\tools\tools\SessManager;
  * @package system
  * Created on 2008-07-14 12:22:24
  * error_prexix EM:903
- * klasa odpowiedzialna za sprawdzanie danych przychodzących z przeglądarki
  */
 // =============================================================================
 function getmicrotime()
@@ -17,43 +15,43 @@ function getmicrotime()
 	return ((float)$usec + (float)$sec);
 }
 // =============================================================================
-function addAlert($txt)
+function addAlert(string $txt)
 {
 	Logger::getLogger("braga")->error($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		SessManager::add(SessManager::MESSAGE_ALERT, $m);
+		Message::getInstance()->save(Message::MESSAGE_ALERT, $m);
 	}
 }
 // =============================================================================
-function addSQLError($txt)
+function addSQLError(string $txt)
 {
 	Logger::getLogger("braga")->fatal($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		SessManager::add(SessManager::MESSAGE_SQL, $m);
+		Message::getInstance()->save(Message::MESSAGE_SQL, $m);
 	}
 }
 // =============================================================================
-function addMsg($txt)
+function addMsg(string $txt)
 {
 	Logger::getLogger("braga")->info($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		SessManager::add(SessManager::MESSAGE_INFO, $m);
+		Message::getInstance()->save(Message::MESSAGE_INFO, $m);
 	}
 }
 // =============================================================================
-function addWarn($txt)
+function addWarn(string $txt)
 {
 	Logger::getLogger("braga")->warn($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
-		SessManager::add(SessManager::MESSAGE_WARNING, $m);
+		Message::getInstance()->save(Message::MESSAGE_WARNING, $m);
 	}
 }
 // =============================================================================
