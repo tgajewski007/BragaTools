@@ -17,46 +17,67 @@ class MessagePersistanceSession implements IMessagePersistance
 	 */
 	public function store(string $typ, array $msg)
 	{
-		SessManager::add($typ, $msg);
+		switch($typ)
+		{
+			case Message::MESSAGE_ALERT:
+				SessManager::add(SessManager::MESSAGE_ALERT, $msg);
+				break;
+			case Message::MESSAGE_INFO:
+				SessManager::add(SessManager::MESSAGE_INFO, $msg);
+				break;
+			case Message::MESSAGE_SQL:
+				SessManager::add(SessManager::MESSAGE_SQL, $msg);
+				break;
+			case Message::MESSAGE_WARNING:
+				SessManager::add(SessManager::MESSAGE_WARNING, $msg);
+				break;
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public function restore(Message $message)
 	{
-		if(SessManager::isExist(Message::MESSAGE_ALERT))
+		if(SessManager::isExist(SessManager::MESSAGE_ALERT))
 		{
-			$msg = SessManager::get(Message::MESSAGE_ALERT);
+			$msg = SessManager::get(SessManager::MESSAGE_ALERT);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_ALERT, $m);
 			}
+			SessManager::kill(Message::MESSAGE_ALERT);
 		}
-		if(SessManager::isExist(Message::MESSAGE_INFO))
+
+		if(SessManager::isExist(SessManager::MESSAGE_INFO))
 		{
-			$msg = SessManager::get(Message::MESSAGE_INFO);
+			$msg = SessManager::get(SessManager::MESSAGE_INFO);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_INFO, $m);
 			}
+			SessManager::kill(SessManager::MESSAGE_INFO);
 		}
-		if(SessManager::isExist(Message::MESSAGE_SQL))
+
+		if(SessManager::isExist(SessManager::MESSAGE_SQL))
 		{
-			$msg = SessManager::get(Message::MESSAGE_SQL);
+			$msg = SessManager::get(SessManager::MESSAGE_SQL);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_SQL, $m);
 			}
+			SessManager::kill(SessManager::MESSAGE_SQL);
 		}
-		if(SessManager::isExist(Message::MESSAGE_WARNING))
+
+		if(SessManager::isExist(SessManager::MESSAGE_WARNING))
 		{
-			$msg = SessManager::get(Message::MESSAGE_WARNING);
+			$msg = SessManager::get(SessManager::MESSAGE_WARNING);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_WARNING, $m);
 			}
+			SessManager::kill(SessManager::MESSAGE_WARNING);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
