@@ -1,5 +1,4 @@
 <?php
-
 namespace braga\tools\tools;
 
 /**
@@ -11,11 +10,6 @@ namespace braga\tools\tools;
  */
 class SessManager
 {
-	// -------------------------------------------------------------------------
-	const MESSAGE_INFO = "MI";
-	const MESSAGE_WARNING = "MW";
-	const MESSAGE_ALERT = "MA";
-	const MESSAGE_SQL = "MS";
 	// -------------------------------------------------------------------------
 	public static function get($key)
 	{
