@@ -35,7 +35,7 @@ class Message
 	 *
 	 * @var Message[]
 	 */
-	protected $dataMessage;
+	protected $dataMessage = array();
 	// -----------------------------------------------------------------------------------------------------------------
 	private function __construct()
 	{
