@@ -17,6 +17,6 @@ interface IMessagePersistance
 	 */
 	public function store(string $typ, array $msg);
 	// -----------------------------------------------------------------------------------------------------------------
-	public function restore();
+	public function restore(Message $message);
 	// -----------------------------------------------------------------------------------------------------------------
 }
