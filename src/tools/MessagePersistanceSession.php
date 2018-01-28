@@ -20,16 +20,16 @@ class MessagePersistanceSession implements IMessagePersistance
 		switch($typ)
 		{
 			case Message::MESSAGE_ALERT:
-				SessManager::add(SessManager::MESSAGE_ALERT, $msg);
+				SessManager::set(SessManager::MESSAGE_ALERT, $msg);
 				break;
 			case Message::MESSAGE_INFO:
-				SessManager::add(SessManager::MESSAGE_INFO, $msg);
+				SessManager::set(SessManager::MESSAGE_INFO, $msg);
 				break;
 			case Message::MESSAGE_SQL:
-				SessManager::add(SessManager::MESSAGE_SQL, $msg);
+				SessManager::set(SessManager::MESSAGE_SQL, $msg);
 				break;
 			case Message::MESSAGE_WARNING:
-				SessManager::add(SessManager::MESSAGE_WARNING, $msg);
+				SessManager::set(SessManager::MESSAGE_WARNING, $msg);
 				break;
 		}
 	}
