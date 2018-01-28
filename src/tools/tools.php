@@ -15,7 +15,7 @@ function getmicrotime()
 	return ((float)$usec + (float)$sec);
 }
 // =============================================================================
-function addAlert(string $txt)
+function addAlert($txt)
 {
 	Logger::getLogger("braga")->error($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
@@ -25,7 +25,7 @@ function addAlert(string $txt)
 	}
 }
 // =============================================================================
-function addSQLError(string $txt)
+function addSQLError($txt)
 {
 	Logger::getLogger("braga")->fatal($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
@@ -35,7 +35,7 @@ function addSQLError(string $txt)
 	}
 }
 // =============================================================================
-function addMsg(string $txt)
+function addMsg($txt)
 {
 	Logger::getLogger("braga")->info($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
@@ -45,7 +45,7 @@ function addMsg(string $txt)
 	}
 }
 // =============================================================================
-function addWarn(string $txt)
+function addWarn($txt)
 {
 	Logger::getLogger("braga")->warn($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
