@@ -92,7 +92,7 @@ class Message
 	 * @param string $typ
 	 * @param self $msg
 	 */
-	public function save(string $typ, self $msg)
+	public function save($typ, self $msg)
 	{
 		$this->dataMessage[$typ][] = $msg;
 	}
