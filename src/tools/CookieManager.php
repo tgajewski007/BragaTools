@@ -20,7 +20,15 @@ class CookieManager
 	{
 		if(!headers_sent())
 		{
-			return setcookie($key, $value, (time() + $lifetime), "/");
+			if($lifetime < 0)
+			{
+				$lifetime = 0;
+			}
+			else
+			{
+				$lifetime = time() + $lifetime;
+			}
+			return setcookie($key, $value, $lifetime, "/");
 		}
 		else
 		{
