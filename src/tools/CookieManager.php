@@ -16,15 +16,15 @@ class CookieManager
 	 */
 	const LIFETIME = 2592000;
 	// -------------------------------------------------------------------------
-	public static function set($key, $value)
+	public static function set($key, $value, $lifetime = self::LIFETIME)
 	{
 		if(!headers_sent())
 		{
-			return setcookie($key, $value, time() + self::LIFETIME, "/");
+			return setcookie($key, $value, (time() + $lifetime), "/");
 		}
 		else
 		{
-			return false;
+			throw new \Exception("BT:10101 Header already sends");
 		}
 	}
 	// -------------------------------------------------------------------------
