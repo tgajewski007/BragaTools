@@ -15,7 +15,7 @@ class MessagePersistanceSession implements IMessagePersistance
 	 * {@inheritdoc}
 	 * @see \braga\tools\tools\IMessagePersistance::store()
 	 */
-	public function store(string $typ, array $msg)
+	public function store($typ, $msg)
 	{
 		switch($typ)
 		{

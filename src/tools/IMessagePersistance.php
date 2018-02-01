@@ -15,7 +15,7 @@ interface IMessagePersistance
 	 * @param string $typ
 	 * @param Message[] $msg
 	 */
-	public function store(string $typ, array $msg);
+	public function store($typ, $msg);
 	// -----------------------------------------------------------------------------------------------------------------
 	public function restore(Message $message);
 	// -----------------------------------------------------------------------------------------------------------------
