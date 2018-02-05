@@ -55,28 +55,7 @@ class PostChecker
 	// -------------------------------------------------------------------------
 	protected static function setInstance()
 	{
-		$daneGET = self::preCheckVal($_REQUEST, "GET");
-		$danePOST = self::preCheckVal($_POST, "POST");
-
-		if(is_array($daneGET) && is_array($danePOST))
-		{
-			$request = array_merge($daneGET, $danePOST);
-		}
-		else
-			if(is_array($daneGET))
-			{
-				$request = $daneGET;
-			}
-			else
-				if(is_array($danePOST))
-				{
-					$request = $danePOST;
-				}
-				else
-				{
-					$request = null;
-				}
-
+		$request = self::preCheckVal($_REQUEST, "GET");
 		self::$instance = $request;
 		if(!empty(self::$logger))
 		{
@@ -99,7 +78,7 @@ class PostChecker
 	{
 		if(!is_array($argumentValue))
 		{
-			$retval = "";
+			$retval = $argumentValue;
 			$retval = preg_replace('/[[:cntrl:]]/', '', $retval);
 			$retval = htmlspecialchars($argumentValue, ENT_QUOTES, "UTF-8");
 			$retval = trim($retval);
