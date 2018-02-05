@@ -16,9 +16,9 @@ class PostLoggetTest extends PHPUnit_Framework_TestCase
 	{
 		global $superVariable;
 		PostChecker::setLogger(new Logger());
-		$_POST["a"] = "b";
+		$_REQUEST["a"] = "b";
 		PostChecker::get("a");
-		$this->assertEquals($_POST, $superVariable);
+		$this->assertEquals($_REQUEST, $superVariable);
 	}
 	// -------------------------------------------------------------------------
 }
