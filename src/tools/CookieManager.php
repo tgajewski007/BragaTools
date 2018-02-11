@@ -28,7 +28,7 @@ class CookieManager
 			{
 				$lifetime = time() + $lifetime;
 			}
-			return setcookie($key, $value, $lifetime, "/");
+			return setcookie($key, $value, $lifetime, "/", null, true);
 		}
 		else
 		{
