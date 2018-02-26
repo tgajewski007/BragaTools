@@ -9,6 +9,17 @@ use braga\tools\tools\Message;
  * error_prexix EM:903
  */
 // =============================================================================
+function getRemoteIp()
+{
+	$ip = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '127.0.0.1';
+	if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+	{
+		$tmp = explode(",", $_SERVER["HTTP_X_FORWARDED_FOR"]);
+		$ip = trim(current($tmp));
+	}
+	return $ip;
+}
+// =============================================================================
 function getmicrotime()
 {
 	list($usec, $sec) = explode(" ", microtime());
