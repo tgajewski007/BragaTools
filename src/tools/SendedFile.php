@@ -20,7 +20,7 @@ class SendedFile
 		{
 			$zip->addFile($contentFileName, $filename);
 			$zip->close();
-			self::sendHeader($filename . ".zip");
+			self::sendHeader($filename . ".zip", filesize($tmpFileName));
 			@readfile($tmpFileName);
 			@unlink($tmpFileName);
 			@unlink($contentFileName);
@@ -60,7 +60,7 @@ class SendedFile
 	 */
 	static function sendNoZip($filename, $content)
 	{
-		self::sendHeader($filename);
+		self::sendHeader($filename, strlen($content));
 		echo $content;
 		exit();
 	}
@@ -71,7 +71,7 @@ class SendedFile
 	 */
 	static function sendWithContentType($filename, $content, $contentType)
 	{
-		self::sendHeader($filename, $contentType);
+		self::sendHeader($filename, strlen($content), $contentType);
 		echo $content;
 		exit();
 	}
@@ -79,13 +79,14 @@ class SendedFile
 	/**
 	 * metoda wysyła nagłówki niezbędne do pobrania pliku
 	 */
-	static function sendHeader($filename, $contentType = "application/x-download")
+	static function sendHeader($filename, $size, $contentType = "application/x-download")
 	{
 		header("Expires:" . date("D, d M Y H:i:s") . "");
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: public");
 		header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
 		header("Content-type: " . $cn);
+		header('Content-Length: ' . $size);
 	}
 	// -------------------------------------------------------------------------
 }
