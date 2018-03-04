@@ -66,15 +66,26 @@ class SendedFile
 	}
 	// -------------------------------------------------------------------------
 	/**
+	 * metoda wysyła plik z określoną nazwą i zawartością
+	 * bez kompresji
+	 */
+	static function sendWithContentType($filename, $content, $contentType)
+	{
+		self::sendHeader($filename, $contentType);
+		echo $content;
+		exit();
+	}
+	// -------------------------------------------------------------------------
+	/**
 	 * metoda wysyła nagłówki niezbędne do pobrania pliku
 	 */
-	static function sendHeader($filename)
+	static function sendHeader($filename, $contentType = "application/x-download")
 	{
 		header("Expires:" . date("D, d M Y H:i:s") . "");
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: public");
 		header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
-		header("Content-type: application/x-download");
+		header("Content-type: " . $cn);
 	}
 	// -------------------------------------------------------------------------
 }
