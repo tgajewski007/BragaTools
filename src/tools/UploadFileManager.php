@@ -1,5 +1,7 @@
 <?php
 namespace braga\tools\tools;
+use braga\tools\excepion\UploadMangerException;
+
 /**
  * Created on 25.12.2016 14:26:14
  * error prefix
@@ -41,17 +43,17 @@ class UploadFileManager
 				}
 				else
 				{
-					throw new \Exception("BT:10001 File not uploaded", 10001);
+					throw new UploadMangerException("BT:10001 File not uploaded", 10001);
 				}
 			}
 			else
 			{
-				throw new \Exception("BT:10002 Transmision error: " . $_FILES[$postName]["error"], 10002);
+				throw new UploadMangerException("BT:10002 Transmision error: " . $_FILES[$postName]["error"], 10002);
 			}
 		}
 		else
 		{
-			throw new \Exception("BT:10003 File not transmited", 10003);
+			throw new UploadMangerException("BT:10003 File not transmited", 10003);
 		}
 	}
 	// -------------------------------------------------------------------------
