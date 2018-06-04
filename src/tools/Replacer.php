@@ -32,7 +32,7 @@ class Replacer
 		$retval = $this->message;
 		foreach($this->data as $search => $replace)
 		{
-			$retval = str_replace($search, $replace, $retval);
+			$retval = mb_str_replace($search, $replace, $retval);
 		}
 		return $retval;
 	}
