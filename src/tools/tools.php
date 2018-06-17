@@ -215,11 +215,17 @@ function formatMonney($kwota)
 	}
 }
 // =============================================================================
-function formatDate($date)
+function formatDate($date, $humanReadableExtension = false)
 {
 	if(!empty($date))
 	{
-		return date(PHP_DATE_FORMAT, strtotime($date));
+		$retval = date("Y-m-d", strtotime($date));
+		if($humanReadableExtension)
+		{
+			$retval = str_replace(date("Y-m-d"), "Dzisiaj", $retval);
+			$retval = str_replace(date("Y-m-d", time() - 24 * 60 * 60), "Wczoraj", $retval);
+		}
+		return $retval;
 	}
 }
 // =============================================================================
@@ -231,11 +237,18 @@ function formatDateForRaport($date)
 	}
 }
 // =============================================================================
-function formatDateTime($time)
+function formatDateTime($time, $humanReadableExtension = false)
 {
 	if(!empty($time))
 	{
-		return date(PHP_DATETIME_FORMAT, strtotime($time));
+
+		$retval = date("Y-m-d H:i:s", strtotime($time));
+		if($humanReadableExtension)
+		{
+			$retval = str_replace(date("Y-m-d"), "Dzisiaj", $retval);
+			$retval = str_replace(date("Y-m-d", time() - 24 * 60 * 60), "Wczoraj", $retval);
+		}
+		return $retval;
 	}
 }
 // =============================================================================

@@ -101,5 +101,33 @@ class ToolsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("2016-12-09", addMonth($date, 12));
 	}
 	// -------------------------------------------------------------------------
+	function testFormatDateDzisiaj()
+	{
+		$date = date("Y-m-d");
+		$this->assertEquals("Dzisiaj", formatDate($date, true));
+		$this->assertEquals($date, formatDate($date, false));
+	}
+	// -------------------------------------------------------------------------
+	function testFormatDateWczoraj()
+	{
+		$date = date("Y-m-d", time() - 24 * 60 * 60);
+		$this->assertEquals("Wczoraj", formatDate($date, true));
+		$this->assertEquals($date, formatDate($date, false));
+	}
+	// -------------------------------------------------------------------------
+	function testFormatDateTimeDzisiaj()
+	{
+		$date = date("Y-m-d") . " 12:43:11";
+		$this->assertEquals("Dzisiaj 12:43:11", formatDateTime($date, true));
+		$this->assertEquals($date, formatDateTime($date, false));
+	}
+	// -------------------------------------------------------------------------
+	function testFormatDateTimeWczoraj()
+	{
+		$date = date("Y-m-d", time() - 24 * 60 * 60) . " 12:43:11";
+		$this->assertEquals("Wczoraj 12:43:11", formatDateTime($date, true));
+		$this->assertEquals($date, formatDateTime($date, false));
+	}
+	// -------------------------------------------------------------------------
 }
 ?>
