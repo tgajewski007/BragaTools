@@ -9,6 +9,11 @@ namespace braga\tools\tools;
 class CookieManager
 {
 	// -------------------------------------------------------------------------
+	const MESSAGE_INFO = "MI";
+	const MESSAGE_WARNING = "MW";
+	const MESSAGE_ALERT = "MA";
+	const MESSAGE_SQL = "MS";
+	// -------------------------------------------------------------------------
 	/**
 	 *
 	 * @var int

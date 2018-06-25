@@ -20,64 +20,64 @@ class MessagePersistanceSession implements IMessagePersistance
 		switch($typ)
 		{
 			case Message::MESSAGE_ALERT:
-				SessManager::set(SessManager::MESSAGE_ALERT, $msg);
+				CookieManager::set(CookieManager::MESSAGE_ALERT, $msg);
 				break;
 			case Message::MESSAGE_INFO:
-				SessManager::set(SessManager::MESSAGE_INFO, $msg);
+				CookieManager::set(CookieManager::MESSAGE_INFO, $msg);
 				break;
 			case Message::MESSAGE_SQL:
-				SessManager::set(SessManager::MESSAGE_SQL, $msg);
+				CookieManager::set(CookieManager::MESSAGE_SQL, $msg);
 				break;
 			case Message::MESSAGE_WARNING:
-				SessManager::set(SessManager::MESSAGE_WARNING, $msg);
+				CookieManager::set(CookieManager::MESSAGE_WARNING, $msg);
 				break;
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public function restore(Message $message)
 	{
-		if(SessManager::isExist(SessManager::MESSAGE_ALERT))
+		if(CookieManager::isExist(CookieManager::MESSAGE_ALERT))
 		{
-			$msg = SessManager::get(SessManager::MESSAGE_ALERT);
+			$msg = CookieManager::get(CookieManager::MESSAGE_ALERT);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_ALERT, $m);
 			}
-			SessManager::kill(SessManager::MESSAGE_ALERT);
+			CookieManager::kill(CookieManager::MESSAGE_ALERT);
 		}
 
-		if(SessManager::isExist(SessManager::MESSAGE_INFO))
+		if(CookieManager::isExist(CookieManager::MESSAGE_INFO))
 		{
-			$msg = SessManager::get(SessManager::MESSAGE_INFO);
+			$msg = CookieManager::get(CookieManager::MESSAGE_INFO);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_INFO, $m);
 			}
-			SessManager::kill(SessManager::MESSAGE_INFO);
+			CookieManager::kill(CookieManager::MESSAGE_INFO);
 		}
 
-		if(SessManager::isExist(SessManager::MESSAGE_SQL))
+		if(CookieManager::isExist(CookieManager::MESSAGE_SQL))
 		{
-			$msg = SessManager::get(SessManager::MESSAGE_SQL);
+			$msg = CookieManager::get(CookieManager::MESSAGE_SQL);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_SQL, $m);
 			}
-			SessManager::kill(SessManager::MESSAGE_SQL);
+			CookieManager::kill(CookieManager::MESSAGE_SQL);
 		}
 
-		if(SessManager::isExist(SessManager::MESSAGE_WARNING))
+		if(CookieManager::isExist(CookieManager::MESSAGE_WARNING))
 		{
-			$msg = SessManager::get(SessManager::MESSAGE_WARNING);
+			$msg = CookieManager::get(CookieManager::MESSAGE_WARNING);
 			foreach($msg as $m)
 			/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_WARNING, $m);
 			}
-			SessManager::kill(SessManager::MESSAGE_WARNING);
+			CookieManager::kill(CookieManager::MESSAGE_WARNING);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
