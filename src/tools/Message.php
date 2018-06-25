@@ -39,9 +39,12 @@ class Message
 	// -----------------------------------------------------------------------------------------------------------------
 	private function __construct()
 	{
-		if(self::$persistance instanceof IMessagePersistance)
+		if(empty(self::$instance))
 		{
-			self::$persistance->restore($this);
+			if(self::$persistance instanceof IMessagePersistance)
+			{
+				self::$persistance->restore($this);
+			}
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
