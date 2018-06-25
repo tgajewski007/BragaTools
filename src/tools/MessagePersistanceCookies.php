@@ -7,7 +7,7 @@ namespace braga\tools\tools;
  * @package
  *
  */
-class MessagePersistanceSession implements IMessagePersistance
+class MessagePersistanceCookies implements IMessagePersistance
 {
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
