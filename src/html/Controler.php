@@ -1,5 +1,4 @@
 <?php
-
 namespace braga\tools\html;
 
 /**
@@ -54,7 +53,7 @@ abstract class Controler extends BaseControler
 				header("Cache-Control: no-cache; must-revalidate; no-store; post-check=0; pre-check=0 ");
 				header("Pragma: no-cache");
 				header("Content-type: text/xml; charset-utf-8");
-				echo $this->r->getAjax();
+				self::sendResponse($this->r->getAjax());
 			}
 			exit();
 		}
@@ -72,6 +71,21 @@ abstract class Controler extends BaseControler
 			return $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
 		}
 		return false;
+	}
+	// -------------------------------------------------------------------------
+	public static function sendResponse($response)
+	{
+		ignore_user_abort(true);
+		set_time_limit(0);
+
+		ob_start();
+		// do initial processing here
+		echo $response; // send the response
+		header('Connection: close');
+		header('Content-Length: ' . ob_get_length());
+		ob_end_flush();
+		ob_flush();
+		flush();
 	}
 	// -------------------------------------------------------------------------
 }
