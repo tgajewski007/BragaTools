@@ -385,7 +385,7 @@ function CheckPESEL($str)
 	return false;
 }
 // =============================================================================
-function checkNrb($str)
+function checkNrb($nrb)
 {
 	if(preg_match('/^[0-9]{26}$/', $nrb))
 	{
