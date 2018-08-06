@@ -2,7 +2,6 @@
 namespace braga\tools\html;
 
 /**
- *
  * @package common
  * @author Tomasz.Gajewski
  * @abstract Created on 2009-04-06 10:40:13
@@ -13,7 +12,6 @@ abstract class Controler extends BaseControler
 {
 	// -------------------------------------------------------------------------
 	/**
-	 *
 	 * @var HtmlComponent
 	 */
 	protected $layOut;
@@ -24,7 +22,6 @@ abstract class Controler extends BaseControler
 	}
 	// -------------------------------------------------------------------------
 	/**
-	 *
 	 * @return Retval
 	 */
 	abstract protected function getRetvalObject();
@@ -83,9 +80,8 @@ abstract class Controler extends BaseControler
 		echo $response; // send the response
 		header('Connection: close');
 		header('Content-Length: ' . ob_get_length());
-		ob_end_flush();
+		// ob_end_flush();
 		ob_flush();
-		flush();
 	}
 	// -------------------------------------------------------------------------
 }
