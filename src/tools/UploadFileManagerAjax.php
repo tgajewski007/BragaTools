@@ -15,7 +15,6 @@ class UploadFileManagerAjax extends UploadFileManager
 	private $inputFromPost;
 	// -------------------------------------------------------------------------
 	/**
-	 *
 	 * @param string $postName
 	 * @throws \Exception
 	 * @return \braga\tools\tools\UploadFileManager
@@ -43,7 +42,7 @@ class UploadFileManagerAjax extends UploadFileManager
 		{
 			throw new \Exception("BT::10005 Transmision error, see log");
 		}
-		$startPos +=  + strlen(';base64,');
+		$startPos += +strlen(';base64,');
 		$contentBase64 = substr($this->getInputFromPost(), $startPos);
 		$content = base64_decode($contentBase64);
 		if(false === $content)
