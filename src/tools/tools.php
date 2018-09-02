@@ -2,7 +2,6 @@
 use braga\tools\tools\Message;
 
 /**
- *
  * @author Tomasz.Gajewski
  * @package system
  * Created on 2008-07-14 12:22:24
@@ -300,6 +299,11 @@ function formatNrb($numer)
 function formatText($text)
 {
 	return nl2br($text, true);
+}
+// =============================================================================
+function formatHtmlText($text)
+{
+	return html_entity_decode($text, ENT_QUOTES);
 }
 // =============================================================================
 function sortByLength($a, $b)
