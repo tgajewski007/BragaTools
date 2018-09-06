@@ -2,7 +2,6 @@
 namespace braga\tools\html;
 
 /**
- *
  * @package common
  * @author Tomasz.Gajewski
  * Created on 2010-06-16 14:24:41
@@ -292,9 +291,9 @@ class BaseTags
 		return self::customShort("param", $attributes);
 	}
 	// -------------------------------------------------------------------------
-	static function u($attributes)
+	static function u($innerHTML, $attributes = "")
 	{
-		return self::customShort("u", $attributes);
+		return self::custom("u", $innerHTML, $attributes);
 	}
 	// -------------------------------------------------------------------------
 }
