@@ -15,7 +15,6 @@ class CookieManager
 	const MESSAGE_SQL = "MS";
 	// -------------------------------------------------------------------------
 	/**
-	 *
 	 * @var int
 	 * @staticvar 30*24*60*60
 	 */
@@ -37,7 +36,7 @@ class CookieManager
 		}
 		else
 		{
-			throw new \Exception("BT:10101 Header already sends");
+			throw new \Exception("BT:10201 Header already sends");
 		}
 	}
 	// -------------------------------------------------------------------------
