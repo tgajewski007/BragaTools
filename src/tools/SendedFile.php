@@ -64,6 +64,7 @@ class SendedFile
 	{
 		self::sendHeader($filename, strlen($content));
 		echo $content;
+		flush();
 		exit();
 	}
 	// -------------------------------------------------------------------------
