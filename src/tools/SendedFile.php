@@ -1,5 +1,7 @@
 <?php
 namespace braga\tools\tools;
+use braga\tools\html\Controler;
+
 /**
  * Created on 30-05-2011 16:33:52
  * @author Tomasz.Gajewski
@@ -73,6 +75,7 @@ class SendedFile
 	{
 		self::sendHeader($filename, strlen($content), $contentType);
 		echo $content;
+		flush();
 		exit();
 	}
 	// -------------------------------------------------------------------------
@@ -81,12 +84,13 @@ class SendedFile
 	 */
 	static function sendHeader($filename, $size, $contentType = "application/x-download")
 	{
-		header("Expires:" . date("D, d M Y H:i:s") . "");
+		header("Expires: " . date("c"));
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: public");
 		header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
 		header("Content-Type: " . $contentType);
 		header('Content-Length: ' . $size);
+		header('Connection: close');
 	}
 	// -------------------------------------------------------------------------
 }
