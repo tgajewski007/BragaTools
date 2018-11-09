@@ -24,8 +24,8 @@
 		"phpunit/phpunit" : "3.7.38"
 	},
 	"repositories" : [{
-			"type" : "svn",
-			"url" : "https://svn.code.sf.net/p/braga/code/tools",
+			"type" : "git",
+			"url" : "https://github.com/tgajewski007/BragaTools.git",
 			"name" : "Main"
 		}
 	]
