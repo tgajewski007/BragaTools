@@ -55,8 +55,8 @@ abstract class BaseRestController
 	{
 		$this->sendStandardsHeaders();
 		header("HTTP/1.0 500 Error");
-		Controler::sendResponse($retval);
-		\Logger::getLogger("http")->trace("RES:ERR:500 " . $retval);
+		Controler::sendResponse(json_encode($retval));
+		\Logger::getLogger("http")->trace("RES:ERR:500 " . json_encode($retval));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
