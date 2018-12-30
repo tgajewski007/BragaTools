@@ -39,9 +39,19 @@ class Guid
 	// -------------------------------------------------------------------------
 	static function format($guid)
 	{
-		// {1171AAC7-49CA-460F-8918-2AA81D024340}
-		$format = "{%04x%04x-%04x-%04x-%04x-%04x%04x%04x}";
-		return sprintf($format, $guid);
+		$hyphen = "-";
+		$uuid = "{";
+		$uuid .= substr($guid, 0, 8);
+		$uuid .= $hyphen;
+		$uuid .= substr($guid, 8, 4);
+		$uuid .= $hyphen;
+		$uuid .= substr($guid, 12, 4);
+		$uuid .= $hyphen;
+		$uuid .= substr($guid, 16, 4);
+		$uuid .= $hyphen;
+		$uuid .= substr($guid, 20, 12);
+		$uuid .= "}";
+		return $uuid;
 	}
 	// -------------------------------------------------------------------------
 }
