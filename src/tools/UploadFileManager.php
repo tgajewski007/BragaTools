@@ -1,6 +1,6 @@
 <?php
 namespace braga\tools\tools;
-use braga\tools\excepion\UploadMangerException;
+use braga\tools\exception\UploadMangerException;
 
 /**
  * Created on 25.12.2016 14:26:14
@@ -19,7 +19,6 @@ class UploadFileManager
 	protected $content;
 	// -------------------------------------------------------------------------
 	/**
-	 *
 	 * @param string $postName
 	 * @throws \Exception
 	 * @return \braga\tools\tools\UploadFileManager

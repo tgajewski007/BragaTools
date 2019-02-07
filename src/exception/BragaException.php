@@ -1,6 +1,6 @@
 <?php
-namespace braga\tools\excepion;
-class NoRecordFoundException extends BragaException
+namespace braga\tools\exception;
+class BragaException extends \RuntimeException
 {
 	public function __construct($message = null, $code = null, $previous = null)
 	{
