@@ -11,7 +11,7 @@
 			<attribute name="composer" value="source"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/apache/log4php/src/main/php">
+	<buildpathentry kind="src" path="vendor/braga/log4php/src/main/php">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -67,11 +67,6 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/phpunit/php-file-iterator/src">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/phpunit/php-text-template/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -142,6 +137,11 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/sebastian/version/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-ctype">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
