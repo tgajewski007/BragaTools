@@ -29,10 +29,11 @@ abstract class BaseRestController
 	/**
 	 * @param object $retval
 	 */
-	protected function send($retval)
+	protected function send($retval, $responseCode = "200 OK")
 	{
 		$this->sendStandardsHeaders();
 		$retval = json_encode($retval);
+		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse($retval);
 		\Logger::getLogger("http")->trace("RES: " . $retval);
 	}
@@ -51,18 +52,18 @@ abstract class BaseRestController
 	/**
 	 * @param ErrorResponseType $e
 	 */
-	protected function forwardError(ErrorResponseType $retval)
+	protected function forwardError(ErrorResponseType $retval, $errorCode = "500 Error")
 	{
 		$this->sendStandardsHeaders();
-		header("HTTP/1.0 500 Error");
+		header("HTTP/1.0 " . $errorCode);
 		Controler::sendResponse(json_encode($retval));
-		\Logger::getLogger("http")->trace("RES:ERR:500 " . json_encode($retval));
+		\Logger::getLogger("http")->trace("RES:ERR:" . $errorCode . " " . json_encode($retval));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param \Throwable $e
 	 */
-	protected function sendError(\Throwable $e)
+	protected function sendError(\Throwable $e, $errorCode = "500 Error")
 	{
 		$retval = new ErrorResponseType();
 		$retval->error = array(
@@ -70,9 +71,9 @@ abstract class BaseRestController
 		$retval = json_encode($retval);
 
 		$this->sendStandardsHeaders();
-		header("HTTP/1.0 500 Error");
+		header("HTTP/1.0 " . $errorCode);
 		Controler::sendResponse($retval);
-		\Logger::getLogger("http")->trace("RES:ERR:500 " . $retval);
+		\Logger::getLogger("http")->trace("RES:ERR:" . $errorCode . " " . $retval);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function getBody()
