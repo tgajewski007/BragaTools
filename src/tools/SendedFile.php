@@ -30,7 +30,7 @@ class SendedFile
 		}
 		else
 		{
-			AddAlert("EN:12801 Błąd tworzenia pliku ZIP");
+			addAlert("EN:12801 Błąd tworzenia pliku ZIP");
 			echo "?action=Null";
 			exit();
 		}
