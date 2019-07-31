@@ -83,7 +83,7 @@ class SendedFile
 	/**
 	 * metoda wysyła nagłówki niezbędne do pobrania pliku
 	 */
-	static function sendHeader($filename, $size, $contentType = "application/x-download")
+	static function sendHeader($filename, $size, $contentType = "application/x-download; charset=UTF-8")
 	{
 		header("Expires: " . date("c"));
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
