@@ -50,7 +50,7 @@ class SendedFile
 		}
 		else
 		{
-			AddAlert("EN:12802 Błąd zapisu plik treści");
+			addAlert("EN:12802 Błąd zapisu plik treści");
 			echo "?action=Null";
 			exit();
 		}
