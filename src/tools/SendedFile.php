@@ -88,7 +88,7 @@ class SendedFile
 		header("Expires: " . date("c"));
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: public");
-		header("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($filename));
+		header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
 		header("Content-Type: " . $contentType);
 		header('Content-Length: ' . $size);
 		header('Connection: close');
