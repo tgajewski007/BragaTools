@@ -698,4 +698,10 @@ function cleanFullTextSearch($search)
 	return $search;
 }
 // =============================================================================
+function cleanToNumbers($search)
+{
+	$search = preg_replace("/\D/", "", $search);
+	return $search;
+}
+// =============================================================================
 ?>
