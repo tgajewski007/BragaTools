@@ -88,7 +88,7 @@ abstract class BaseRestController
 	 */
 	protected function importFromJSON($jsonString)
 	{
-		\Logger::getLogger("http")->trace("REQ: " . $jsonString);
+		\Logger::getLogger("http")->trace("REQ: " . $_SERVER["REQUEST_URI"] . ":" . $jsonString);
 		if(empty($jsonString))
 		{
 			\Logger::getLogger("http")->error("Błąd parsowania: " . $jsonString);
