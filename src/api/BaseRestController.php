@@ -96,8 +96,11 @@ abstract class BaseRestController
 		}
 		else
 		{
-			$retval = html_entity_decode($jsonString, ENT_QUOTES);
-			$retval = json_decode($retval);
+			$retval = json_decode(html_entity_decode($jsonString, ENT_QUOTES));
+			if(empty($retval) && !empty($jsonString))
+			{
+				$retval = json_decode($jsonString);
+			}
 			return $retval;
 		}
 	}
