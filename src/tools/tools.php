@@ -581,49 +581,30 @@ function isEmail($email)
 // -----------------------------------------------------------------------------
 function isMobile($mobile)
 {
-	if(!preg_match("/^[5-8]{1}[0-9]{8}$/", $mobile))
+	// źródło: https://www.operatorzy.pl/telekomunikacja/telefonia-komorkowa/numery-sieci-komorkowych wg stanu na dzień 26.03.2020
+	if(preg_match("/^[4-8]{1}[0-9]{8}$/", $mobile))
 	{
-		return false;
+		$tmp = (int)substr($mobile, 0, 2);
+		$prefixs = array(
+						45,
+						50,
+						51,
+						53,
+						57,
+						60,
+						66,
+						69,
+						72,
+						73,
+						78,
+						79,
+						88 );
+		if(in_array($tmp, $prefixs))
+		{
+			return true;
+		}
 	}
-	$pref = (int)substr($mobile, 0, 3);
-	// źródło: http://www.uke.gov.pl/tablice/NumerPlmn-list.do?execution=e1s1
-	if($pref < 500)
-	{
-		return false;
-	}
-	if($pref >= 520 && $pref <= 529)
-	{
-		return false;
-	}
-	if($pref >= 540 && $pref <= 569)
-	{
-		return false;
-	}
-	if($pref >= 580 && $pref <= 599)
-	{
-		return false;
-	}
-	if($pref >= 610 && $pref <= 659)
-	{
-		return false;
-	}
-	if($pref >= 700 && $pref <= 719)
-	{
-		return false;
-	}
-	if($pref >= 740 && $pref <= 779)
-	{
-		return false;
-	}
-	if($pref >= 800 && $pref <= 879)
-	{
-		return false;
-	}
-	if($pref >= 890)
-	{
-		return false;
-	}
-	return true;
+	return false;
 }
 // =============================================================================
 function addMonth($date, $countOfMonth)
