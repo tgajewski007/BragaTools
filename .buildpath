@@ -11,7 +11,7 @@
 			<attribute name="composer" value="source"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/braga/log4php/src/main/php">
+	<buildpathentry kind="src" path="vendor/braga/graylogger/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -26,7 +26,22 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/graylog2/gelf-php/src/Gelf">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/monolog/monolog/src/Monolog">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/myclabs/deep-copy/src/DeepCopy">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/paragonie/constant_time_encoding/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -56,7 +71,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/phpspec/prophecy/src">
+	<buildpathentry kind="src" path="vendor/phpspec/prophecy/src/Prophecy">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -67,6 +82,11 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/phpunit/php-file-iterator/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/phpunit/php-text-template/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -82,6 +102,11 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/phpunit/phpunit/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/psr/log/Psr/Log">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
