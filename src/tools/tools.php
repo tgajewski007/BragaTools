@@ -37,7 +37,7 @@ function addAlert($txt)
 // =============================================================================
 function addSQLError($txt)
 {
-	Logger::getLogger("braga")->fatal($txt);
+	Logger::getLogger("sql")->fatal($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
