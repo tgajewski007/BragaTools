@@ -5,6 +5,7 @@ namespace braga\tools\tools;
  * @author Tomasz Gajewski
  * @package package_name
  * error prefix
+ * @deprecated
  */
 class ExcelHead
 {
