@@ -17,7 +17,7 @@ abstract class BaseRestController
 	/**
 	 * @var BaseLogger
 	 */
-	private $loggerClassNama = BaseLogger::class;
+	protected $loggerClassNama = BaseLogger::class;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $loggerClassNama
