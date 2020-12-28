@@ -3,6 +3,7 @@ namespace braga\tools\api;
 use braga\tools\api\types\response\ErrorResponseType;
 use braga\tools\api\types\type\ErrorType;
 use braga\tools\html\Controler;
+use braga\graylogger\BaseLogger;
 
 /**
  * Created on 26 lut 2018 17:49:06
@@ -13,6 +14,18 @@ use braga\tools\html\Controler;
  */
 abstract class BaseRestController
 {
+	/**
+	 * @var BaseLogger
+	 */
+	private $loggerClassNama = BaseLogger::class;
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $loggerClassNama
+	 */
+	public function setLoggerClassNama($loggerClassNama)
+	{
+		$this->loggerClassNama = $loggerClassNama;
+	}
 	// -----------------------------------------------------------------------------------------------------------------
 	abstract public function doAction();
 	// -----------------------------------------------------------------------------------------------------------------
@@ -35,35 +48,41 @@ abstract class BaseRestController
 		$retval = json_encode($retval);
 		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse($retval);
-		\Logger::getLogger("http")->trace("RES: " . $retval);
+		$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
+						"body" => $retval,
+						"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param object $retval
 	 */
-	protected function sendMethodNotAllowed()
+	protected function sendMethodNotAllowed($responseCode = "405 Method Not Allowed")
 	{
 		$this->sendStandardsHeaders();
-		header("HTTP/1.0 405 Method Not Allowed");
+		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse(null);
-		\Logger::getLogger("http")->trace("RES:ERR:405 Method Not Allowed");
+		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
+						"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param ErrorResponseType $e
 	 */
-	protected function forwardError(ErrorResponseType $retval, $errorCode = "500 Error")
+	protected function forwardError(ErrorResponseType $retval, $responseCode = "500 Error")
 	{
 		$this->sendStandardsHeaders();
-		header("HTTP/1.0 " . $errorCode);
-		Controler::sendResponse(json_encode($retval));
-		\Logger::getLogger("http")->trace("RES:ERR:" . $errorCode . " " . json_encode($retval));
+		header("HTTP/1.0 " . $responseCode);
+		$retval = json_encode($retval);
+		Controler::sendResponse($retval);
+		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
+						"body" => $retval,
+						"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param \Throwable $e
 	 */
-	protected function sendError(\Throwable $e, $errorCode = "500 Error")
+	protected function sendError(\Throwable $e, $responseCode = "500 Error")
 	{
 		$retval = new ErrorResponseType();
 		$retval->error = array(
@@ -71,14 +90,20 @@ abstract class BaseRestController
 		$retval = json_encode($retval);
 
 		$this->sendStandardsHeaders();
-		header("HTTP/1.0 " . $errorCode);
+		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse($retval);
-		\Logger::getLogger("http")->trace("RES:ERR:" . $errorCode . " " . $retval);
+		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
+						"body" => $retval,
+						"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function getBody()
 	{
-		return file_get_contents('php://input');
+		$retval = file_get_contents('php://input');
+		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " getBody", array(
+						"body" => $retval ));
+
+		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -88,18 +113,23 @@ abstract class BaseRestController
 	 */
 	protected function importFromJSON($jsonString)
 	{
-		\Logger::getLogger("http")->trace("REQ: " . $_SERVER["REQUEST_URI"] . ":" . $jsonString);
 		if(empty($jsonString))
 		{
-			\Logger::getLogger("http")->error("Błąd parsowania: " . $jsonString);
+			$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " importFromJson(pusty string)", array());
 			throw new \Exception("BT:10101 Nie przekazano poprawnej struktury danych JSON");
 		}
 		else
 		{
 			$retval = json_decode(html_entity_decode($jsonString, ENT_QUOTES));
-			if(empty($retval) && !empty($jsonString))
+			if(empty($retval))
 			{
 				$retval = json_decode($jsonString);
+				if(empty($retval))
+				{
+					$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Błąd parsowania", array(
+									"string" => $jsonString ));
+					throw new \Exception("BT:10102 Błąd parsowania danych wejściowych");
+				}
 			}
 			return $retval;
 		}
