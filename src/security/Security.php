@@ -195,9 +195,8 @@ class Security
 		$tokenString = $this->getTokenStringFromHeader();
 		$this->jwt = $this->parseTokenString($tokenString);
 		$this->valdateJwtToken($this->jwt);
-		$user = new User($idUser, $login, $fullName);
-		$this->user = $user;
-		return $user;
+		$this->user = new User($this->jwt);
+		return $this->user;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
