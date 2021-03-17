@@ -10,6 +10,8 @@ use Lcobucci\JWT\Validation\Validator;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use braga\tools\exception\AuthenticationExcepion;
+use braga\tools\exception\AuthorizationException;
 /**
  * @author Toamsz Gajewski
  * error prefix BR:910
@@ -33,6 +35,11 @@ class Security
 	 */
 	private $jwt;
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @var User
+	 */
+	private $user;
+	// -----------------------------------------------------------------------------------------------------------------
 	private function __construct()
 	{
 	}
@@ -53,6 +60,11 @@ class Security
 		return self::$instance;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	public function setConfig(SecurityConfig $config)
+	{
+		$this->config = $config;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return Plain
 	 */
@@ -62,62 +74,66 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param Plain $jwt
+	 * @return \braga\tools\security\User
 	 */
-	public function setJwt($jwt)
+	public function getUser()
 	{
-		$this->jwt = $jwt;
+		return $this->user;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	private function parseTokenString($tokenString)
+	{
+		$parser = new Parser(new JoseEncoder());
+		$jwt = $parser->parse($tokenString);
+		if($jwt instanceof Plain)
+		{
+			return $jwt;
+		}
+		else
+		{
+			throw new AuthenticationExcepion("BR:91001 Błąd parsowania tokenu");
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param string $jwt
-	 * @throws \Exception
-	 * @return \Lcobucci\JWT\Token\Plain|\Lcobucci\JWT\Token
+	 * @param Plain $token
+	 * @throws AuthenticationExcepion
+	 * @return \Lcobucci\JWT\Token\Plain
 	 */
-	private function getValidTokenFromString($jwt)
+	private function valdateJwtToken(Plain $token)
 	{
-		$parser = new Parser(new JoseEncoder());
-		$token = $parser->parse($jwt);
-		if($token instanceof Plain)
+		$typ = $token->claims()->get("typ");
+		if($typ == "Bearer")
 		{
-			$typ = $token->claims()->get("typ");
-			if($typ == "Bearer")
+			if($token->headers()->get("alg") == "RS256")
 			{
-				if($token->headers()->get("alg") == "RS256")
-				{
-					$signer = new Sha256();
-				}
-				elseif($token->headers()->get("alg") == "RS512")
-				{
-					$signer = new Sha512();
-				}
-				else
-				{
-					throw new \Exception("BR:91001 Nieobsugiwany algorytm weryfikacji tokenu", 91001);
-				}
-				$key = InMemory::plainText(KeyStore::get($token->headers()->get("kid"))->getPublicKey());
-
-				$v = new Validator();
-				$issuedBy = new IssuedBy(Config::getIssuerRealms());
-				$validAt = new LooseValidAt(SystemClock::fromSystemTimezone());
-				$signedWith = new SignedWith($signer, $key);
-				if($v->validate($token, $issuedBy, $validAt, $signedWith))
-				{
-					return $token;
-				}
-				else
-				{
-					throw new \Exception("BR:91002 Błąd veryfikacji tokenu", 91002);
-				}
+				$signer = new Sha256();
+			}
+			elseif($token->headers()->get("alg") == "RS512")
+			{
+				$signer = new Sha512();
 			}
 			else
 			{
-				throw new \Exception("BR:91003 Niewłaściwy typ tokenu", 91003);
+				throw new AuthenticationExcepion("BR:91002 Nieobsugiwany algorytm weryfikacji tokenu", 91002);
+			}
+			$key = InMemory::plainText($this->config->getKey());
+			$v = new Validator();
+			$issuedBy = new IssuedBy($this->config->getIssuedBy());
+			$validAt = new LooseValidAt(SystemClock::fromSystemTimezone());
+			$signedWith = new SignedWith($signer, $key);
+			if($v->validate($token, $issuedBy, $validAt, $signedWith))
+			{
+				return $token;
+			}
+			else
+			{
+				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
 			}
 		}
 		else
 		{
-			throw new \Exception("BR:91004 Błąd parsowania tokenu", 91004);
+			throw new AuthenticationExcepion("BR:91004 Błędy typ tokenu", 91004);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
@@ -125,9 +141,9 @@ class Security
 	 * @throws \Exception
 	 * @return string
 	 */
-	private function getTokenStringFromHttpHeader()
+	private function getTokenStringFromHeader()
 	{
-		$headers = self::getAuthorizationHeader();
+		$headers = $this->getTokenStringFromHttpHeader();
 		// HEADER: Get the access token from the header
 		if(!empty($headers))
 		{
@@ -137,14 +153,14 @@ class Security
 				return $matches[1];
 			}
 		}
-		throw new \Exception("BR:91005 Brak tokenu w nagłówku", 90205);
+		throw new AuthenticationExcepion("BR:91005 Brak tokenu w nagłówku", 90205);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @throws \Exception
 	 * @return string
 	 */
-	private function getAuthorizationHeader()
+	private function getTokenStringFromHttpHeader()
 	{
 		if(isset($_SERVER['Authorization']))
 		{
@@ -168,7 +184,7 @@ class Security
 				}
 			}
 		}
-		throw new \Exception("BR:91006 Brak nagłówka Authorization", 91006);
+		throw new AuthenticationExcepion("BR:91006 Brak nagłówka Authorization", 91006);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -176,41 +192,62 @@ class Security
 	 */
 	public function authenticate()
 	{
-		$retval = new User($idUser, $login, $fullName);
-		return $retval;
+		$tokenString = $this->getTokenStringFromHeader();
+		$this->jwt = $this->parseTokenString($tokenString);
+		$this->valdateJwtToken($this->jwt);
+		$user = new User($idUser, $login, $fullName);
+		$this->user = $user;
+		return $user;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $roleName
 	 * @throws \Exception
 	 */
-	public function authorize(array ...$roleName)
+	public function authorize(?array ...$rolesName)
 	{
 		if(!empty($roleName))
 		{
-			$realmAccess = self::getInstance()->jwt->claims()->get("resource_access");
-			if(isset($realmAccess->{self::KEYCLOAK_CLIENT_NAME}))
+			$realmAccess = $this->jwt->claims()->get("resource_access");
+			if(isset($realmAccess->{$this->config->getClientName()}))
 			{
-				if(array_search($roleName, $realmAccess->{self::KEYCLOAK_CLIENT_NAME}->roles) === false)
+				$rolesArray = $realmAccess->{$this->config->getClientName()}->roles;
+
+				$check = true;
+
+				foreach($rolesName as $groupAndRoles)
 				{
-					throw new \Exception("BR:91007 Błąd autoryzacji", 91007);
+					foreach($groupAndRoles as $roleName)
+					{
+						$orCheck = false;
+						if(array_search($roleName, $rolesArray) !== false)
+						{
+							$orCheck = $orCheck || true;
+						}
+					}
+					$check = $check && $orCheck;
+				}
+				if(!$check)
+				{
+					throw new AuthorizationException("BR:91007 Brak dostępu", 91007);
 				}
 			}
 			else
 			{
-				throw new \Exception("BR:91008 Błąd autoryzacji", 91008);
+				throw new AuthorizationException("BR:91008 Błąd autoryzacji", 91008);
 			}
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param string $roleName
+	 * @param array ...$roleName
+	 * @return \braga\tools\security\User
 	 */
-	public function check(array ...$roleName)
+	public function check(?array ...$roleName)
 	{
-		$tokenString = self::getTokenStringFromHttpHeader();
-		$this->jwt = self::getValidTokenFromString($tokenString);
+		$user = $this->authenticate();
 		$this->authorize($roleName);
+		return $user;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
