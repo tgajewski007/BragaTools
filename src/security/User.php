@@ -8,7 +8,7 @@ class User
 	protected $login;
 	protected $fullName;
 	// -----------------------------------------------------------------------------------------------------------------
-	public function __construct(Plain $jwt)
+	public function __construct(?Plain $jwt)
 	{
 		if($jwt->claims()->has("sub"))
 		{
