@@ -153,7 +153,7 @@ class Security
 				return $matches[1];
 			}
 		}
-		throw new AuthenticationExcepion("BR:91005 Brak tokenu w nagłówku", 90205);
+		throw new AuthenticationExcepion("BR:91005 Brak tokenu bearer w nagłówku Authorization", 90205);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
