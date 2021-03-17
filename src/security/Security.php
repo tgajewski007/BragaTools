@@ -23,28 +23,28 @@ class Security
 	/**
 	 * @var SecurityConfig
 	 */
-	private $config;
+	protected $config;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var self
 	 */
-	private static $instance = null;
+	protected static $instance = null;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var Plain
 	 */
-	private $jwt;
+	protected $jwt;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var User
 	 */
-	private $user;
+	protected $user;
 	// -----------------------------------------------------------------------------------------------------------------
-	private function __construct()
+	protected function __construct()
 	{
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	private function __clone()
+	protected function __clone()
 	{
 	}
 	// -----------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ class Security
 		return $this->user;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	private function parseTokenString($tokenString)
+	protected function parseTokenString($tokenString)
 	{
 		$parser = new Parser(new JoseEncoder());
 		$jwt = $parser->parse($tokenString);
@@ -100,7 +100,7 @@ class Security
 	 * @throws AuthenticationExcepion
 	 * @return \Lcobucci\JWT\Token\Plain
 	 */
-	private function valdateJwtToken(Plain $token)
+	protected function valdateJwtToken(Plain $token)
 	{
 		$typ = $token->claims()->get("typ");
 		if($typ == "Bearer")
@@ -141,7 +141,7 @@ class Security
 	 * @throws \Exception
 	 * @return string
 	 */
-	private function getTokenStringFromHeader()
+	protected function getTokenStringFromHeader()
 	{
 		$headers = $this->getTokenStringFromHttpHeader();
 		// HEADER: Get the access token from the header
@@ -160,7 +160,7 @@ class Security
 	 * @throws \Exception
 	 * @return string
 	 */
-	private function getTokenStringFromHttpHeader()
+	protected function getTokenStringFromHttpHeader()
 	{
 		if(isset($_SERVER['Authorization']))
 		{
