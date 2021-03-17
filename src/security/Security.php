@@ -117,7 +117,7 @@ class Security
 			{
 				throw new AuthenticationExcepion("BR:91002 Nieobsugiwany algorytm weryfikacji tokenu", 91002);
 			}
-			$key = InMemory::plainText($this->config->getKey());
+			$key = InMemory::plainText($this->config->getPublicKey($token->headers()->get("kid")));
 			$v = new Validator();
 			$issuedBy = new IssuedBy($this->config->getIssuedBy());
 			$validAt = new LooseValidAt(SystemClock::fromSystemTimezone());

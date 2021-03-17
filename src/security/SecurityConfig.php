@@ -1,15 +1,13 @@
 <?php
 namespace braga\tools\security;
-class SecurityConfig
+abstract class SecurityConfig
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	protected $key;
 	protected $clientName;
 	protected $issuedBy;
 	// -----------------------------------------------------------------------------------------------------------------
-	public function __construct(?string $clientName, ?string $keyPemFormatContent, ?string $issuedBy)
+	public function __construct(?string $clientName, ?string $issuedBy)
 	{
-		$this->key = $keyPemFormatContent;
 		$this->clientName = $clientName;
 		$this->issuedBy = $issuedBy;
 	}
@@ -31,12 +29,9 @@ class SecurityConfig
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\string
+	 * @param string $kid
 	 */
-	public function getKey()
-	{
-		return $this->key;
-	}
+	abstract public function getPublicKey($kid);
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return \braga\tools\security\string
@@ -44,14 +39,6 @@ class SecurityConfig
 	public function getClientName()
 	{
 		return $this->clientName;
-	}
-	// -----------------------------------------------------------------------------------------------------------------
-	/**
-	 * @param \braga\tools\security\string $key
-	 */
-	public function setKey($key)
-	{
-		$this->key = $key;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
