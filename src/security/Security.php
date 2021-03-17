@@ -12,6 +12,7 @@ use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use braga\tools\exception\AuthenticationExcepion;
 use braga\tools\exception\AuthorizationException;
+use Lcobucci\Clock\SystemClock;
 /**
  * @author Toamsz Gajewski
  * error prefix BR:910
