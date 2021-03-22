@@ -16,9 +16,11 @@
 	"description" : "Many difrent tools lib",
 	"license" : "MIT",
 	"require" : {
-		"php" : ">=7.3",
+		"php" : ">=7.4",
 		"braga/graylogger" : "~1.1.0",
-		"lcobucci/jwt" : "~4.1.0"
+		"lcobucci/jwt" : "~4.1.0",
+		"codercat/jwk-to-pem" : "~1.0",
+		"netresearch/jsonmapper" : "~4.0"
 	},
 	"minimum-stability" : "stable",
 	"repositories" : [{
