@@ -201,10 +201,10 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param string $roleName
+	 * @param [][] $rolesName
 	 * @throws \Exception
 	 */
-	public function authorize(?array ...$rolesName)
+	public function authorize(array $rolesName)
 	{
 		if(!empty($rolesName))
 		{
