@@ -245,7 +245,10 @@ class Security
 	public function check(?array ...$roleName)
 	{
 		$user = $this->authenticate();
-		$this->authorize($roleName);
+		if(!empty($roleName))
+		{
+			$this->authorize($roleName);
+		}
 		return $user;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
