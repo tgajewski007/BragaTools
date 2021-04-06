@@ -209,12 +209,10 @@ class Security
 		if(!empty($rolesName))
 		{
 			$realmAccess = $this->jwt->claims()->get("resource_access");
-			if(isset($realmAccess->{$this->config->getClientName()}))
+			if(isset($realmAccess[$this->config->getClientName()]))
 			{
-				$rolesArray = $realmAccess->{$this->config->getClientName()}->roles;
-
+				$rolesArray = $realmAccess[$this->config->getClientName()]["roles"];
 				$check = true;
-
 				foreach($rolesName as $groupAndRoles)
 				{
 					foreach($groupAndRoles as $roleName)
