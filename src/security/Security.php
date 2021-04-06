@@ -206,7 +206,7 @@ class Security
 	 */
 	public function authorize(?array ...$rolesName)
 	{
-		if(!empty($roleName))
+		if(!empty($rolesName))
 		{
 			$realmAccess = $this->jwt->claims()->get("resource_access");
 			if(isset($realmAccess->{$this->config->getClientName()}))
