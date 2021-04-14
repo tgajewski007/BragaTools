@@ -201,10 +201,10 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param [][] $rolesName
-	 * @throws \Exception
+	 * @param array ...$rolesName
+	 * @throws AuthorizationException
 	 */
-	public function authorize(array $rolesName)
+	public function authorize(array ...$rolesName)
 	{
 		$realmAccess = $this->jwt->claims()->get("resource_access");
 		if(isset($realmAccess[$this->config->getClientName()]))
@@ -247,7 +247,7 @@ class Security
 		$user = $this->authenticate();
 		if(!empty($roleName))
 		{
-			$this->authorize($roleName);
+			$this->authorize(...$roleName);
 		}
 		return $user;
 	}
