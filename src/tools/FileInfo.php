@@ -3,7 +3,6 @@ namespace braga\tools\tools;
 /**
  * Created on 21 paź 2013 20:31:56
  * @author Tomasz Gajewski
- * @package frontoffice
  */
 class FileInfo
 {
@@ -17,11 +16,7 @@ class FileInfo
 	// -------------------------------------------------------------------------
 	public static function getStandardFileName($fileName)
 	{
-		$retval = mb_strtolower($fileName);
-		$retval = str_replace(" ", "-", $retval);
-		$retval = @iconv("UTF-8", "ASCII//TRANSLIT", $retval);
-		$retval = str_replace("'", "", $retval);
-		$retval = preg_replace("/[^0-9a-z\.-]+/", "-", $retval);
+		$retval = plCharset($fileName);
 		if(strlen($retval) < 5)
 		{
 			$retval = getRandomStringLetterOnly(8) . $retval;
@@ -37,16 +32,16 @@ class FileInfo
 		{
 			if(is_file($folder . $fileName))
 			{
-				$retval[] = new static($fileName);
+				$retval[] = new static($folder, $fileName);
 			}
 		}
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	public function __construct($fileName)
+	public function __construct($folder, $fileName)
 	{
 		$this->setFileName(basename($fileName));
-		$this->setFolder(INSTALL_DIRECTORY . "public/download/");
+		$this->setFolder($folder);
 		$this->setPathFileName($this->getFolder() . $this->getFileName());
 		$this->setFileSize(filesize($this->getPathFileName()));
 		$this->setFileSizeFormated($this->formatBytes($this->getFileSize()));
@@ -66,11 +61,11 @@ class FileInfo
 	protected function formatBytes($bytes, $precision = 1)
 	{
 		$units = array(
-				'B',
-				'KiB',
-				'MiB',
-				'GiB',
-				'TiB');
+						'B',
+						'KiB',
+						'MiB',
+						'GiB',
+						'TiB' );
 
 		$bytes = max($bytes, 0);
 		$pow = floor(($bytes ? log($bytes) : 0) / log(1024));

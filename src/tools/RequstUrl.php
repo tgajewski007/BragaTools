@@ -10,8 +10,8 @@ class RequstUrl
 	{
 		if(empty(self::$url))
 		{
-			$tmp = $_SERVER["REQUEST_URI"];
-			self::$url = explode("/", $tmp);
+			$tmp = parse_url($_SERVER["REQUEST_URI"]);
+			self::$url = explode("/", $tmp["path"] ?? "");
 		}
 		if(isset(self::$url[$index]))
 		{
