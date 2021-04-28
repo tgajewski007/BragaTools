@@ -57,7 +57,7 @@ class EmailAddress
 	}
 	// -------------------------------------------------------------------------
 	/**
-	 * @param unknown $string
+	 * @param string $string
 	 * @return EmailAddress
 	 */
 	public static function convert($string)
