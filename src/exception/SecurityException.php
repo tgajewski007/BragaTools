@@ -1,6 +1,6 @@
 <?php
 namespace braga\tools\exception;
-class SecurityException extends \Exception
+class SecurityException extends BragaException
 {
 }
 

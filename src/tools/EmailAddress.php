@@ -1,5 +1,8 @@
 <?php
 namespace braga\tools\tools;
+use braga\tools\exception\BragaException;
+use braga\tools\exception\BadEmailAdress;
+
 /**
  * Created on 14 wrz 2013 19:02:13
  * @author Tomasz Gajewski
@@ -29,7 +32,7 @@ class EmailAddress
 		}
 		else
 		{
-			throw new \Exception("BT:10301 Błąd utworzenia obiektu Email. Adres email jest wymagany {" . $fullName . "}");
+			throw new BadEmailAdress("BT:10301 Błąd utworzenia obiektu Email. Adres email jest wymagany {" . $fullName . "}");
 		}
 	}
 	// -------------------------------------------------------------------------
