@@ -167,6 +167,10 @@ class Security
 		{
 			return trim($_SERVER["Authorization"]);
 		}
+		elseif(isset($_SERVER['authorization']))
+		{
+			return trim($_SERVER["authorization"]);
+		}
 		else
 		{
 			if(isset($_SERVER['HTTP_AUTHORIZATION']))
@@ -182,6 +186,10 @@ class Security
 				if(isset($requestHeaders['Authorization']))
 				{
 					return trim($requestHeaders['Authorization']);
+				}
+				if(isset($requestHeaders['authorization']))
+				{
+					return trim($requestHeaders['authorization']);
 				}
 			}
 		}
