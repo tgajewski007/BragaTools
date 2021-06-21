@@ -120,7 +120,10 @@ class Security
 			}
 			$key = InMemory::plainText($this->config->getPublicKey($token->headers()->get("kid")));
 			$v = new Validator();
-			$issuedBy = new IssuedBy($this->config->getIssuedBy());
+			if(!empty($this->config->getIssuedBy()))
+			{
+				$issuedBy = new IssuedBy($this->config->getIssuedBy());
+			}
 			$validAt = new LooseValidAt(SystemClock::fromSystemTimezone());
 			$signedWith = new SignedWith($signer, $key);
 			if($v->validate($token, $issuedBy, $validAt, $signedWith))
