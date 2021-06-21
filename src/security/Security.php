@@ -218,34 +218,37 @@ class Security
 	public function authorize(array ...$rolesName)
 	{
 		$realmAccess = $this->jwt->claims()->get("resource_access");
-		if(isset($realmAccess[$this->config->getClientName()]))
+		if(!empty($this->config->getClientName()))
 		{
-			$rolesArray = $realmAccess[$this->config->getClientName()]["roles"];
-			$check = true;
-			foreach($rolesName as $groupAndRoles)
+			if(isset($realmAccess[$this->config->getClientName()]))
 			{
-				foreach($groupAndRoles as $roleName)
+				$rolesArray = $realmAccess[$this->config->getClientName()]["roles"];
+				$check = true;
+				foreach($rolesName as $groupAndRoles)
 				{
-					if(empty($roleName))
+					foreach($groupAndRoles as $roleName)
 					{
-						return;
+						if(empty($roleName))
+						{
+							return;
+						}
+						$orCheck = false;
+						if(array_search($roleName, $rolesArray) !== false)
+						{
+							$orCheck = $orCheck || true;
+						}
 					}
-					$orCheck = false;
-					if(array_search($roleName, $rolesArray) !== false)
-					{
-						$orCheck = $orCheck || true;
-					}
+					$check = $check && $orCheck;
 				}
-				$check = $check && $orCheck;
+				if(!$check)
+				{
+					throw new AuthorizationException("BR:91007 Brak dostępu", 91007);
+				}
 			}
-			if(!$check)
+			else
 			{
-				throw new AuthorizationException("BR:91007 Brak dostępu", 91007);
+				throw new AuthorizationException("BR:91008 Błąd autoryzacji", 91008);
 			}
-		}
-		else
-		{
-			throw new AuthorizationException("BR:91008 Błąd autoryzacji", 91008);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
