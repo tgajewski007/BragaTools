@@ -1,18 +1,21 @@
 <?php
 namespace braga\tools\security;
+use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Lcobucci\JWT\Validation\Validator;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Monolog\Logger;
 use braga\tools\exception\AuthenticationExcepion;
 use braga\tools\exception\AuthorizationException;
-use Lcobucci\Clock\SystemClock;
+use braga\graylogger\BaseLogger;
 /**
  * @author Toamsz Gajewski
  * error prefix BR:910
@@ -133,14 +136,14 @@ class Security
 			}
 			catch(RequiredConstraintsViolated $e)
 			{
-				MainLogger::exception($e, Logger::ERROR);
-				MainLogger::debug("Jwt.Error", [
-								"przyczyna" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
+				BaseLogger::exception($e, Logger::ERROR);
+				BaseLogger::debug("Jwt.Error", [
+								"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
 				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
 			}
 			catch(\Throwable $e)
 			{
-				MainLogger::exception($e, Logger::ERROR);
+				BaseLogger::exception($e, Logger::ERROR);
 				throw new AuthenticationExcepion("BR:91009 Błąd veryfikacji tokenu", 91009);
 			}
 		}
