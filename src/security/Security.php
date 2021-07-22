@@ -126,13 +126,22 @@ class Security
 			}
 			$validAt = new LooseValidAt(SystemClock::fromSystemTimezone());
 			$signedWith = new SignedWith($signer, $key);
-			if($v->validate($token, $issuedBy, $validAt, $signedWith))
+			try
 			{
+				$v->assert($token, $issuedBy, $validAt, $signedWith);
 				return $token;
 			}
-			else
+			catch(RequiredConstraintsViolated $e)
 			{
+				MainLogger::exception($e, Logger::ERROR);
+				MainLogger::debug("Jwt.Error", [
+								"przyczyna" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
 				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
+			}
+			catch(\Throwable $e)
+			{
+				MainLogger::exception($e, Logger::ERROR);
+				throw new AuthenticationExcepion("BR:91009 Błąd veryfikacji tokenu", 91009);
 			}
 		}
 		else
