@@ -98,6 +98,12 @@ function getRandomString($dlugosc)
 	return $randkey;
 }
 // =============================================================================
+function toTag($string)
+{
+	$string = plCharset($string);
+	return strtoupper($string);
+}
+// =============================================================================
 function plCharset($string)
 {
 	$string = mb_strtolower($string);
@@ -190,10 +196,13 @@ function plCharset($string)
 	$string = str_replace($polskie, $miedzyn, $string);
 
 	// usuń wszytko co jest niedozwolonym znakiem
-	$string = preg_replace('/[^0-9a-z\-]+/', '', $string);
+	$string = preg_replace('/[^0-9a-z\-_]+/', '', $string);
 
 	// zredukuj liczbę myślników do jednego obok siebie
 	$string = preg_replace('/[\-]+/', '-', $string);
+
+	// zredukuj liczbę podkreśleń do jednego obok siebie
+	$string = preg_replace('/[\_]+/', '_', $string);
 
 	// usuwamy możliwe myślniki na początku i końcu
 	$string = trim($string, '-');
