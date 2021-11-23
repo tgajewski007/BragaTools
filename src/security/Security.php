@@ -208,6 +208,9 @@ class Security
 				}
 			}
 		}
+		BaseLogger::debug("Brak nagłówka Authorization", [
+						"headers" => json_encode(apache_request_headers(), JSON_PRETTY_PRINT),
+						"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
 		throw new AuthenticationExcepion("BR:91006 Brak nagłówka Authorization", 91006);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
