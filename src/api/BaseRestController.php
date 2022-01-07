@@ -100,7 +100,6 @@ abstract class BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return string
-	 * @deprecated use getBodyObjectMapped or getBodyArrayMapped
 	 */
 	protected function getBody()
 	{
