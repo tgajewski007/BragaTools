@@ -3,6 +3,11 @@ namespace braga\tools\tools;
 class JsonSerializer
 {
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $jsonString
+	 * @param string $className
+	 * @return \stdClass
+	 */
 	public static function fromJson($jsonString, $className)
 	{
 		$json = json_decode($jsonString);
@@ -19,6 +24,11 @@ class JsonSerializer
 		return $obj;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param unknown $jsonString
+	 * @param unknown $className
+	 * @return array
+	 */
 	public static function arrayFromJson($jsonString, $className)
 	{
 		$json = json_decode($jsonString);

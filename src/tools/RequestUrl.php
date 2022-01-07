@@ -1,11 +1,7 @@
 <?php
 namespace braga\tools\tools;
 use braga\tools\exception\NoRecordFoundException;
-/**
- * @author tgaje
- * @deprecated use RequestUrl class
- */
-class RequstUrl
+class RequestUrl
 {
 	// -----------------------------------------------------------------------------------------------------------------
 	private static $url;

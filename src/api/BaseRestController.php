@@ -4,6 +4,7 @@ use braga\tools\api\types\response\ErrorResponseType;
 use braga\tools\api\types\type\ErrorType;
 use braga\tools\html\Controler;
 use braga\graylogger\BaseLogger;
+use braga\tools\tools\JsonSerializer;
 
 /**
  * Created on 26 lut 2018 17:49:06
@@ -97,6 +98,10 @@ abstract class BaseRestController
 						"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return string
+	 * @deprecated use getBodyObjectMapped or getBodyArrayMapped
+	 */
 	protected function getBody()
 	{
 		$retval = file_get_contents('php://input');
@@ -110,6 +115,7 @@ abstract class BaseRestController
 	 * @param string $jsonString
 	 * @throws \Exception
 	 * @return object
+	 * @deprecated use getBodyObjectMapped or getBodyArrayMapped
 	 */
 	protected function importFromJSON($jsonString)
 	{
@@ -133,6 +139,43 @@ abstract class BaseRestController
 			}
 			return $retval;
 		}
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $className
+	 * @return \stdClass
+	 */
+	protected function getBodyObjectMapped($className)
+	{
+		$jsonString = $this->getBody();
+		$retval = JsonSerializer::fromJson($jsonString, $className);
+		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyObj", array(
+						"obj" => json_encode($retval, JSON_PRETTY_PRINT),
+						"className" => get_class($retval) ));
+
+		return $retval;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $className
+	 * @return \stdClass[]
+	 */
+	protected function getBodyArrayMapped($className)
+	{
+		$jsonString = $this->getBody();
+		$retval = JsonSerializer::arrayFromJson($jsonString, $className);
+		if(count($retval) > 0)
+		{
+			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
+							"obj" => json_encode($retval, JSON_PRETTY_PRINT),
+							"className" => get_class(current($retval)) ));
+		}
+		else
+		{
+			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
+							"obj" => json_encode($retval, JSON_PRETTY_PRINT) ));
+		}
+		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
