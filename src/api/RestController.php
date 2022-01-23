@@ -31,12 +31,17 @@ class RestController extends BaseRestController
 		$tmp = parse_url($_SERVER["REQUEST_URI"]);
 		$path = isset($tmp["path"]) ? $tmp["path"] : null;
 
+		if(!empty($this->urlPrefix))
+		{
+			$path = str_replace($this->urlPrefix, "", $path);
+		}
+
 		foreach($this->filtr as $f)
 		{
 			if($f->method == $_SERVER["REQUEST_METHOD"])
 			{
 				$matches = null;
-				$retval = preg_match_all($this->urlPrefix . $f->urlRegExp, $path, $matches);
+				$retval = preg_match_all($f->urlRegExp, $path, $matches);
 				if($retval)
 				{
 					$param = $this->cleanMatches($matches);
