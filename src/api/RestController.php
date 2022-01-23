@@ -33,7 +33,8 @@ class RestController extends BaseRestController
 
 		if(!empty($this->urlPrefix))
 		{
-			$path = str_replace($this->urlPrefix, "", $path);
+			$regExp = str_replace("/", "\/", $this->urlPrefix);
+			$path = preg_replace("/^" . $regExp . "/", "", $path);
 		}
 
 		foreach($this->filtr as $f)
