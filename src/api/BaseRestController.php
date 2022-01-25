@@ -95,6 +95,7 @@ abstract class BaseRestController
 		Controler::sendResponse($retval);
 		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
 						"body" => $retval,
+						"trace" => $e->getTraceAsString(),
 						"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
