@@ -39,7 +39,7 @@ class RestController extends BaseRestController
 
 		foreach($this->filtr as $f)
 		{
-			if($f->method == $_SERVER["REQUEST_METHOD"])
+			if($f->method == $_SERVER["REQUEST_METHOD"] || $f->method == ApiFiltr::ANY)
 			{
 				$matches = null;
 				$retval = preg_match_all($f->urlRegExp, $path, $matches);

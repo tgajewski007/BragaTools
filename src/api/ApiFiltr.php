@@ -12,6 +12,7 @@ class ApiFiltr
 	const OPTIONS = "OPTIONS";
 	const TRACE = "TRACE";
 	const PATCH = "PATCH";
+	const ANY = "*";
 	// -----------------------------------------------------------------------------------------------------------------
 	public string $method;
 	public string $urlRegExp;
