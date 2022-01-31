@@ -53,14 +53,14 @@ class RestController extends BaseRestController
 						parse_str($tmp["query"], $paramQuery);
 						$param = array_merge($param, $paramQuery);
 					}
-
+					$this->loggerClassNama::info("Call: " . $f->method . " " . $f->urlRegExp);
 					$f->function->call($this, $param);
 					return;
 				}
 			}
 		}
 		$this->loggerClassNama::error("Method not allowed", [
-						"\$_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
+						"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
 		$this->sendMethodNotAllowed();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
