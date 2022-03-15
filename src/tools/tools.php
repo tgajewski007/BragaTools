@@ -100,6 +100,7 @@ function getRandomString($dlugosc)
 // =============================================================================
 function toTag($string)
 {
+	$string = str_replace(" ", "_", $string);
 	$string = plCharset($string);
 	return strtoupper($string);
 }
