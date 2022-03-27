@@ -45,12 +45,9 @@ class JsonSerializer
 		return $obj;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public static function toJson($obj, $className)
+	public static function toJson($obj)
 	{
-		if($obj instanceof $className)
-		{
-			return json_encode($obj, JSON_PRETTY_PRINT);
-		}
+		return json_encode($obj, JSON_PRETTY_PRINT);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
