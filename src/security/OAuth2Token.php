@@ -38,7 +38,7 @@ trait OAuth2Token
 						"grant_type" => "client_credentials",
 						"client_id" => $clientId,
 						"client_secret" => $clientSecret,
-						"scope" => "profile" ];
+						"scope" => "profile email" ];
 		$req = [
 						"headers" => $headers,
 						"form_params" => $formsParams ];

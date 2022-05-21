@@ -7,6 +7,9 @@ class User
 	protected $idUser;
 	protected $login;
 	protected $fullName;
+	protected $firstName;
+	protected $lastName;
+	protected $email;
 	// -----------------------------------------------------------------------------------------------------------------
 	public function __construct(?Plain $jwt)
 	{
@@ -19,13 +22,18 @@ class User
 			$this->idUser = $jwt->claims()->get("uid");
 		}
 		$this->login = $jwt->claims()->get("preferred_username");
-		if($jwt->claims()->has("name"))
+		$this->fullName = $jwt->claims()->get("name");
+		if($jwt->claims()->has("email"))
 		{
-			$this->fullName = $jwt->claims()->get("name");
+			$this->email = $jwt->claims()->get("email");
 		}
-		else
+		if($jwt->claims()->has("family_name"))
 		{
-			$this->fullName = $this->login;
+			$this->lastName = $jwt->claims()->get("family_name");
+		}
+		if($jwt->claims()->has("given_name"))
+		{
+			$this->firstName = $jwt->claims()->get("given_name");
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
