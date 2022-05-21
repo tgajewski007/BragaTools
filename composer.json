@@ -17,10 +17,11 @@
 	"license" : "MIT",
 	"require" : {
 		"php" : ">=7.4",
-		"braga/graylogger" : "~1.1.0",
-		"lcobucci/jwt" : "~4.1.0",
-		"codercat/jwk-to-pem" : "~1.0",
-		"netresearch/jsonmapper" : "~4.0"
+		"braga/graylogger" : "~1.1",
+		"lcobucci/jwt" : "~4.1",
+		"codercat/jwk-to-pem" : "1.1",
+		"netresearch/jsonmapper" : "~4.0",
+		"guzzlehttp/guzzle" : "~7.4"
 	},
 	"minimum-stability" : "stable",
 	"repositories" : [{

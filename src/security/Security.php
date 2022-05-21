@@ -95,7 +95,7 @@ class Security
 		}
 		else
 		{
-			throw new AuthenticationExcepion("BR:91001 Błąd parsowania tokenu");
+			throw new AuthenticationExcepion("BR:91001 Błąd parsowania tokenu", 91001);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------

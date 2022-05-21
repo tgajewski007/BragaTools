@@ -18,12 +18,12 @@ class Jwk
 	function __construct(string $jwkString)
 	{
 		$this->jwkString = $jwkString;
-		$tmp = JsonSerializer::arrayFromJson($this->jwkString, JwkJsonData::class);
+		$tmp = JsonSerializer::arrayFromJson($this->jwkString, JwkCertsResponse::class);
 		/**
-		 * @var JwkJsonData[] $tmp
+		 * @var JwkCertsResponse $tmp
 		 */
 		$this->jwk = array();
-		foreach($tmp as $jwk)
+		foreach($tmp->keys as $jwk)
 		{
 			$this->jwk[$jwk->kid] = $jwk;
 		}
