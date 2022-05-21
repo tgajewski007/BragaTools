@@ -21,8 +21,14 @@ class User
 		{
 			$this->idUser = $jwt->claims()->get("uid");
 		}
-		$this->login = $jwt->claims()->get("preferred_username");
-		$this->fullName = $jwt->claims()->get("name");
+		if($jwt->claims()->has("preferred_username"))
+		{
+			$this->login = $jwt->claims()->get("preferred_username");
+		}
+		if($jwt->claims()->has("name"))
+		{
+			$this->fullName = $jwt->claims()->get("name");
+		}
 		if($jwt->claims()->has("email"))
 		{
 			$this->email = $jwt->claims()->get("email");
@@ -38,7 +44,55 @@ class User
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\string
+	 * @return string
+	 */
+	public function getFirstName()
+	{
+		return $this->firstName;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return string
+	 */
+	public function getLastName()
+	{
+		return $this->lastName;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return string
+	 */
+	public function getEmail()
+	{
+		return $this->email;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $firstName
+	 */
+	public function setFirstName($firstName)
+	{
+		$this->firstName = $firstName;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $lastName
+	 */
+	public function setLastName($lastName)
+	{
+		$this->lastName = $lastName;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $email
+	 */
+	public function setEmail($email)
+	{
+		$this->email = $email;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return string
 	 */
 	public function getIdUser()
 	{
@@ -46,7 +100,7 @@ class User
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\string
+	 * @return string
 	 */
 	public function getLogin()
 	{
@@ -54,7 +108,7 @@ class User
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\string
+	 * @return string
 	 */
 	public function getFullName()
 	{
@@ -62,7 +116,7 @@ class User
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \braga\tools\security\string $idUser
+	 * @param string $idUser
 	 */
 	public function setIdUser($idUser)
 	{
@@ -70,7 +124,7 @@ class User
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \braga\tools\security\string $login
+	 * @param string $login
 	 */
 	public function setLogin($login)
 	{
@@ -78,7 +132,7 @@ class User
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \braga\tools\security\string $fullName
+	 * @param string $fullName
 	 */
 	public function setFullName($fullName)
 	{

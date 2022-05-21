@@ -10,7 +10,7 @@ trait OAuth2Token
 {
 	private $publicClientAuthUrl = "/protocol/openid-connect/token";
 	// -----------------------------------------------------------------------------------------------------------------
-	public function createToken($isseRealms, $clientId, $clientSecret)
+	public function createTokenForClient($isseRealms, $clientId, $clientSecret)
 	{
 		$jsonString = $this->makeRequest($isseRealms, $clientId, $clientSecret);
 		/**
