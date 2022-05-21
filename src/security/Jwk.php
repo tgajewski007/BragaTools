@@ -34,12 +34,20 @@ class Jwk
 		if(isset($this->jwk[$kid]))
 		{
 			$jwkConverter = new JWKConverter();
-			return $jwkConverter->toPEM($this->jwk[$kid]);
+			$tmp = $this->objToArray($this->jwk[$kid]);
+			return $jwkConverter->toPEM($tmp);
 		}
 		else
 		{
 			throw new NoRecordFoundException("BR:91601 Key not found", 91601);
 		}
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	private function objToArray($obj)
+	{
+		$json = json_encode($obj, JSON_PRETTY_PRINT);
+		$retval = json_decode($json, true);
+		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
