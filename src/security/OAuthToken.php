@@ -7,7 +7,7 @@ use braga\tools\exception\CantRetriveTokenException;
 use braga\tools\tools\JsonSerializer;
 trait OAuthToken
 {
-	const PUBLIC_CLIENT_AUTH_URL = "/protocol/openid-connect/token";
+	private $publicClientAuthUrl = "/protocol/openid-connect/token";
 	// -----------------------------------------------------------------------------------------------------------------
 	public function createToken($isseRealms, $clientId, $clientSecret)
 	{
@@ -41,7 +41,7 @@ trait OAuthToken
 		$req = [
 						"headers" => $headers,
 						"form_params" => $formsParams ];
-		$res = $c->post($isseRealms . self::PUBLIC_CLIENT_AUTH_URL, $req);
+		$res = $c->post($isseRealms . $this->publicClientAuthUrl, $req);
 		if($res->getStatusCode() == 200)
 		{
 			return $res->getBody();

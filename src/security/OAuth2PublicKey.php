@@ -4,12 +4,12 @@ use GuzzleHttp\Client;
 use braga\tools\exception\CantRetrivePublicKeyException;
 trait OAuth2PublicKey
 {
-	const PUBLIC_KEYS_URL = "/protocol/openid-connect/certs";
+	private $publicKeysUrl = "/protocol/openid-connect/certs";
 	// -----------------------------------------------------------------------------------------------------------------
 	public function getPublicKey($isseRealms, $kid)
 	{
 		$c = new Client();
-		$res = $c->get($isseRealms . self::PUBLIC_KEYS_URL);
+		$res = $c->get($isseRealms . $this->publicKeysUrl);
 		if($res->getStatusCode() == 200)
 		{
 			$retval = new Jwk($res->getBody());
