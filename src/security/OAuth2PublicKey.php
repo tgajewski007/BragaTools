@@ -6,7 +6,7 @@ trait OAuth2PublicKey
 {
 	private $publicKeysUrl = "/protocol/openid-connect/certs";
 	// -----------------------------------------------------------------------------------------------------------------
-	public function getPublicKey($isseRealms, $kid)
+	public function getPublicKeyFromAuthService($isseRealms, $kid)
 	{
 		$c = new Client();
 		$res = $c->get($isseRealms . $this->publicKeysUrl);

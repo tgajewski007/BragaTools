@@ -3,9 +3,10 @@ namespace braga\tools\security;
 use GuzzleHttp\Client;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
+use braga\tools\exception\AuthenticationExcepion;
 use braga\tools\exception\CantRetriveTokenException;
 use braga\tools\tools\JsonSerializer;
-trait OAuthToken
+trait OAuth2Token
 {
 	private $publicClientAuthUrl = "/protocol/openid-connect/token";
 	// -----------------------------------------------------------------------------------------------------------------
@@ -18,7 +19,7 @@ trait OAuthToken
 		$obj = JsonSerializer::fromJson($jsonString, AuthTokenResponse::class);
 		$parser = new Parser(new JoseEncoder());
 		$jwt = $parser->parse($obj->access_token);
-		if($jwt instanceof Plain)
+		if($jwt instanceof \Lcobucci\JWT\Token\Plain)
 		{
 			return $jwt;
 		}
