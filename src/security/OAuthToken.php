@@ -17,7 +17,7 @@ trait OAuthToken
 		 */
 		$obj = JsonSerializer::fromJson($jsonString, AuthTokenResponse::class);
 		$parser = new Parser(new JoseEncoder());
-		$jwt = $parser->parse($tokenString);
+		$jwt = $parser->parse($obj->access_token);
 		if($jwt instanceof Plain)
 		{
 			return $jwt;
