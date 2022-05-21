@@ -19,7 +19,14 @@ class User
 			$this->idUser = $jwt->claims()->get("uid");
 		}
 		$this->login = $jwt->claims()->get("preferred_username");
-		$this->fullName = $jwt->claims()->get("name");
+		if($jwt->claims()->has("name"))
+		{
+			$this->fullName = $jwt->claims()->get("name");
+		}
+		else
+		{
+			$this->fullName = $this->login;
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
