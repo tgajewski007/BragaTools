@@ -580,8 +580,15 @@ function getHashPass($pass, $idUzytkownik = null)
 // =============================================================================
 function formatKodPocztowy($kod)
 {
-	$kod = substr(preg_replace("/[^0-9]+/", "", $kod), 0, 5);
-	return substr($kod, 0, 2) . "-" . substr($kod, 2, 3);
+	if(!empty($kod))
+	{
+		$kod = substr(preg_replace("/[^0-9]+/", "", $kod), 0, 5);
+		return substr($kod, 0, 2) . "-" . substr($kod, 2, 3);
+	}
+	else
+	{
+		return "";
+	}
 }
 // =============================================================================
 function isEmail($email)
