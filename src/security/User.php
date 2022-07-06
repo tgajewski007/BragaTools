@@ -13,33 +13,36 @@ class User
 	// -----------------------------------------------------------------------------------------------------------------
 	public function __construct(?Plain $jwt)
 	{
-		if($jwt->claims()->has("sub"))
+		if($jwt instanceof Plain)
 		{
-			$this->idUser = $jwt->claims()->get("sub");
-		}
-		elseif($jwt->claims()->has("uid"))
-		{
-			$this->idUser = $jwt->claims()->get("uid");
-		}
-		if($jwt->claims()->has("preferred_username"))
-		{
-			$this->login = $jwt->claims()->get("preferred_username");
-		}
-		if($jwt->claims()->has("name"))
-		{
-			$this->fullName = $jwt->claims()->get("name");
-		}
-		if($jwt->claims()->has("email"))
-		{
-			$this->email = $jwt->claims()->get("email");
-		}
-		if($jwt->claims()->has("family_name"))
-		{
-			$this->lastName = $jwt->claims()->get("family_name");
-		}
-		if($jwt->claims()->has("given_name"))
-		{
-			$this->firstName = $jwt->claims()->get("given_name");
+			if($jwt->claims()->has("sub"))
+			{
+				$this->idUser = $jwt->claims()->get("sub");
+			}
+			elseif($jwt->claims()->has("uid"))
+			{
+				$this->idUser = $jwt->claims()->get("uid");
+			}
+			if($jwt->claims()->has("preferred_username"))
+			{
+				$this->login = $jwt->claims()->get("preferred_username");
+			}
+			if($jwt->claims()->has("name"))
+			{
+				$this->fullName = $jwt->claims()->get("name");
+			}
+			if($jwt->claims()->has("email"))
+			{
+				$this->email = $jwt->claims()->get("email");
+			}
+			if($jwt->claims()->has("family_name"))
+			{
+				$this->lastName = $jwt->claims()->get("family_name");
+			}
+			if($jwt->claims()->has("given_name"))
+			{
+				$this->firstName = $jwt->claims()->get("given_name");
+			}
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
