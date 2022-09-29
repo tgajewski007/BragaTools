@@ -59,7 +59,7 @@ class RestController extends BaseRestController
 				}
 			}
 		}
-		$this->loggerClassNama::error("Method not allowed", [
+		$this->loggerClassNama::error(self::HTTP_STATUS_405_METHOD_NOT_ALLOWED, [
 						"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
 		$this->sendMethodNotAllowed();
 	}

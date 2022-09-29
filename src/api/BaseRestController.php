@@ -20,6 +20,11 @@ abstract class BaseRestController
 	 */
 	protected $loggerClassNama = BaseLogger::class;
 	// -----------------------------------------------------------------------------------------------------------------
+	const HTTP_STATUS_200_OK = "200 OK";
+	const HTTP_STATUS_402_BUSINES_ERROR = "422 Busines Error";
+	const HTTP_STATUS_405_METHOD_NOT_ALLOWED = "405 Method Not Allowed";
+	const HTTP_STATUS_500_INTERNAL_ERROR = "500 Error";
+	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $loggerClassNama
 	 */
@@ -43,7 +48,7 @@ abstract class BaseRestController
 	/**
 	 * @param object $retval
 	 */
-	protected function send($retval, $responseCode = "200 OK")
+	protected function send($retval, $responseCode = self::HTTP_STATUS_200_OK)
 	{
 		$this->sendStandardsHeaders();
 		$retval = json_encode($retval);
@@ -57,7 +62,7 @@ abstract class BaseRestController
 	/**
 	 * @param object $retval
 	 */
-	protected function sendMethodNotAllowed($responseCode = "405 Method Not Allowed")
+	protected function sendMethodNotAllowed($responseCode = self::HTTP_STATUS_405_METHOD_NOT_ALLOWED)
 	{
 		$this->sendStandardsHeaders();
 		header("HTTP/1.0 " . $responseCode);
@@ -69,7 +74,7 @@ abstract class BaseRestController
 	/**
 	 * @param ErrorResponseType $e
 	 */
-	protected function forwardError(ErrorResponseType $retval, $responseCode = "500 Error")
+	protected function forwardError(ErrorResponseType $retval, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR)
 	{
 		$this->sendStandardsHeaders();
 		header("HTTP/1.0 " . $responseCode);
@@ -83,7 +88,7 @@ abstract class BaseRestController
 	/**
 	 * @param \Throwable $e
 	 */
-	protected function sendError(\Throwable $e, $responseCode = "500 Error")
+	protected function sendError(\Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR)
 	{
 		$retval = new ErrorResponseType();
 		$retval->error = array(
