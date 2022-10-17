@@ -1,33 +1,35 @@
 {
-	"keywords" : [
-		"tools",
-		"libs"
-	],
-	"autoload" : {
-		"psr-4" : {
-			"braga\\tools\\" : "src"
-		},
-		"files" : [
-			"src/tools/tools.php"
-		]
-	},
-	"name" : "braga/tools",
-	"type" : "library",
-	"description" : "Many difrent tools lib",
-	"license" : "MIT",
-	"require" : {
-		"php" : ">=7.4",
-		"braga/graylogger" : "~1.1",
-		"lcobucci/jwt" : "~4.1",
-		"codercat/jwk-to-pem" : "1.1",
-		"netresearch/jsonmapper" : "~4.0",
-		"guzzlehttp/guzzle" : "~7.4"
-	},
-	"minimum-stability" : "stable",
-	"repositories" : [{
-			"type" : "git",
-			"url" : "https://github.com/tgajewski007/BragaTools.git",
-			"name" : "Main"
-		}
-	]
+  "keywords": [
+    "tools",
+    "libs"
+  ],
+  "autoload": {
+    "psr-4": {
+      "braga\\tools\\": "src"
+    },
+    "files": [
+      "src/tools/tools.php"
+    ]
+  },
+  "name": "braga/tools",
+  "type": "library",
+  "description": "Many difrent tools lib",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "braga/graylogger": "~1.1",
+    "lcobucci/jwt": "~4.1",
+    "codercat/jwk-to-pem": "1.1",
+    "netresearch/jsonmapper": "~4.0",
+    "guzzlehttp/guzzle": "~7.4"
+  },
+  "minimum-stability": "stable",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/tgajewski007/BragaTools.git",
+      "name": "Main"
+    }
+  ]
 }

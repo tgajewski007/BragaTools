@@ -25,8 +25,8 @@ class JsonSerializer
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param unknown $jsonString
-	 * @param unknown $className
+	 * @param string $jsonString
+	 * @param string $className
 	 * @return array
 	 */
 	public static function arrayFromJson($jsonString, $className)
@@ -45,6 +45,10 @@ class JsonSerializer
 		return $obj;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param mixed $obj
+	 * @return string
+	 */
 	public static function toJson($obj)
 	{
 		return json_encode($obj, JSON_PRETTY_PRINT);
