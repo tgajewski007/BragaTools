@@ -21,6 +21,7 @@ abstract class BaseRestController
 	protected $loggerClassNama = BaseLogger::class;
 	// -----------------------------------------------------------------------------------------------------------------
 	const HTTP_STATUS_200_OK = "200 OK";
+	const HTTP_STATUS_202_ACCEPTED = "202 Accepted";
 	const HTTP_STATUS_402_BUSINES_ERROR = "422 Busines Error";
 	const HTTP_STATUS_405_METHOD_NOT_ALLOWED = "405 Method Not Allowed";
 	const HTTP_STATUS_500_INTERNAL_ERROR = "500 Error";
@@ -46,7 +47,9 @@ abstract class BaseRestController
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param object $retval
+	 * @param mixed $retval
+	 * @param string $responseCode
+	 * @return void
 	 */
 	protected function send($retval, $responseCode = self::HTTP_STATUS_200_OK)
 	{
@@ -55,12 +58,13 @@ abstract class BaseRestController
 		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse($retval);
 		$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
-						"body" => $retval,
-						"status" => $responseCode ));
+			"body" => $retval,
+			"status" => $responseCode));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param object $retval
+	 * @param string $responseCode
+	 * @return void
 	 */
 	protected function sendMethodNotAllowed($responseCode = self::HTTP_STATUS_405_METHOD_NOT_ALLOWED)
 	{
@@ -68,11 +72,13 @@ abstract class BaseRestController
 		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse(null);
 		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
-						"status" => $responseCode ));
+			"status" => $responseCode));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param ErrorResponseType $e
+	 * @param ErrorResponseType $retval
+	 * @param string $responseCode
+	 * @return void
 	 */
 	protected function forwardError(ErrorResponseType $retval, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR)
 	{
@@ -81,27 +87,29 @@ abstract class BaseRestController
 		$retval = json_encode($retval);
 		Controler::sendResponse($retval);
 		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
-						"body" => $retval,
-						"status" => $responseCode ));
+			"body" => $retval,
+			"status" => $responseCode));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param \Throwable $e
+	 * @param string $responseCode
+	 * @return void
 	 */
 	protected function sendError(\Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR)
 	{
 		$retval = new ErrorResponseType();
 		$retval->error = array(
-						ErrorType::convertFromThrowrable($e) );
+			ErrorType::convertFromThrowrable($e));
 		$retval = json_encode($retval);
 
 		$this->sendStandardsHeaders();
 		header("HTTP/1.0 " . $responseCode);
 		Controler::sendResponse($retval);
 		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
-						"body" => $retval,
-						"trace" => $e->getTraceAsString(),
-						"status" => $responseCode ));
+			"body" => $retval,
+			"trace" => $e->getTraceAsString(),
+			"status" => $responseCode));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -111,15 +119,15 @@ abstract class BaseRestController
 	{
 		$retval = file_get_contents('php://input');
 		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " getBody", array(
-						"body" => $retval ));
+			"body" => $retval));
 
 		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param string $jsonString
+	 * @param $jsonString
+	 * @return mixed
 	 * @throws \Exception
-	 * @return object
 	 * @deprecated use getBodyObjectMapped or getBodyArrayMapped
 	 */
 	protected function importFromJSON($jsonString)
@@ -138,7 +146,7 @@ abstract class BaseRestController
 				if(empty($retval))
 				{
 					$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Błąd parsowania", array(
-									"string" => $jsonString ));
+						"string" => $jsonString));
 					throw new \Exception("BT:10102 Błąd parsowania danych wejściowych");
 				}
 			}
@@ -147,7 +155,7 @@ abstract class BaseRestController
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param string $className
+	 * @param $className
 	 * @return \stdClass
 	 */
 	protected function getBodyObjectMapped($className)
@@ -155,8 +163,8 @@ abstract class BaseRestController
 		$jsonString = $this->getBody();
 		$retval = JsonSerializer::fromJson($jsonString, $className);
 		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyObj", array(
-						"obj" => json_encode($retval, JSON_PRETTY_PRINT),
-						"className" => get_class($retval) ));
+			"obj" => json_encode($retval, JSON_PRETTY_PRINT),
+			"className" => get_class($retval)));
 
 		return $retval;
 	}
@@ -172,13 +180,13 @@ abstract class BaseRestController
 		if(count($retval) > 0)
 		{
 			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
-							"obj" => json_encode($retval, JSON_PRETTY_PRINT),
-							"className" => get_class(current($retval)) ));
+				"obj" => json_encode($retval, JSON_PRETTY_PRINT),
+				"className" => get_class(current($retval))));
 		}
 		else
 		{
 			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
-							"obj" => json_encode($retval, JSON_PRETTY_PRINT) ));
+				"obj" => json_encode($retval, JSON_PRETTY_PRINT)));
 		}
 		return $retval;
 	}
