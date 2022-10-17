@@ -22,7 +22,7 @@
     "lcobucci/jwt": "~4.1",
     "codercat/jwk-to-pem": "1.1",
     "netresearch/jsonmapper": "~4.0",
-    "guzzlehttp/guzzle": "~7.4"
+    "guzzlehttp/guzzle": "~7.5"
   },
   "minimum-stability": "stable",
   "repositories": [
