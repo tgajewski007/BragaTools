@@ -14,6 +14,6 @@ class ErrorResponseType
 	/**
 	 * @var \braga\tools\api\types\type\ErrorType[]
 	 */
-	public $error;
+	public $error = [];
 	// -----------------------------------------------------------------------------------------------------------------
 }
