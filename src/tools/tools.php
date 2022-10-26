@@ -1,4 +1,6 @@
 <?php
+use braga\graylogger\BaseLogger;
+use braga\tools\tools\JsonSerializer;
 use braga\tools\tools\Message;
 
 /**
@@ -27,7 +29,7 @@ function getmicrotime()
 // =============================================================================
 function addAlert($txt)
 {
-	Logger::getLogger("braga")->error($txt);
+	BaseLogger::error($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -37,7 +39,7 @@ function addAlert($txt)
 // =============================================================================
 function addSQLError($txt)
 {
-	Logger::getLogger("sql")->fatal($txt);
+	BaseLogger::emergency($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -47,7 +49,7 @@ function addSQLError($txt)
 // =============================================================================
 function addMsg($txt)
 {
-	Logger::getLogger("braga")->info($txt);
+	BaseLogger::notice($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -57,7 +59,7 @@ function addMsg($txt)
 // =============================================================================
 function addWarn($txt)
 {
-	Logger::getLogger("braga")->warn($txt);
+	BaseLogger::warning($txt);
 	$m = Message::import(htmlspecialchars($txt, ENT_QUOTES));
 	if(!is_null($m))
 	{
@@ -69,9 +71,9 @@ function addDebugInfo($txt)
 {
 	if(is_object($txt) || is_array($txt))
 	{
-		$txt = var_export($txt, true);
+		$txt = JsonSerializer::toJson($txt);
 	}
-	Logger::getLogger("braga")->debug($txt);
+	BaseLogger::debug($txt);
 }
 // =============================================================================
 function getRandomStringLetterOnly($dlugosc)
@@ -109,91 +111,91 @@ function plCharset($string)
 {
 	$string = mb_strtolower($string);
 	$polskie = array(
-					',',
-					' ',
-					' ',
-					'ę',
-					'Ę',
-					'ó',
-					'Ó',
-					'Ą',
-					'ą',
-					'Ś',
-					's',
-					'ł',
-					'Ł',
-					'ż',
-					'Ż',
-					'Ź',
-					'ź',
-					'ć',
-					'Ć',
-					'ń',
-					'Ń',
-					'-',
-					"'",
-					"/",
-					"?",
-					'"',
-					":",
-					'ś',
-					'!',
-					'.',
-					'&',
-					'&amp;',
-					'#',
-					';',
-					'[',
-					']',
-					'(',
-					')',
-					'`',
-					'%',
-					'”',
-					'„',
-					'…' );
+		',',
+		' ',
+		' ',
+		'ę',
+		'Ę',
+		'ó',
+		'Ó',
+		'Ą',
+		'ą',
+		'Ś',
+		's',
+		'ł',
+		'Ł',
+		'ż',
+		'Ż',
+		'Ź',
+		'ź',
+		'ć',
+		'Ć',
+		'ń',
+		'Ń',
+		'-',
+		"'",
+		"/",
+		"?",
+		'"',
+		":",
+		'ś',
+		'!',
+		'.',
+		'&',
+		'&amp;',
+		'#',
+		';',
+		'[',
+		']',
+		'(',
+		')',
+		'`',
+		'%',
+		'”',
+		'„',
+		'…');
 	$miedzyn = array(
-					'-',
-					'-',
-					'-',
-					'e',
-					'e',
-					'o',
-					'o',
-					'a',
-					'a',
-					's',
-					's',
-					'l',
-					'l',
-					'z',
-					'z',
-					'z',
-					'z',
-					'c',
-					'c',
-					'n',
-					'n',
-					'-',
-					"",
-					"",
-					"",
-					"",
-					"",
-					's',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'' );
+		'-',
+		'-',
+		'-',
+		'e',
+		'e',
+		'o',
+		'o',
+		'a',
+		'a',
+		's',
+		's',
+		'l',
+		'l',
+		'z',
+		'z',
+		'z',
+		'z',
+		'c',
+		'c',
+		'n',
+		'n',
+		'-',
+		"",
+		"",
+		"",
+		"",
+		"",
+		's',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'');
 	$string = str_replace($polskie, $miedzyn, $string);
 
 	// usuń wszytko co jest niedozwolonym znakiem
@@ -222,6 +224,7 @@ function formatMonney($kwota)
 	{
 		return number_format($kwota, 2, ",", " ");
 	}
+	return "";
 }
 // =============================================================================
 function formatDate($date, $humanReadableExtension = false)
@@ -236,6 +239,7 @@ function formatDate($date, $humanReadableExtension = false)
 		}
 		return $retval;
 	}
+	return "";
 }
 // =============================================================================
 function formatDateForRaport($date)
@@ -244,13 +248,13 @@ function formatDateForRaport($date)
 	{
 		return '="' . $date . '"';
 	}
+	return "";
 }
 // =============================================================================
 function formatDateTime($time, $humanReadableExtension = false)
 {
 	if(!empty($time))
 	{
-
 		$retval = date("Y-m-d H:i:s", strtotime($time));
 		if($humanReadableExtension)
 		{
@@ -259,6 +263,7 @@ function formatDateTime($time, $humanReadableExtension = false)
 		}
 		return $retval;
 	}
+	return "";
 }
 // =============================================================================
 function formatBoolean($b)
@@ -279,10 +284,10 @@ function formatBytes($bytes)
 	{
 		$unit = intval(log($bytes, 1024));
 		$units = array(
-						'B',
-						'kiB',
-						'MiB',
-						'GiB' );
+			'B',
+			'kiB',
+			'MiB',
+			'GiB');
 
 		if(array_key_exists($unit, $units) === true)
 		{
@@ -319,14 +324,18 @@ function formatHtmlText($text)
 function sortByLength($a, $b)
 {
 	if($a == $b)
+	{
 		return 0;
+	}
 	return (mb_strlen($a) > mb_strlen($b) ? 1 : -1);
 }
 // =============================================================================
 function reverseSortByLength($a, $b)
 {
 	if($a == $b)
+	{
 		return 0;
+	}
 	return (mb_strlen($a) > mb_strlen($b) ? -1 : 1);
 }
 // =============================================================================
@@ -360,8 +369,8 @@ function groupCollection(Iterator $collection, $groupFunctionName)
 	foreach($collection as $key => $value)
 	{
 		$groupKey = call_user_func(array(
-						$value,
-						$groupFunctionName ));
+			$value,
+			$groupFunctionName));
 		$retval[$groupKey][$key] = $value;
 	}
 	return $retval;
@@ -375,16 +384,16 @@ function CheckPESEL($str)
 	}
 
 	$arrSteps = array(
-					1,
-					3,
-					7,
-					9,
-					1,
-					3,
-					7,
-					9,
-					1,
-					3 );
+		1,
+		3,
+		7,
+		9,
+		1,
+		3,
+		7,
+		9,
+		1,
+		3);
 	$intSum = 0;
 	for($i = 0; $i < 10; $i++)
 	{
@@ -464,15 +473,15 @@ function checkNIP($str)
 	}
 
 	$arrSteps = array(
-					6,
-					5,
-					7,
-					2,
-					3,
-					4,
-					5,
-					6,
-					7 );
+		6,
+		5,
+		7,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7);
 	$intSum = 0;
 	for($i = 0; $i < 9; $i++)
 	{
@@ -498,14 +507,14 @@ function checkREGON($str)
 	if(strlen($str) == 9)
 	{
 		$arrSteps = array(
-						8,
-						9,
-						2,
-						3,
-						4,
-						5,
-						6,
-						7 );
+			8,
+			9,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7);
 		$intSum = 0;
 		for($i = 0; $i < 8; $i++)
 		{
@@ -522,19 +531,19 @@ function checkREGON($str)
 	elseif(strlen($str) == 14)
 	{
 		$arrSteps = array(
-						2,
-						4,
-						8,
-						5,
-						0,
-						9,
-						7,
-						3,
-						6,
-						1,
-						2,
-						4,
-						8 );
+			2,
+			4,
+			8,
+			5,
+			0,
+			9,
+			7,
+			3,
+			6,
+			1,
+			2,
+			4,
+			8);
 		$intSum = 0;
 		for($i = 0; $i < 13; $i++)
 		{
@@ -560,10 +569,10 @@ function sizeFileFormat($bytes)
 	{
 		$unit = intval(log($bytes, 1024));
 		$units = array(
-						'B',
-						'kiB',
-						'MiB',
-						'GiB' );
+			'B',
+			'kiB',
+			'MiB',
+			'GiB');
 
 		if(array_key_exists($unit, $units) === true)
 		{
@@ -603,19 +612,19 @@ function isMobile($mobile)
 	{
 		$tmp = (int)substr($mobile, 0, 2);
 		$prefixs = array(
-						45,
-						50,
-						51,
-						53,
-						57,
-						60,
-						66,
-						69,
-						72,
-						73,
-						78,
-						79,
-						88 );
+			45,
+			50,
+			51,
+			53,
+			57,
+			60,
+			66,
+			69,
+			72,
+			73,
+			78,
+			79,
+			88);
 		if(in_array($tmp, $prefixs))
 		{
 			return true;
@@ -631,55 +640,55 @@ function isLandingPhoneNumber($number)
 	{
 		$tmp = (int)substr($number, 0, 2);
 		$prefixs = array(
-						12,
-						13,
-						14,
-						15,
-						16,
-						17,
-						18,
-						22,
-						23,
-						24,
-						25,
-						29,
-						32,
-						33,
-						34,
-						41,
-						42,
-						43,
-						44,
-						46,
-						48,
-						52,
-						54,
-						55,
-						56,
-						58,
-						59,
-						61,
-						62,
-						63,
-						65,
-						67,
-						68,
-						71,
-						74,
-						75,
-						76,
-						77,
-						81,
-						82,
-						83,
-						84,
-						85,
-						86,
-						87,
-						89,
-						91,
-						94,
-						95 );
+			12,
+			13,
+			14,
+			15,
+			16,
+			17,
+			18,
+			22,
+			23,
+			24,
+			25,
+			29,
+			32,
+			33,
+			34,
+			41,
+			42,
+			43,
+			44,
+			46,
+			48,
+			52,
+			54,
+			55,
+			56,
+			58,
+			59,
+			61,
+			62,
+			63,
+			65,
+			67,
+			68,
+			71,
+			74,
+			75,
+			76,
+			77,
+			81,
+			82,
+			83,
+			84,
+			85,
+			86,
+			87,
+			89,
+			91,
+			94,
+			95);
 		if(in_array($tmp, $prefixs))
 		{
 			return true;
@@ -735,8 +744,8 @@ function roundFloor($number, $precision = 2, $separator = '.')
 			$numberpart[1] = substr(ceil('1' . $numberpart[1]), 1);
 		}
 		$ceil_number = array(
-						$numberpart[0],
-						$numberpart[1] );
+			$numberpart[0],
+			$numberpart[1]);
 		return (float)implode($separator, $ceil_number);
 	}
 	else
