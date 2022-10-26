@@ -47,7 +47,7 @@ class CookieManager
 		{
 			unset($_COOKIE[$key]);
 		}
-		return setcookie($key, null, 0, "/");
+		return setcookie($key, "", time() - 3600, "/");
 	}
 	// -------------------------------------------------------------------------
 	public static function get($key)
