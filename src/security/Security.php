@@ -12,6 +12,7 @@ use Lcobucci\JWT\Validation\Validator;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Monolog\Level;
 use Monolog\Logger;
 use braga\tools\exception\AuthenticationExcepion;
 use braga\tools\exception\AuthorizationException;
@@ -22,7 +23,6 @@ use braga\graylogger\BaseLogger;
  */
 class Security
 {
-
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var SecurityConfig
@@ -101,8 +101,8 @@ class Security
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param Plain $token
-	 * @throws AuthenticationExcepion
 	 * @return \Lcobucci\JWT\Token\Plain
+	 * @throws AuthenticationExcepion
 	 */
 	protected function valdateJwtToken(Plain $token)
 	{
@@ -136,14 +136,13 @@ class Security
 			}
 			catch(RequiredConstraintsViolated $e)
 			{
-				BaseLogger::exception($e, Logger::ERROR);
-				BaseLogger::debug("Jwt.Error", [
-								"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
+				BaseLogger::exception($e, Level::Critical, [
+					"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT)]);
 				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
 			}
 			catch(\Throwable $e)
 			{
-				BaseLogger::exception($e, Logger::ERROR);
+				BaseLogger::exception($e);
 				throw new AuthenticationExcepion("BR:91009 Błąd veryfikacji tokenu", 91009);
 			}
 		}
@@ -154,8 +153,8 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @throws \Exception
 	 * @return string
+	 * @throws \Exception
 	 */
 	protected function getTokenStringFromHeader()
 	{
@@ -173,8 +172,8 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @throws \Exception
 	 * @return string
+	 * @throws \Exception
 	 */
 	protected function getTokenStringFromHttpHeader()
 	{
@@ -209,8 +208,8 @@ class Security
 			}
 		}
 		BaseLogger::debug("Brak nagłówka Authorization", [
-						"headers" => json_encode(apache_request_headers(), JSON_PRETTY_PRINT),
-						"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
+			"headers" => json_encode(apache_request_headers(), JSON_PRETTY_PRINT),
+			"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT)]);
 		throw new AuthenticationExcepion("BR:91006 Brak nagłówka Authorization", 91006);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
