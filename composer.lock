@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "braga/graylogger",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tgajewski007/BragaGrayLogger.git",
-                "reference": "6f23148b5afbe79720b6f1f16450bcdf6fa43792"
+                "reference": "07328abac4118b85bffba666bd49b885ed7123da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tgajewski007/BragaGrayLogger/zipball/6f23148b5afbe79720b6f1f16450bcdf6fa43792",
-                "reference": "6f23148b5afbe79720b6f1f16450bcdf6fa43792",
+                "url": "https://api.github.com/repos/tgajewski007/BragaGrayLogger/zipball/07328abac4118b85bffba666bd49b885ed7123da",
+                "reference": "07328abac4118b85bffba666bd49b885ed7123da",
                 "shasum": ""
             },
             "require": {
@@ -39,9 +39,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tgajewski007/BragaGrayLogger/issues",
-                "source": "https://github.com/tgajewski007/BragaGrayLogger/tree/2.0.3"
+                "source": "https://github.com/tgajewski007/BragaGrayLogger/tree/2.0.4"
             },
-            "time": "2022-10-26T20:11:42+00:00"
+            "time": "2022-11-06T13:02:43+00:00"
         },
         {
             "name": "codercat/jwk-to-pem",
