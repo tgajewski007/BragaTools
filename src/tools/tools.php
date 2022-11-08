@@ -607,27 +607,30 @@ function isEmail($email)
 // -----------------------------------------------------------------------------
 function isMobile($mobile)
 {
-	// źródło: https://www.operatorzy.pl/telekomunikacja/telefonia-komorkowa/numery-sieci-komorkowych wg stanu na dzień 26.03.2020
-	if(preg_match("/^[4-8]{1}[0-9]{8}$/", $mobile))
+	if(!empty($mobile))
 	{
-		$tmp = (int)substr($mobile, 0, 2);
-		$prefixs = array(
-			45,
-			50,
-			51,
-			53,
-			57,
-			60,
-			66,
-			69,
-			72,
-			73,
-			78,
-			79,
-			88);
-		if(in_array($tmp, $prefixs))
+		// źródło: https://www.operatorzy.pl/telekomunikacja/telefonia-komorkowa/numery-sieci-komorkowych wg stanu na dzień 26.03.2020
+		if(preg_match("/^[4-8]{1}[0-9]{8}$/", $mobile))
 		{
-			return true;
+			$tmp = (int)substr($mobile, 0, 2);
+			$prefixs = array(
+				45,
+				50,
+				51,
+				53,
+				57,
+				60,
+				66,
+				69,
+				72,
+				73,
+				78,
+				79,
+				88);
+			if(in_array($tmp, $prefixs))
+			{
+				return true;
+			}
 		}
 	}
 	return false;
