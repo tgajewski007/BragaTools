@@ -1,14 +1,16 @@
 <?php
 namespace braga\tools\tools;
+use phpseclib3\Math\BigInteger\Engines\PHP\Reductions\Classic;
 class JsonSerializer
 {
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
+	 * @template T
 	 * @param string $jsonString
-	 * @param string $className
-	 * @return \stdClass
+	 * @param class-string<T> $className
+	 * @return T
 	 */
-	public static function fromJson($jsonString, $className)
+	public static function fromJson(string $jsonString, string $className)
 	{
 		if(!empty($jsonString))
 		{
@@ -32,18 +34,19 @@ class JsonSerializer
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
+	 * @template T
 	 * @param string $jsonString
-	 * @param string $className
-	 * @return array
+	 * @param class-string<T> $className
+	 * @return T[]
 	 */
-	public static function arrayFromJson($jsonString, $className)
+	public static function arrayFromJson(string $jsonString, string $className): array
 	{
 		if(!empty($jsonString))
 		{
 			$json = json_decode($jsonString);
 			if(empty($json))
 			{
-				$obj = array();
+				$obj = [];
 			}
 			else
 			{
@@ -63,7 +66,7 @@ class JsonSerializer
 	 * @param mixed $obj
 	 * @return string
 	 */
-	public static function toJson($obj)
+	public static function toJson($obj): string
 	{
 		return json_encode($obj, JSON_PRETTY_PRINT);
 	}
