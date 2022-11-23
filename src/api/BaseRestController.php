@@ -29,7 +29,7 @@ abstract class BaseRestController
 	/**
 	 * @param string $loggerClassNama
 	 */
-	public function setLoggerClassNama($loggerClassNama)
+	public function setLoggerClassNama($loggerClassNama): void
 	{
 		$this->loggerClassNama = $loggerClassNama;
 	}
@@ -51,7 +51,7 @@ abstract class BaseRestController
 	 * @param string $responseCode
 	 * @return void
 	 */
-	protected function send($retval, $responseCode = self::HTTP_STATUS_200_OK)
+	protected function send($retval, $responseCode = self::HTTP_STATUS_200_OK): void
 	{
 		$this->sendStandardsHeaders();
 		$retval = json_encode($retval);
@@ -66,7 +66,7 @@ abstract class BaseRestController
 	 * @param string $responseCode
 	 * @return void
 	 */
-	protected function sendMethodNotAllowed($responseCode = self::HTTP_STATUS_405_METHOD_NOT_ALLOWED)
+	protected function sendMethodNotAllowed($responseCode = self::HTTP_STATUS_405_METHOD_NOT_ALLOWED): void
 	{
 		$this->sendStandardsHeaders();
 		header("HTTP/1.0 " . $responseCode);
@@ -80,7 +80,7 @@ abstract class BaseRestController
 	 * @param string $responseCode
 	 * @return void
 	 */
-	protected function forwardError(ErrorResponseType $retval, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR)
+	protected function forwardError(ErrorResponseType $retval, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
 	{
 		$this->sendStandardsHeaders();
 		header("HTTP/1.0 " . $responseCode);
@@ -96,7 +96,7 @@ abstract class BaseRestController
 	 * @param string $responseCode
 	 * @return void
 	 */
-	protected function sendError(\Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR)
+	protected function sendError(\Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
 	{
 		$retval = new ErrorResponseType();
 		$retval->error = array(
@@ -115,7 +115,7 @@ abstract class BaseRestController
 	/**
 	 * @return string
 	 */
-	protected function getBody()
+	protected function getBody(): string
 	{
 		$retval = file_get_contents('php://input');
 		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " getBody", array(
@@ -155,23 +155,25 @@ abstract class BaseRestController
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param $className
-	 * @return \stdClass
+	 * @template T
+	 * @param class-string<T> $className
+	 * @return T
 	 */
 	protected function getBodyObjectMapped($className)
 	{
 		$jsonString = $this->getBody();
 		$retval = JsonSerializer::fromJson($jsonString, $className);
 		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyObj", array(
-			"obj" => json_encode($retval, JSON_PRETTY_PRINT),
+			"obj" => JsonSerializer::toJson($retval),
 			"className" => get_class($retval)));
 
 		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param string $className
-	 * @return \stdClass[]
+	 * @template T
+	 * @param class-string<T> $className
+	 * @return T[]
 	 */
 	protected function getBodyArrayMapped($className)
 	{
@@ -180,13 +182,13 @@ abstract class BaseRestController
 		if(count($retval) > 0)
 		{
 			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
-				"obj" => json_encode($retval, JSON_PRETTY_PRINT),
+				"obj" => JsonSerializer::toJson($retval),
 				"className" => get_class(current($retval))));
 		}
 		else
 		{
 			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
-				"obj" => json_encode($retval, JSON_PRETTY_PRINT)));
+				"obj" => JsonSerializer::toJson($retval)));
 		}
 		return $retval;
 	}
