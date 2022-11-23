@@ -6,11 +6,11 @@ class JsonSerializer
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @template T
-	 * @param string $jsonString
+	 * @param string|null $jsonString
 	 * @param class-string<T> $className
 	 * @return T
 	 */
-	public static function fromJson(string $jsonString, string $className)
+	public static function fromJson(?string $jsonString, string $className)
 	{
 		if(!empty($jsonString))
 		{
@@ -39,7 +39,7 @@ class JsonSerializer
 	 * @param class-string<T> $className
 	 * @return T[]
 	 */
-	public static function arrayFromJson(string $jsonString, string $className): array
+	public static function arrayFromJson(?string $jsonString, string $className): array
 	{
 		if(!empty($jsonString))
 		{
