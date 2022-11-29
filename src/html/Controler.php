@@ -1,6 +1,7 @@
 <?php
 namespace braga\tools\html;
 
+use braga\tools\tools\Retval;
 /**
  * @package common
  * @author Tomasz.Gajewski
@@ -25,14 +26,6 @@ abstract class Controler extends BaseControler
 	 * @return Retval
 	 */
 	abstract protected function getRetvalObject();
-	// -------------------------------------------------------------------------
-	public function __destruct()
-	{
-		if(class_exists("BenchmarkTimer", true))
-		{
-			BenchmarkTimer::saveStatistic();
-		}
-	}
 	// -------------------------------------------------------------------------
 	protected function setLayOut(HtmlComponent $layOut)
 	{

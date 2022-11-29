@@ -38,6 +38,10 @@ abstract class BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function sendStandardsHeaders()
 	{
+		if(headers_sent($filename, $linenum))
+		{
+			$this->loggerClassNama::debug("BT:10101 Headers sent f:" . $filename . " l:" . $linenum);
+		}
 		header("Expires: " . date("c"));
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate ");
 		header("Cache-Control: no-cache; must-revalidate; no-store; post-check=0; pre-check=0 ");
