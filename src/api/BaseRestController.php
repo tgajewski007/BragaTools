@@ -38,6 +38,8 @@ abstract class BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function sendStandardsHeaders()
 	{
+		$filename = null;
+		$linenum = null;
 		if(headers_sent($filename, $linenum))
 		{
 			$this->loggerClassNama::debug("BT:10101 Headers sent f:" . $filename . " l:" . $linenum);
