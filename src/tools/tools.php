@@ -639,7 +639,7 @@ function isMobile($mobile)
 function isLandingPhoneNumber($number)
 {
 	// źródło: https://www.operatorzy.pl/telekomunikacja/numeracja/numery-kierunkowe-w-polsce wg stanu na dzień 25.06.2020
-	if(preg_match("/^[0-9]{9}$/", $number))
+	if(preg_match("/^[0-9]{9}$/", $number ?? ""))
 	{
 		$tmp = (int)substr($number, 0, 2);
 		$prefixs = array(
@@ -703,7 +703,7 @@ function isLandingPhoneNumber($number)
 function addMonth($date, $countOfMonth)
 {
 	$day = date("d", $date);
-	$month = date("m", $date);
+	$month = intval(date("m", $date));
 	$year = date("Y", $date);
 	$dateOut = mktime(0, 0, 0, $month + $countOfMonth, $day, $year);
 
