@@ -378,7 +378,7 @@ function groupCollection(Iterator $collection, $groupFunctionName)
 // =============================================================================
 function CheckPESEL($str)
 {
-	if(!preg_match('/^[0-9]{11}$/', $str)) // sprawdzamy czy ciąg ma 11 cyfr
+	if(!preg_match('/^[0-9]{11}$/', $str ?? "")) // sprawdzamy, czy ciąg ma 11 cyfr
 	{
 		return false;
 	}
@@ -410,7 +410,7 @@ function CheckPESEL($str)
 // =============================================================================
 function checkNrb($nrb)
 {
-	if(preg_match('/^[0-9]{26}$/', $nrb))
+	if(preg_match('/^[0-9]{26}$/', $nrb ?? ""))
 	{
 		$w = array();
 		$w[0] = 1;
@@ -466,7 +466,7 @@ function checkNrb($nrb)
 // =============================================================================
 function checkNIP($str)
 {
-	$str = preg_replace("/[^0-9]+/", "", $str);
+	$str = preg_replace("/[^0-9]+/", "", $str ?? "");
 	if(strlen($str) != 10)
 	{
 		return false;
@@ -499,7 +499,7 @@ function checkNIP($str)
 // =============================================================================
 function checkTime($time)
 {
-	return preg_match("/(2[0-3]|[01][0-9]):([0-5][0-9])/", $time);
+	return preg_match("/(2[0-3]|[01][0-9]):([0-5][0-9])/", $time ?? "");
 }
 // =============================================================================
 function checkREGON($str)
@@ -591,8 +591,8 @@ function formatKodPocztowy($kod)
 {
 	if(!empty($kod))
 	{
-		$kod = substr(preg_replace("/[^0-9]+/", "", $kod), 0, 5);
-		return substr($kod, 0, 2) . "-" . substr($kod, 2, 3);
+		$kod = substr(preg_replace("/[^0-9]+/", "", $kod ?? ""), 0, 5);
+		return substr($kod ?? "", 0, 2) . "-" . substr($kod ?? "", 2, 3);
 	}
 	else
 	{
@@ -610,7 +610,7 @@ function isMobile($mobile)
 	if(!empty($mobile))
 	{
 		// źródło: https://www.operatorzy.pl/telekomunikacja/telefonia-komorkowa/numery-sieci-komorkowych wg stanu na dzień 26.03.2020
-		if(preg_match("/^[4-8]{1}[0-9]{8}$/", $mobile))
+		if(preg_match("/^[4-8]{1}[0-9]{8}$/", $mobile ?? ""))
 		{
 			$tmp = (int)substr($mobile, 0, 2);
 			$prefixs = array(
@@ -641,7 +641,7 @@ function isLandingPhoneNumber($number)
 	// źródło: https://www.operatorzy.pl/telekomunikacja/numeracja/numery-kierunkowe-w-polsce wg stanu na dzień 25.06.2020
 	if(preg_match("/^[0-9]{9}$/", $number ?? ""))
 	{
-		$tmp = (int)substr($number, 0, 2);
+		$tmp = (int)substr($number ?? "", 0, 2);
 		$prefixs = array(
 			12,
 			13,
@@ -767,14 +767,14 @@ function cleanVariableForLikeParam($var)
 // =============================================================================
 function cleanFullTextSearch($search)
 {
-	$search = preg_replace('/[^\p{L}\p{N}_]+/u', ' ', $search);
-	$search = preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search);
+	$search = preg_replace('/[^\p{L}\p{N}_]+/u', ' ', $search ?? "");
+	$search = preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search ?? "");
 	return $search;
 }
 // =============================================================================
 function cleanToNumbers($search)
 {
-	$search = preg_replace("/\D/", "", $search);
+	$search = preg_replace("/\D/", "", $search ?? "");
 	return $search;
 }
 // =============================================================================
