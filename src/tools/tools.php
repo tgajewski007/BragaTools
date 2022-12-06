@@ -313,7 +313,7 @@ function formatNrb($numer)
 // =============================================================================
 function formatText($text)
 {
-	return nl2br($text, true);
+	return nl2br($text ?? "");
 }
 // =============================================================================
 function formatHtmlText($text)
