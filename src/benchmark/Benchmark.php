@@ -33,7 +33,7 @@ class Benchmark
 		{
 			$this->loggerClassNama = new $loggerClassNama();
 		}
-		self::add("#START", JsonSerializer::toJson(["_SERVER" => $_SERVER, "_REQUEST" => $_REQUEST]));
+		$this->events[]= new Item("#START", JsonSerializer::toJson(["_SERVER" => $_SERVER, "_REQUEST" => $_REQUEST]));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public static function init($loggerClassNama = null)
