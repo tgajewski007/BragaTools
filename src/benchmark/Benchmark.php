@@ -44,7 +44,7 @@ class Benchmark
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public static function add($mark, $context)
+	public static function add($mark, $context = null)
 	{
 		self::$instance->events[] = new Item($mark, $context);
 	}
