@@ -65,14 +65,6 @@ class Benchmark
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public static function stop()
-	{
-		if(!empty(self::$instance))
-		{
-			self::$instance->__destruct();
-		}
-	}
-	// -----------------------------------------------------------------------------------------------------------------
 	public function __destruct()
 	{
 		try
@@ -85,7 +77,7 @@ class Benchmark
 				$basetime = $event->timestamp;
 			}
 			$context = [];
-			$context["Events"] = $this->events;
+			$context["Events"] = JsonSerializer::toJson($this->events);
 			$context["Duration"] = $this->events["#END"]->duration;
 			$this->loggerClassNama::info("BENCHMARK: " . $this->events["#END"]->duration, $context);
 		}
