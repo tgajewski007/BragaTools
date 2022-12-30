@@ -318,7 +318,7 @@ function formatText($text)
 // =============================================================================
 function formatHtmlText($text)
 {
-	return html_entity_decode($text, ENT_QUOTES);
+	return html_entity_decode($text ?? "", ENT_QUOTES);
 }
 // =============================================================================
 function sortByLength($a, $b)
@@ -768,7 +768,7 @@ function cleanVariableForLikeParam($var)
 function cleanFullTextSearch($search)
 {
 	$search = preg_replace('/[^\p{L}\p{N}_]+/u', ' ', $search ?? "");
-	$search = preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search ?? "");
+	$search = preg_replace('/[+\-><()~*\"@]+/', ' ', $search ?? "");
 	return $search;
 }
 // =============================================================================
