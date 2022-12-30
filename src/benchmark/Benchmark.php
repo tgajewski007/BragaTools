@@ -33,7 +33,7 @@ class Benchmark
 		{
 			$this->loggerClassNama = new $loggerClassNama();
 		}
-		$this->events[]= new Item("#START", JsonSerializer::toJson(["_SERVER" => $_SERVER, "_REQUEST" => $_REQUEST]));
+		$this->events[] = new Item("#START", JsonSerializer::toJson(["_SERVER" => $_SERVER, "_REQUEST" => $_REQUEST]));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public static function init($loggerClassNama = null)
@@ -46,23 +46,23 @@ class Benchmark
 	// -----------------------------------------------------------------------------------------------------------------
 	public static function add($mark, $context = null)
 	{
-		self::$instance->events[] = new Item($mark,$context);
+		$index = toTag($mark) . "_" . strtoupper(getRandomString(5));
+		self::$instance->events[$index] = new Item($mark, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public function __destruct()
 	{
 		self::add("#END");
-
-		$table = "";
+		$duration = 0;
 		$basetime = current($this->events)->timestamp;
 		foreach($this->events as $event)
 		{
-			$event->duration = $event->timestamp - $basetime;
+			$duration = $event->timestamp - $basetime;
+			$event->duration = $duration;
 			$basetime = $event->timestamp;
 		}
-		
-		
-		$this->loggerClassNama::info("BENCHMARK", $this->events);
+
+		$this->loggerClassNama::info("BENCHMARK: " . $duration, $this->events);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
