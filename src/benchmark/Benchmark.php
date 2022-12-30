@@ -77,7 +77,7 @@ class Benchmark
 				$basetime = $event->timestamp;
 			}
 			$context = [];
-			$context["Events"] = JsonSerializer::toJson($this->events);
+			$context["Events"] = $this->events;
 			$context["Duration"] = $this->events["#END"]->duration;
 			$this->loggerClassNama::info("BENCHMARK: " . $this->events["#END"]->duration, $context);
 		}
