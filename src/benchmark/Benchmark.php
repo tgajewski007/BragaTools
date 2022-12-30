@@ -61,8 +61,8 @@ class Benchmark
 			$event->duration = $duration;
 			$basetime = $event->timestamp;
 		}
-
-		$this->loggerClassNama::info("BENCHMARK: " . $duration, array_merge(["Duration" => $duration], $this->events));
+		$this->events["Duration"] = $duration;
+		$this->loggerClassNama::info("BENCHMARK: " . $duration, $this->events);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
