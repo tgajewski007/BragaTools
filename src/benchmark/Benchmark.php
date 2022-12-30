@@ -79,7 +79,6 @@ class Benchmark
 			$context = [];
 			$context["Events"] = $this->events;
 			$context["Duration"] = $this->events["#END"]->duration;
-			$context["_SERVER"] = $_SERVER;
 			$context["_REQUEST"] = $_REQUEST;
 			$this->loggerClassNama::info("BENCHMARK: " . $this->events["#END"]->duration, $context);
 		}
