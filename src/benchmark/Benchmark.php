@@ -36,7 +36,7 @@ class Benchmark
 			{
 				$this->loggerClassNama = new $loggerClassNama();
 			}
-			$this->events["#START"] = new Item("#START", JsonSerializer::toJson(["_SERVER" => $_SERVER, "_REQUEST" => $_REQUEST]));
+			$this->events["#START"] = new Item("#START");
 		}
 		catch(Throwable $e)
 		{
@@ -79,6 +79,8 @@ class Benchmark
 			$context = [];
 			$context["Events"] = $this->events;
 			$context["Duration"] = $this->events["#END"]->duration;
+			$context["_SERVER"] = $_SERVER;
+			$context["_REQUEST"] = $_REQUEST;
 			$this->loggerClassNama::info("BENCHMARK: " . $this->events["#END"]->duration, $context);
 		}
 		catch(Throwable $e)
