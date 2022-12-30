@@ -53,7 +53,7 @@ class Benchmark
 	public function __destruct()
 	{
 		$this->events["#END"] = new Item("#END");
-		$basetime = $this->events["##START"]->timestamp;
+		$basetime = $this->events["#START"]->timestamp;
 		foreach($this->events as $event)
 		{
 			$event->duration = $event->timestamp - $basetime;
