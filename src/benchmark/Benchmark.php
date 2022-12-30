@@ -53,17 +53,16 @@ class Benchmark
 	public function __destruct()
 	{
 		$this->events["#END"] = new Item("#END");
-		$duration = 0;
-		$basetime = current($this->events)->timestamp;
+		$basetime = $this->events["##START"]->timestamp;
 		foreach($this->events as $event)
 		{
-			$duration = $event->timestamp - $basetime;
-			$event->duration = $duration;
+			$event->duration = $event->timestamp - $basetime;
 			$basetime = $event->timestamp;
 		}
-		$context = $this->events;
-		$context["Duration"] = $duration;
-		$this->loggerClassNama::info("BENCHMARK: " . $duration, $context);
+		$context = [];
+		$context["Events"] = $this->events;
+		$context["Duration"] = $this->events["#END"]->duration;
+		$this->loggerClassNama::info("BENCHMARK: " . $this->events["#END"]->duration, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
