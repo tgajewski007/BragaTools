@@ -74,7 +74,7 @@ class Benchmark
 			$basetime = current($this->events)->timestamp;
 			foreach($this->events as $event)
 			{
-				$event->duration = number_format($event->timestamp - $basetime, 6, ".", "");
+				$event->duration = number_format($event->timestamp - $basetime, 9, ".", "");
 				$basetime = $event->timestamp;
 			}
 			$context = [];
