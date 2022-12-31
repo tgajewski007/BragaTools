@@ -13,6 +13,8 @@ use Throwable;
 class Benchmark
 {
 	// -----------------------------------------------------------------------------------------------------------------
+	private const END_INDEX = 9999999;
+	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var Item[]
 	 */
@@ -36,7 +38,7 @@ class Benchmark
 			{
 				$this->loggerClassNama = new $loggerClassNama();
 			}
-			$this->events["#START"] = new Item("#START");
+			$this->events[] = new Item("#START");
 		}
 		catch(Throwable $e)
 		{
@@ -56,8 +58,7 @@ class Benchmark
 	{
 		try
 		{
-			$index = toTag($mark) . "_" . strtoupper(getRandomStringLetterOnly(5));
-			self::$instance->events[$index] = new Item($mark, $context);
+			self::$instance->events[] = new Item($mark, $context);
 		}
 		catch(Throwable $e)
 		{
@@ -69,7 +70,7 @@ class Benchmark
 	{
 		try
 		{
-			$this->events["#END"] = new Item("#END");
+			$this->events[self::END_INDEX] = new Item("#END");
 			$basetime = $this->events["#START"]->timestamp;
 			foreach($this->events as $event)
 			{
@@ -77,10 +78,10 @@ class Benchmark
 				$basetime = $event->timestamp;
 			}
 			$context = [];
-			$context["Events"] = $this->events;
-			$context["Duration"] = $this->events["#END"]->duration;
-			$context["_REQUEST"] = $_REQUEST;
-			$this->loggerClassNama::info("BENCHMARK: " . $this->events["#END"]->duration, $context);
+			$context["Events"] = JsonSerializer::toJson($this->events);
+			$context["Duration"] = $this->events[self::END_INDEX]->duration;
+			$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
+			$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->duration, $context);
 		}
 		catch(Throwable $e)
 		{
