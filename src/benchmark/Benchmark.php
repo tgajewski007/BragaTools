@@ -71,7 +71,7 @@ class Benchmark
 		try
 		{
 			$this->events[self::END_INDEX] = new Item("#END");
-			$basetime = $this->events["#START"]->timestamp;
+			$basetime = current($this->events)->timestamp;
 			foreach($this->events as $event)
 			{
 				$event->duration = $event->timestamp - $basetime;
