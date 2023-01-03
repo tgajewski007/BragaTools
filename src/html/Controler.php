@@ -45,7 +45,6 @@ abstract class Controler extends BaseControler
 				header("Content-type: text/xml; charset-utf-8");
 				self::sendResponse($this->r->getAjax());
 			}
-			exit();
 		}
 		else
 		{
