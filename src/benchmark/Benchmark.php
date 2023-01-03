@@ -71,11 +71,13 @@ class Benchmark
 		try
 		{
 			$this->events[self::END_INDEX] = new Item("#END");
-			$basetime = current($this->events)->timestamp;
+			$startTime = current($this->events)->timestamp;
+			$baseTime = current($this->events)->timestamp;
 			foreach($this->events as $event)
 			{
-				$event->duration = number_format($event->timestamp - $basetime, 9, ".", "");
-				$basetime = $event->timestamp;
+				$event->duration = number_format($event->timestamp - $baseTime, 9, ".", "");
+				$event->progres = number_format($event->timestamp - $startTime, 9, ".", "");
+				$baseTime = $event->timestamp;
 			}
 			$context = [];
 			$context["Events"] = JsonSerializer::toJson($this->events);
