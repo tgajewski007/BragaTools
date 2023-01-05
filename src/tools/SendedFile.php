@@ -6,6 +6,7 @@ use braga\tools\html\Controler;
  * Created on 30-05-2011 16:33:52
  * @author Tomasz.Gajewski
  * @package error prefix EN:128
+ * @deprecated use BinaryController
  */
 class SendedFile
 {
