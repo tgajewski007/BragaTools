@@ -360,7 +360,7 @@ function getMonthName($nr)
 	$m[10] = "Październik";
 	$m[11] = "Listopad";
 	$m[12] = "Grudzień";
-	return $m[$nr];
+	return $m[intval($nr)];
 }
 // =============================================================================
 function groupCollection(Iterator $collection, $groupFunctionName)
