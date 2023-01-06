@@ -17,21 +17,14 @@
   "license": "MIT",
   "require": {
     "braga/graylogger": "~2.0",
-    "lcobucci/jwt": "~4.2",
+    "lcobucci/jwt": "~4.3",
     "codercat/jwk-to-pem": "~1.1",
-    "netresearch/jsonmapper": "~4.0",
+    "netresearch/jsonmapper": "~4.1",
     "guzzlehttp/guzzle": "~7.5",
     "php": ">=8.1",
     "ext-json": "*",
     "ext-calendar": "*",
     "ext-mbstring": "*"
   },
-  "minimum-stability": "stable",
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/tgajewski007/BragaTools.git",
-      "name": "Main"
-    }
-  ]
+  "minimum-stability": "stable"
 }

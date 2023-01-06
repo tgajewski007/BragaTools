@@ -1,5 +1,6 @@
 <?php
 namespace braga\tools\api\types\type;
+use Throwable;
 /**
  * Created on 22 lip 2018 16:46:50
  * error prefix
@@ -10,10 +11,14 @@ namespace braga\tools\api\types\type;
 class ErrorType
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	public $number;
-	public $description;
+	public ?int $number = null;
+	public ?string $description = null;
 	// -----------------------------------------------------------------------------------------------------------------
-	public static function convertFromThrowrable(\Throwable $e)
+	/**
+	 * @param Throwable $e
+	 * @return ErrorType
+	 */
+	public static function convertFromThrowrable(Throwable $e): ErrorType
 	{
 		$retval = new self();
 		$retval->number = $e->getCode();

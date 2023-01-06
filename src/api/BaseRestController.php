@@ -1,6 +1,7 @@
 <?php
 namespace braga\tools\api;
 use braga\tools\api\types\response\ErrorResponseType;
+use braga\tools\api\types\type\ContentType;
 use braga\tools\api\types\type\ErrorType;
 use braga\tools\html\Controler;
 use braga\graylogger\BaseLogger;
@@ -36,7 +37,7 @@ abstract class BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	abstract public function doAction();
 	// -----------------------------------------------------------------------------------------------------------------
-	protected function sendStandardsHeaders()
+	protected function sendStandardsHeaders(ContentType $contentType)
 	{
 		$filename = null;
 		$linenum = null;
@@ -45,11 +46,21 @@ abstract class BaseRestController
 			$this->loggerClassNama::debug("BT:10101 Headers sent f:" . $filename . " l:" . $linenum);
 		}
 		header("Expires: " . date("c"));
-		header("Cache-Control: no-transform; max-age=0; proxy-revalidate ");
-		header("Cache-Control: no-cache; must-revalidate; no-store; post-check=0; pre-check=0 ");
+		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: no-cache");
-		header('Content-Type: application/json; charset=UTF-8');
-		header("Access-Control-Allow-Origin: *", true);
+		header("Content-Type: " . $contentType->value);
+		header("Access-Control-Allow-Origin: *");
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param mixed $retval
+	 * @param string $responseCode
+	 * @return void
+	 * @deprecated  use sendJson
+	 */
+	protected function send($retval, $responseCode = self::HTTP_STATUS_200_OK): void
+	{
+		$this->sendJson($retval, $responseCode);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -57,12 +68,53 @@ abstract class BaseRestController
 	 * @param string $responseCode
 	 * @return void
 	 */
-	protected function send($retval, $responseCode = self::HTTP_STATUS_200_OK): void
+	protected function sendPlainText($retval, $responseCode = self::HTTP_STATUS_200_OK): void
 	{
-		$this->sendStandardsHeaders();
+		$this->sendBasic($retval, $responseCode, ContentType::PLAIN_TEXT);
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param mixed $retval
+	 * @param string $responseCode
+	 * @return void
+	 */
+	protected function sendJson($retval, $responseCode = self::HTTP_STATUS_200_OK): void
+	{
 		$retval = json_encode($retval);
+		$this->sendBasic($retval, $responseCode, ContentType::JSON);
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param mixed $retval
+	 * @param string $responseCode
+	 * @return void
+	 */
+	protected function sendXml($retval, $responseCode = self::HTTP_STATUS_200_OK): void
+	{
+		$this->sendBasic($retval, $responseCode, ContentType::XML);
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param mixed $retval
+	 * @param string $responseCode
+	 * @return void
+	 */
+	protected function sendHtml($retval, $responseCode = self::HTTP_STATUS_200_OK): void
+	{
+		$this->sendBasic($retval, $responseCode, ContentType::HTML);
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $retval
+	 * @param string $responseCode
+	 * @param ContentType $contentType
+	 * @return void
+	 */
+	protected function sendBasic($retval, $responseCode = self::HTTP_STATUS_200_OK, ContentType $contentType = ContentType::HTML): void
+	{
+		$this->sendStandardsHeaders($contentType);
 		header("HTTP/1.0 " . $responseCode);
-		Controler::sendResponse($retval);
+		self::sendResponse($retval);
 		$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
 			"body" => $retval,
 			"status" => $responseCode));
@@ -74,27 +126,19 @@ abstract class BaseRestController
 	 */
 	protected function sendMethodNotAllowed($responseCode = self::HTTP_STATUS_405_METHOD_NOT_ALLOWED): void
 	{
-		$this->sendStandardsHeaders();
-		header("HTTP/1.0 " . $responseCode);
-		Controler::sendResponse(null);
-		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
-			"status" => $responseCode));
+		$this->sendBasic(null, $responseCode, ContentType::JSON);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param ErrorResponseType $retval
 	 * @param string $responseCode
 	 * @return void
+	 * @deprecated use sendError
 	 */
 	protected function forwardError(ErrorResponseType $retval, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
 	{
-		$this->sendStandardsHeaders();
-		header("HTTP/1.0 " . $responseCode);
 		$retval = json_encode($retval);
-		Controler::sendResponse($retval);
-		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
-			"body" => $retval,
-			"status" => $responseCode));
+		$this->sendBasic($retval, $responseCode, ContentType::JSON);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -105,17 +149,9 @@ abstract class BaseRestController
 	protected function sendError(\Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
 	{
 		$retval = new ErrorResponseType();
-		$retval->error = array(
-			ErrorType::convertFromThrowrable($e));
+		$retval->error[] = ErrorType::convertFromThrowrable($e);
 		$retval = json_encode($retval);
-
-		$this->sendStandardsHeaders();
-		header("HTTP/1.0 " . $responseCode);
-		Controler::sendResponse($retval);
-		$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Response", array(
-			"body" => $retval,
-			"trace" => $e->getTraceAsString(),
-			"status" => $responseCode));
+		$this->sendBasic($retval, $responseCode, ContentType::JSON);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -197,6 +233,18 @@ abstract class BaseRestController
 				"obj" => JsonSerializer::toJson($retval)));
 		}
 		return $retval;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	public static function sendResponse($response)
+	{
+		ignore_user_abort(true);
+		set_time_limit(0);
+		ob_start();
+		echo $response;
+		header('Connection: close');
+		header('Content-Length: ' . ob_get_length());
+		// ob_end_flush();
+		ob_flush();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }

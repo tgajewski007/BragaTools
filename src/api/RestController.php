@@ -1,5 +1,7 @@
 <?php
 namespace braga\tools\api;
+use braga\tools\benchmark\Benchmark;
+use braga\tools\tools\JsonSerializer;
 class RestController extends BaseRestController
 {
 	// -----------------------------------------------------------------------------------------------------------------
@@ -28,6 +30,7 @@ class RestController extends BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	public function doAction()
 	{
+		Benchmark::add(__METHOD__);
 		$tmp = parse_url($_SERVER["REQUEST_URI"]);
 		$path = isset($tmp["path"]) ? $tmp["path"] : null;
 
@@ -49,7 +52,7 @@ class RestController extends BaseRestController
 
 					if(isset($tmp["query"]))
 					{
-						$paramQuery = null;
+						$paramQuery = [];
 						parse_str($tmp["query"], $paramQuery);
 						$param = array_merge($param, $paramQuery);
 					}
@@ -59,8 +62,7 @@ class RestController extends BaseRestController
 				}
 			}
 		}
-		$this->loggerClassNama::error(self::HTTP_STATUS_405_METHOD_NOT_ALLOWED, [
-						"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
+		$this->loggerClassNama::error(self::HTTP_STATUS_405_METHOD_NOT_ALLOWED, ["REQUEST_METHOD" => $_SERVER["REQUEST_METHOD"], "REQUEST_URI" => $_SERVER["REQUEST_URI"], "parsedUri" => JsonSerializer::toJson($this)]);
 		$this->sendMethodNotAllowed();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
