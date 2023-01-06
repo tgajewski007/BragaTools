@@ -56,7 +56,7 @@ class RestController extends BaseRestController
 						parse_str($tmp["query"], $paramQuery);
 						$param = array_merge($param, $paramQuery);
 					}
-					$this->loggerClassNama::info("Call: " . $f->method . " " . $f->urlRegExp);
+					$this->loggerClassNama::info("Call: " . $f->method . " " . $f->urlRegExp, ["params" => $param, "paramQuery" => $paramQuery, "REQUEST_METHOD" => $_SERVER["REQUEST_METHOD"], "REQUEST_URI" => $_SERVER["REQUEST_URI"], "parsedUri" => JsonSerializer::toJson($this)]);
 					$f->function->call($this, $param);
 					return;
 				}
