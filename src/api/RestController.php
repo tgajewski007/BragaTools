@@ -48,11 +48,10 @@ class RestController extends BaseRestController
 				$retval = preg_match_all($f->urlRegExp, $path, $matches);
 				if($retval)
 				{
+					$paramQuery = [];
 					$param = $this->cleanMatches($matches);
-
 					if(isset($tmp["query"]))
 					{
-						$paramQuery = [];
 						parse_str($tmp["query"], $paramQuery);
 						$param = array_merge($param, $paramQuery);
 					}
