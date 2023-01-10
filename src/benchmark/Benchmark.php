@@ -13,6 +13,7 @@ use Throwable;
 class Benchmark
 {
 	// -----------------------------------------------------------------------------------------------------------------
+	private const START_INDEX = 0;
 	private const END_INDEX = 9999999;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -38,7 +39,7 @@ class Benchmark
 			{
 				$this->loggerClassNama = new $loggerClassNama();
 			}
-			$this->events[] = new Item("#START");
+			$this->events[self::START_INDEX] = new Item("#START");
 		}
 		catch(Throwable $e)
 		{
@@ -71,8 +72,9 @@ class Benchmark
 		try
 		{
 			$this->events[self::END_INDEX] = new Item("#END");
-			$startTime = current($this->events)->timestamp;
-			$baseTime = current($this->events)->timestamp;
+			$firstEvent = $this->events[self::START_INDEX];
+			$startTime = $firstEvent->timestamp;
+			$baseTime = $firstEvent->timestamp;
 			foreach($this->events as $event)
 			{
 				$event->duration = number_format($event->timestamp - $baseTime, 9, ".", "");
