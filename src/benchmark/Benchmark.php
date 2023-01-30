@@ -85,7 +85,7 @@ class Benchmark
 			$context["Events"] = JsonSerializer::toJson($this->events);
 			$context["Duration"] = $this->events[self::END_INDEX]->duration;
 			$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
-			$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->duration, $context);
+			$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->progres, $context);
 		}
 		catch(Throwable $e)
 		{
