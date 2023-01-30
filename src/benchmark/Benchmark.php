@@ -44,7 +44,7 @@ class Benchmark
 			}
 			$this->events[self::START_INDEX] = new Item("#REQUEST_TIME");
 			$this->events[self::START_INDEX]->timestamp = $_SERVER["REQUEST_TIME_FLOAT"];
-			$this->events[self::INIT_INDEX] = new Item("#START");
+			$this->events[self::INIT_INDEX] = new Item("#INIT");
 		}
 		catch(Throwable $e)
 		{
