@@ -25,18 +25,20 @@ class Benchmark
 	 * @var BaseLogger
 	 */
 	protected $loggerClassNama = BaseLogger::class;
+	protected ?int $maxItem = null;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var Benchmark
 	 */
 	private static ?Benchmark $instance;
 	// -----------------------------------------------------------------------------------------------------------------
-	private function __construct($loggerClassNama = null)
+	private function __construct($loggerClassNama = null, $maxItem = 100)
 	{
 		try
 		{
 			if(!empty($loggerClassNama))
 			{
+				$this->maxItem = $maxItem;
 				$this->loggerClassNama = new $loggerClassNama();
 			}
 			$this->events[self::START_INDEX] = new Item("#START");
@@ -59,7 +61,10 @@ class Benchmark
 	{
 		try
 		{
-			self::$instance->events[] = new Item($mark, $context);
+			if(count(self::$instance->events) < self::$instance->maxItem)
+			{
+				self::$instance->events[] = new Item($mark, $context);
+			}
 		}
 		catch(Throwable $e)
 		{
