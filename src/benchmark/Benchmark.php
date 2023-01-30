@@ -14,6 +14,7 @@ class Benchmark
 {
 	// -----------------------------------------------------------------------------------------------------------------
 	private const START_INDEX = 0;
+	private const INIT_INDEX = 1;
 	private const END_INDEX = 99999999999;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -41,7 +42,9 @@ class Benchmark
 				$this->maxItem = $maxItem;
 				$this->loggerClassNama = new $loggerClassNama();
 			}
-			$this->events[self::START_INDEX] = new Item("#START");
+			$this->events[self::START_INDEX] = new Item("#REQUEST_TIME");
+			$this->events[self::START_INDEX]->timestamp = $_SERVER["REQUEST_TIME_FLOAT"];
+			$this->events[self::INIT_INDEX] = new Item("#START");
 		}
 		catch(Throwable $e)
 		{
