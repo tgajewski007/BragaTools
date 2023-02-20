@@ -33,9 +33,9 @@ class Message
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 *
-	 * @var Message[]
+	 * @var Message[][]
 	 */
-	protected $dataMessage = array();
+	protected $dataMessage = [];
 	// -----------------------------------------------------------------------------------------------------------------
 	private function __construct()
 	{
@@ -115,11 +115,11 @@ class Message
 		}
 		else
 		{
-			return array();
+			return [];
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	static function import($text)
+	public static function import($text)
 	{
 		$retval = new Message();
 		$text = trim($text);

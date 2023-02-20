@@ -1,6 +1,6 @@
 <?php
 namespace braga\tools\tools;
-use braga\tools\html\BaseControler;
+use braga\tools\html\Controler;
 
 /**
  * Created on 17-10-2011 22:01:45
@@ -23,7 +23,7 @@ class PostChecker
 		self::$logger = $l;
 	}
 	// -------------------------------------------------------------------------
-	static function get($key)
+	public static function get($key)
 	{
 		if(empty(self::$instance))
 		{
@@ -39,12 +39,12 @@ class PostChecker
 		}
 	}
 	// -------------------------------------------------------------------------
-	static function set($key, $value)
+	public static function set($key, $value)
 	{
 		self::$instance[$key] = $value;
 	}
 	// -------------------------------------------------------------------------
-	public function checkPost(BaseControler $controler)
+	public function checkPost(Controler $controler)
 	{
 		$this->setInstance();
 		if(isset(self::$instance["js"]))
