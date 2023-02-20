@@ -13,7 +13,7 @@ abstract class HtmlComponent
 	// -------------------------------------------------------------------------
 	protected $content = null;
 	// -------------------------------------------------------------------------
-	abstract function out();
+	abstract public function out();
 	// -------------------------------------------------------------------------
 	public function setContent($content)
 	{
