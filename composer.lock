@@ -4,8 +4,43 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10ca3c688691a3e40661b7afabab10d2",
+    "content-hash": "b673b537c53daf30ffe1a3bddb8c7713",
     "packages": [
+        {
+            "name": "braga/enginerule",
+            "version": "1.0.38",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tgajewski007/BragaEngineRule.git",
+                "reference": "cb5bdb76bbe634e49f67a42609cf573e621159b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tgajewski007/BragaEngineRule/zipball/cb5bdb76bbe634e49f67a42609cf573e621159b5",
+                "reference": "cb5bdb76bbe634e49f67a42609cf573e621159b5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "braga\\enginerule\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "RuleEngine",
+            "support": {
+                "issues": "https://github.com/tgajewski007/BragaEngineRule/issues",
+                "source": "https://github.com/tgajewski007/BragaEngineRule/tree/1.0.38"
+            },
+            "time": "2020-10-24T12:04:04+00:00"
+        },
         {
             "name": "braga/graylogger",
             "version": "2.0.5",
