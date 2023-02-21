@@ -11,10 +11,10 @@ use braga\enginerule\iface\Testable;
 abstract class RuledCallback implements ProcessCallback
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	protected Testable $testable;
-	protected $baseObject;
+	protected ?Testable $testable = null;
+	protected $baseObject = null;
 	// -----------------------------------------------------------------------------------------------------------------
-	public function __construct(Testable $testable, $baseObject)
+	public function init(Testable $testable, $baseObject)
 	{
 		$this->testable = $testable;
 		$this->baseObject = $baseObject;
