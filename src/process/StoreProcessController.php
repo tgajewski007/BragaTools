@@ -2,23 +2,24 @@
 
 namespace braga\tools\process;
 
-use braga\tools\process\exception\ProcessFailExecutionException;
 /**
- * Created 21.02.2023 18:59
+ * Created 23.02.2023 13:02
  * error prefix
  * @autor Tomasz Gajewski
  */
-abstract class SuccessCallback implements ProcessCallback
+trait StoreProcessController
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	public function check(): bool
+	protected ?ProcessController $processController;
+	// -----------------------------------------------------------------------------------------------------------------
+	protected function setProcessController(ProcessController $processController)
 	{
-		return true;
+		$this->processController = $processController;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	final public function fail()
+	protected function getProcessController(): ProcessController
 	{
-		throw new ProcessFailExecutionException("BR:60001 Funkcja fail nie jest obsługiwana", 60001);
+		return $this->processController;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }

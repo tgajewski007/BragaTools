@@ -2,6 +2,7 @@
 
 namespace braga\tools\process;
 
+use braga\tools\process\exception\ProcessException;
 /**
  * Created 21.02.2023 18:37
  * error prefix
@@ -10,10 +11,18 @@ namespace braga\tools\process;
 interface ProcessCallback
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	public function success();
+	/**
+	 * @param ProcessController $processController
+	 * @return void
+	 * @throws ProcessException
+	 */
+	public function call(ProcessController $processController): void;
 	// -----------------------------------------------------------------------------------------------------------------
-	public function fail();
-	// -----------------------------------------------------------------------------------------------------------------
-	public function check(): bool;
+	/**
+	 * @param ProcessException $throwable
+	 * @param ProcessController $processController
+	 * @return void
+	 */
+	public function fail(ProcessException $throwable, ProcessController $processController): void;
 	// -----------------------------------------------------------------------------------------------------------------
 }

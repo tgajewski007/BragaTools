@@ -2,6 +2,7 @@
 
 namespace braga\tools\process;
 
+use braga\tools\process\exception\ProcessException;
 /**
  * Created 21.02.2023 18:36
  * error prefix
@@ -26,13 +27,14 @@ class ProcessController
 		{
 			foreach($this->callbackAction[$event] as $callback)
 			{
-				if($callback->check())
+				try
 				{
-					$callback->success();
+					$callback->call($this);
 				}
-				else
+				catch(ProcessException $e)
 				{
-					$callback->fail();
+					ProcessLogger::exception($e);
+					$callback->fail($e, $this);
 				}
 			}
 		}
