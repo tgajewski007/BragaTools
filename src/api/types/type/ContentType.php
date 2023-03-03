@@ -16,4 +16,5 @@ enum ContentType: string
 	case EXCEL = "application/vnd.ms-excel";
 	case XML = "text/xml; charset-utf-8";
 	case DOWNLOAD = "application/x-download";
+	case MULTIPART_FORM_DATA = "multipart/form-data";
 }
