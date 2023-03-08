@@ -16,13 +16,13 @@ interface ProcessCallback
 	 * @return void
 	 * @throws ProcessException
 	 */
-	public function call(ProcessController $processController): void;
+	public function call(ProcessController $processController, mixed ...$arg): void;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param ProcessException $throwable
 	 * @param ProcessController $processController
 	 * @return void
 	 */
-	public function fail(ProcessException $throwable, ProcessController $processController): void;
+	public function fail(ProcessException $throwable, ProcessController $processController, mixed ...$arg): void;
 	// -----------------------------------------------------------------------------------------------------------------
 }

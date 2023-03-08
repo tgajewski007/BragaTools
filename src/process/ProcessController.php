@@ -21,7 +21,7 @@ class ProcessController
 		$this->callbackAction[$event][] = $callback;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public function fireEvent(string $event)
+	public function fireEvent(string $event, mixed ...$arg)
 	{
 		if(isset($this->callbackAction[$event]))
 		{
@@ -29,12 +29,12 @@ class ProcessController
 			{
 				try
 				{
-					$callback->call($this);
+					$callback->call($this, ...$arg);
 				}
 				catch(ProcessException $e)
 				{
 					ProcessLogger::exception($e);
-					$callback->fail($e, $this);
+					$callback->fail($e, $this, ...$arg);
 				}
 			}
 		}
