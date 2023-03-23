@@ -64,10 +64,7 @@ class Benchmark
 	{
 		try
 		{
-			if(count(self::$instance->events) < self::$instance->maxItem)
-			{
-				self::$instance->events[] = new Item($mark, $context);
-			}
+			self::$instance->events[] = new Item($mark, $context);
 		}
 		catch(Throwable $e)
 		{
@@ -83,17 +80,29 @@ class Benchmark
 			$firstEvent = $this->events[self::START_INDEX];
 			$startTime = $firstEvent->timestamp;
 			$baseTime = $firstEvent->timestamp;
+			$i = 0;
+			$events = [];
 			foreach($this->events as $event)
 			{
 				$event->duration = number_format($event->timestamp - $baseTime, 9, ".", "");
 				$event->progres = number_format($event->timestamp - $startTime, 9, ".", "");
 				$baseTime = $event->timestamp;
+
+				$i++;
+				$events[] = $event;
+
+				if($i >= $this->maxItem)
+				{
+					$context = [];
+					$context["Events"] = JsonSerializer::toJson($events);
+					$context["Progres"] = floatval($this->events[self::END_INDEX]->progres);
+					$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
+					$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->progres, $context);
+
+					$i = 0;
+					$events = [];
+				}
 			}
-			$context = [];
-			$context["Events"] = JsonSerializer::toJson($this->events);
-			$context["Duration"] = floatval($this->events[self::END_INDEX]->progres);
-			$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
-			$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->progres, $context);
 		}
 		catch(Throwable $e)
 		{
