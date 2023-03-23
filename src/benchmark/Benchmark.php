@@ -82,14 +82,14 @@ class Benchmark
 			$baseTime = $firstEvent->timestamp;
 			$i = 0;
 			$events = [];
-			foreach($this->events as $event)
+			foreach($this->events as $key => $event)
 			{
 				$event->duration = number_format($event->timestamp - $baseTime, 9, ".", "");
 				$event->progres = number_format($event->timestamp - $startTime, 9, ".", "");
 				$baseTime = $event->timestamp;
 
 				$i++;
-				$events[] = $event;
+				$events[$key] = $event;
 
 				if($i >= $this->maxItem)
 				{
