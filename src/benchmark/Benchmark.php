@@ -80,6 +80,8 @@ class Benchmark
 			$firstEvent = $this->events[self::START_INDEX];
 			$startTime = $firstEvent->timestamp;
 			$baseTime = $firstEvent->timestamp;
+			$this->events[self::END_INDEX]->progres = number_format($this->events[self::END_INDEX]->timestamp - $startTime, 9, ".", "");
+
 			$i = 0;
 			$events = [];
 			foreach($this->events as $key => $event)
@@ -102,6 +104,14 @@ class Benchmark
 					$i = 0;
 					$events = [];
 				}
+			}
+			if(count($events) > 0)
+			{
+				$context = [];
+				$context["Events"] = JsonSerializer::toJson($events);
+				$context["Progres"] = floatval($this->events[self::END_INDEX]->progres);
+				$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
+				$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->progres, $context);
 			}
 		}
 		catch(Throwable $e)
