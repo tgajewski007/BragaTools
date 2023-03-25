@@ -27,6 +27,7 @@ class ProcessController
 		{
 			foreach($this->callbackAction[$event] as $callback)
 			{
+				ProcessLogger::debug("FireEvent: " . $event, [ "event" => $event, "classname" => get_class($callback) ]);
 				try
 				{
 					$callback->call($this, ...$arg);
