@@ -49,7 +49,10 @@ abstract class BaseRestController
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: no-cache");
 		header("Content-Type: " . $contentType->value);
+		// send all CORS
 		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Methods: *");
+		header("Access-Control-Allow-Headers: *");
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -116,8 +119,8 @@ abstract class BaseRestController
 		header("HTTP/1.0 " . $responseCode);
 		self::sendResponse($retval);
 		$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
-			"body" => $retval,
-			"status" => $responseCode));
+			"body"   => $retval,
+			"status" => $responseCode ));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -161,7 +164,7 @@ abstract class BaseRestController
 	{
 		$retval = file_get_contents('php://input');
 		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " getBody", array(
-			"body" => $retval));
+			"body" => $retval ));
 
 		return $retval;
 	}
@@ -188,7 +191,7 @@ abstract class BaseRestController
 				if(empty($retval))
 				{
 					$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Błąd parsowania", array(
-						"string" => $jsonString));
+						"string" => $jsonString ));
 					throw new \Exception("BT:10102 Błąd parsowania danych wejściowych");
 				}
 			}
@@ -206,8 +209,8 @@ abstract class BaseRestController
 		$jsonString = $this->getBody();
 		$retval = JsonSerializer::fromJson($jsonString, $className);
 		$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyObj", array(
-			"obj" => JsonSerializer::toJson($retval),
-			"className" => get_class($retval)));
+			"obj"       => JsonSerializer::toJson($retval),
+			"className" => get_class($retval) ));
 
 		return $retval;
 	}
@@ -224,13 +227,13 @@ abstract class BaseRestController
 		if(count($retval) > 0)
 		{
 			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
-				"obj" => JsonSerializer::toJson($retval),
-				"className" => get_class(current($retval))));
+				"obj"       => JsonSerializer::toJson($retval),
+				"className" => get_class(current($retval)) ));
 		}
 		else
 		{
 			$this->loggerClassNama::info($_SERVER["REQUEST_URI"] . " bodyArray", array(
-				"obj" => JsonSerializer::toJson($retval)));
+				"obj" => JsonSerializer::toJson($retval) ));
 		}
 		return $retval;
 	}
