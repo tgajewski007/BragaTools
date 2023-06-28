@@ -102,7 +102,7 @@ function getRandomString($dlugosc)
 // =============================================================================
 function toTag($string)
 {
-	$string = str_replace(" ", "_", $string);
+	$string = str_replace(" ", "_", $string ?? "");
 	$string = plCharset($string);
 	return strtoupper($string);
 }
@@ -153,7 +153,7 @@ function plCharset($string)
 		'%',
 		'”',
 		'„',
-		'…');
+		'…' );
 	$miedzyn = array(
 		'-',
 		'-',
@@ -195,7 +195,7 @@ function plCharset($string)
 		'',
 		'',
 		'',
-		'');
+		'' );
 	$string = str_replace($polskie, $miedzyn, $string);
 
 	// usuń wszytko co jest niedozwolonym znakiem
@@ -205,7 +205,7 @@ function plCharset($string)
 	$string = preg_replace('/[\-]+/', '-', $string);
 
 	// zredukuj liczbę podkreśleń do jednego obok siebie
-	$string = preg_replace('/[\_]+/', '_', $string);
+	$string = preg_replace('/[_]+/', '_', $string);
 
 	// usuwamy możliwe myślniki na początku i końcu
 	$string = trim($string, '-');
@@ -287,7 +287,7 @@ function formatBytes($bytes)
 			'B',
 			'kiB',
 			'MiB',
-			'GiB');
+			'GiB' );
 
 		if(array_key_exists($unit, $units) === true)
 		{
@@ -370,7 +370,7 @@ function groupCollection(Iterator $collection, $groupFunctionName)
 	{
 		$groupKey = call_user_func(array(
 			$value,
-			$groupFunctionName));
+			$groupFunctionName ));
 		$retval[$groupKey][$key] = $value;
 	}
 	return $retval;
@@ -393,7 +393,7 @@ function CheckPESEL($str)
 		7,
 		9,
 		1,
-		3);
+		3 );
 	$intSum = 0;
 	for($i = 0; $i < 10; $i++)
 	{
@@ -481,7 +481,7 @@ function checkNIP($str)
 		4,
 		5,
 		6,
-		7);
+		7 );
 	$intSum = 0;
 	for($i = 0; $i < 9; $i++)
 	{
@@ -514,7 +514,7 @@ function checkREGON($str)
 			4,
 			5,
 			6,
-			7);
+			7 );
 		$intSum = 0;
 		for($i = 0; $i < 8; $i++)
 		{
@@ -543,7 +543,7 @@ function checkREGON($str)
 			1,
 			2,
 			4,
-			8);
+			8 );
 		$intSum = 0;
 		for($i = 0; $i < 13; $i++)
 		{
@@ -572,7 +572,7 @@ function sizeFileFormat($bytes)
 			'B',
 			'kiB',
 			'MiB',
-			'GiB');
+			'GiB' );
 
 		if(array_key_exists($unit, $units) === true)
 		{
@@ -582,9 +582,14 @@ function sizeFileFormat($bytes)
 	return $bytes;
 }
 // =============================================================================
-function getHashPass($pass, $idUzytkownik = null)
+/**
+ * @param $pass
+ * @param $idUzytkownik
+ * @return string
+ */
+function getHashPass($pass, $idUzytkownik = null, $hashAlorytm = "sha512")
 {
-	return hash(HASH_ALGORYTM, $pass . $idUzytkownik);
+	return hash($hashAlorytm, $pass . $idUzytkownik);
 }
 // =============================================================================
 function formatKodPocztowy($kod)
@@ -626,7 +631,7 @@ function isMobile($mobile)
 				73,
 				78,
 				79,
-				88);
+				88 );
 			if(in_array($tmp, $prefixs))
 			{
 				return true;
@@ -691,7 +696,7 @@ function isLandingPhoneNumber($number)
 			89,
 			91,
 			94,
-			95);
+			95 );
 		if(in_array($tmp, $prefixs))
 		{
 			return true;
@@ -748,7 +753,7 @@ function roundFloor($number, $precision = 2, $separator = '.')
 		}
 		$ceil_number = array(
 			$numberpart[0],
-			$numberpart[1]);
+			$numberpart[1] );
 		return (float)implode($separator, $ceil_number);
 	}
 	else
