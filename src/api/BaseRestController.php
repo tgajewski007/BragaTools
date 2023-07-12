@@ -23,8 +23,13 @@ abstract class BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	const HTTP_STATUS_200_OK = "200 OK";
 	const HTTP_STATUS_202_ACCEPTED = "202 Accepted";
+	/**
+	 * @deprecated
+	 */
 	const HTTP_STATUS_402_BUSINES_ERROR = "422 Busines Error";
 	const HTTP_STATUS_405_METHOD_NOT_ALLOWED = "405 Method Not Allowed";
+	const HTTP_STATUS_406_NOT_ACCEPTABLE = "406 Not Acceptable";
+	const HTTP_STATUS_422_BUSINES_ERROR = "422 Busines Error";
 	const HTTP_STATUS_500_INTERNAL_ERROR = "500 Error";
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
