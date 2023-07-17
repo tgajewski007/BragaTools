@@ -251,8 +251,8 @@ abstract class BaseRestController
 		echo $response;
 		header('Connection: close');
 		header('Content-Length: ' . ob_get_length());
-		// ob_end_flush();
-		ob_flush();
+		ob_end_flush();
+		flush();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
