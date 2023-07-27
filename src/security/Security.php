@@ -137,7 +137,7 @@ class Security
 			catch(RequiredConstraintsViolated $e)
 			{
 				BaseLogger::exception($e, Level::Critical, [
-					"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT)]);
+					"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
 				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
 			}
 			catch(\Throwable $e)
@@ -209,7 +209,7 @@ class Security
 		}
 		BaseLogger::debug("Brak nagłówka Authorization", [
 			"headers" => json_encode(apache_request_headers(), JSON_PRETTY_PRINT),
-			"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT)]);
+			"_SERVER" => json_encode($_SERVER, JSON_PRETTY_PRINT) ]);
 		throw new AuthenticationExcepion("BR:91006 Brak nagłówka Authorization", 91006);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
@@ -226,28 +226,28 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param array ...$rolesName
+	 * @param array ...$requiedRoles
 	 * @throws AuthorizationException
 	 */
-	public function authorize(array ...$rolesName)
+	public function authorize(array ...$requiedRoles)
 	{
 		$realmAccess = $this->jwt->claims()->get("resource_access");
 		if(!empty($this->config->getClientName()))
 		{
 			if(isset($realmAccess[$this->config->getClientName()]))
 			{
-				$rolesArray = $realmAccess[$this->config->getClientName()]["roles"];
+				$listaPosiadanychRol = $realmAccess[$this->config->getClientName()]["roles"];
 				$check = true;
-				foreach($rolesName as $groupAndRoles)
+				foreach($requiedRoles as $groupWithMinOneRoleRequried)
 				{
-					foreach($groupAndRoles as $roleName)
+					$orCheck = false;
+					foreach($groupWithMinOneRoleRequried as $roleName)
 					{
 						if(empty($roleName))
 						{
 							return;
 						}
-						$orCheck = false;
-						if(array_search($roleName, $rolesArray) !== false)
+						if(array_search($roleName, $listaPosiadanychRol) !== false)
 						{
 							$orCheck = $orCheck || true;
 						}
