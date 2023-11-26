@@ -31,6 +31,7 @@ abstract class BaseRestController
 	const HTTP_STATUS_406_NOT_ACCEPTABLE = "406 Not Acceptable";
 	const HTTP_STATUS_422_BUSINES_ERROR = "422 Busines Error";
 	const HTTP_STATUS_500_INTERNAL_ERROR = "500 Error";
+	const HTTP_STATUS_403_NOT_AUTHORIZED = "403 Not Authorized";
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $loggerClassNama
