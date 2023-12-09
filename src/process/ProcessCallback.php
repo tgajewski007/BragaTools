@@ -2,6 +2,7 @@
 
 namespace braga\tools\process;
 
+use braga\tools\process\exception\CantProcessEventException;
 use braga\tools\process\exception\ProcessException;
 /**
  * Created 21.02.2023 18:37
@@ -24,5 +25,12 @@ interface ProcessCallback
 	 * @return void
 	 */
 	public function fail(ProcessException $throwable, ProcessController $processController, mixed ...$arg): void;
+	// -----------------------------------------------------------------------------------------------------------------
+	public function onCantProcessEvent(CantProcessEventException $throwable, ProcessController $processController, mixed ...$arg): void;
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return class-string[]
+	 */
+	public function getCallbackDependecy(): array;
 	// -----------------------------------------------------------------------------------------------------------------
 }
