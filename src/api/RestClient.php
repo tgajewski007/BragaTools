@@ -22,6 +22,11 @@ abstract class RestClient
 	protected Client $client;
 	protected ?ResponseInterface $response = null;
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $baseUrl
+	 * @param BaseLogger $loggerClassNama
+	 * @param string $responseErrorClassNama
+	 */
 	public function __construct(protected string $baseUrl, protected string $loggerClassNama = BaseLogger::class, protected string $responseErrorClassNama = ErrorResponseType::class)
 	{
 		$this->client = new Client();
