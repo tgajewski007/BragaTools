@@ -25,9 +25,8 @@ abstract class RestClient
 	/**
 	 * @param string $baseUrl
 	 * @param BaseLogger $loggerClassNama
-	 * @param string $responseErrorClassNama
 	 */
-	public function __construct(protected string $baseUrl, protected string $loggerClassNama = BaseLogger::class, protected string $responseErrorClassNama = ErrorResponseType::class)
+	public function __construct(protected string $baseUrl, protected string $loggerClassNama = BaseLogger::class)
 	{
 		$this->client = new Client();
 	}
@@ -224,13 +223,13 @@ abstract class RestClient
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	private function throwBusinesException($content)
+	protected function throwBusinesException($responseContent)
 	{
-		$resError = JsonSerializer::fromJson($content, ErrorResponseType::class);
+		$resError = JsonSerializer::fromJson($responseContent, ErrorResponseType::class);
 		if(count($resError->error) > 0)
 		{
 			$err = reset($resError->error);
-			throw new BusinesException($err->number . " " . $err->description);
+			throw new BusinesException($err->number . " " . $err->description, intval(preg_replace('/[^0-9]/', '', $err->number)));
 		}
 		else
 		{
