@@ -32,7 +32,7 @@ abstract class RestClient
 		$this->client = new Client();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	abstract protected function getAuthHeaders();
+	abstract protected function getHeaders();
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $url
@@ -42,7 +42,7 @@ abstract class RestClient
 	protected function post($url, $body)
 	{
 		$options = array();
-		$options["headers"] = $this->getAuthHeaders();
+		$options["headers"] = $this->getHeaders();
 		if(!is_null($body))
 		{
 			$options["body"] = JsonSerializer::toJson($body);
@@ -69,7 +69,7 @@ abstract class RestClient
 	protected function put($url, $body)
 	{
 		$options = array();
-		$options["headers"] = $this->getAuthHeaders();
+		$options["headers"] = $this->getHeaders();
 		if(!is_null($body))
 		{
 			$options["body"] = JsonSerializer::toJson($body);
@@ -95,7 +95,7 @@ abstract class RestClient
 	protected function get($url)
 	{
 		$options = array();
-		$options["headers"] = $this->getAuthHeaders();
+		$options["headers"] = $this->getHeaders();
 		$this->logRequest($url, null);
 		try
 		{
@@ -117,7 +117,7 @@ abstract class RestClient
 	protected function delete($url)
 	{
 		$options = array();
-		$options["headers"] = $this->getAuthHeaders();
+		$options["headers"] = $this->getHeaders();
 		$this->logRequest($url, null);
 		try
 		{
