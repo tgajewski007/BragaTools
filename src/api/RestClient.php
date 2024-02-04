@@ -45,7 +45,7 @@ abstract class RestClient
 		$options["headers"] = $this->getAuthHeaders();
 		if(!is_null($body))
 		{
-			$options["body"] = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+			$options["body"] = JsonSerializer::toJson($body);
 			$this->logRequest($url, $options["body"]);
 		}
 		try
@@ -72,7 +72,7 @@ abstract class RestClient
 		$options["headers"] = $this->getAuthHeaders();
 		if(!is_null($body))
 		{
-			$options["body"] = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+			$options["body"] = JsonSerializer::toJson($body);
 			$this->logRequest($url, $options["body"]);
 		}
 		try
@@ -178,9 +178,7 @@ abstract class RestClient
 		}
 		else
 		{
-			$resError = JsonSerializer::fromJson($json, $this->responseErrorClassNama);
-			$err = current($resError->error);
-			throw new BusinesException($err->description, intval($err->number));
+			$this->throwBusinesException($json);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
@@ -195,7 +193,7 @@ abstract class RestClient
 	protected function intepreteArray(ResponseInterface $res, $class, $successCode = 200)
 	{
 		$json = $res->getBody()->getContents();
-		if(empty($json))
+		if(empty($json) && !empty($class))
 		{
 			throw new BusinesException("BT:11002 Pusta odpowiedż: " . $res->getStatusCode() . " " . $res->getReasonPhrase(), 11002);
 		}
@@ -205,9 +203,38 @@ abstract class RestClient
 		}
 		else
 		{
-			$resError = JsonSerializer::fromJson($json, $this->responseErrorClassNama);
-			$err = current($resError->error);
+			$this->throwBusinesException($json);
+		}
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	protected function intepreteBin(ResponseInterface $res, $successCode = 200)
+	{
+		$json = $res->getBody()->getContents();
+		if(empty($json))
+		{
+			throw new BusinesException("BT:11003 Pusta odpowiedż: " . $res->getStatusCode() . " " . $res->getReasonPhrase(), 11003);
+		}
+		if($res->getStatusCode() == $successCode)
+		{
+			return $json;
+		}
+		else
+		{
+			$this->throwBusinesException($res->getBody()->getContents());
+		}
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	private function throwBusinesException($content)
+	{
+		$resError = JsonSerializer::fromJson($content, ErrorResponseType::class);
+		if(count($resError->error) > 0)
+		{
+			$err = reset($resError->error);
 			throw new BusinesException($err->number . " " . $err->description);
+		}
+		else
+		{
+			throw new BragaException("BT:11003 Błąd: brak szczegółów :(", 11003);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
