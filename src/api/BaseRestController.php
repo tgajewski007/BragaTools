@@ -1,10 +1,9 @@
 <?php
 namespace braga\tools\api;
+use braga\graylogger\BaseLogger;
 use braga\tools\api\types\response\ErrorResponseType;
 use braga\tools\api\types\type\ContentType;
 use braga\tools\api\types\type\ErrorType;
-use braga\tools\html\Controler;
-use braga\graylogger\BaseLogger;
 use braga\tools\tools\JsonSerializer;
 
 /**
@@ -124,9 +123,18 @@ abstract class BaseRestController
 		$this->sendStandardsHeaders($contentType);
 		header("HTTP/1.0 " . $responseCode);
 		self::sendResponse($retval);
-		$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
-			"body"   => $retval,
-			"status" => $responseCode ));
+		if($contentType != ContentType::DOWNLOAD)
+		{
+			$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
+				"body"   => $retval,
+				"status" => $responseCode ));
+		}
+		else
+		{
+			$this->loggerClassNama::notice($_SERVER["REQUEST_URI"] . " Response", array(
+				"body"   => base64_encode(substr($retval, 0, 1024)),
+				"status" => $responseCode ));
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
