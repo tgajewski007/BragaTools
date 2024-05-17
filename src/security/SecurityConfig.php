@@ -13,7 +13,7 @@ abstract class SecurityConfig
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\string
+	 * @return string
 	 */
 	public function getIssuedBy()
 	{
@@ -21,7 +21,7 @@ abstract class SecurityConfig
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \braga\tools\security\string $issuedBy
+	 * @param string $issuedBy
 	 */
 	public function setIssuedBy($issuedBy)
 	{
@@ -34,7 +34,7 @@ abstract class SecurityConfig
 	abstract public function getPublicKey($kid);
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\string
+	 * @return string
 	 */
 	public function getClientName()
 	{
@@ -42,7 +42,7 @@ abstract class SecurityConfig
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \braga\tools\security\string $clientName
+	 * @param string $clientName
 	 */
 	public function setClientName($clientName)
 	{

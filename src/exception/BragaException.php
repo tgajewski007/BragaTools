@@ -1,6 +1,7 @@
 <?php
 namespace braga\tools\exception;
-class BragaException extends \Exception
+use Exception;
+class BragaException extends Exception
 {
 }
 

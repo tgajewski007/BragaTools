@@ -13,7 +13,7 @@ class MessagePersistanceCookies implements IMessagePersistance
 	/**
 	 *
 	 * {@inheritdoc}
-	 * @see \braga\tools\tools\IMessagePersistance::store()
+	 * @see IMessagePersistance::store
 	 */
 	public function store($typ, $msg)
 	{
@@ -40,7 +40,7 @@ class MessagePersistanceCookies implements IMessagePersistance
 		{
 			$msg = CookieManager::get(CookieManager::MESSAGE_ALERT);
 			foreach($msg as $m)
-			/** @var Message $m */
+				/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_ALERT, $m);
 			}
@@ -51,7 +51,7 @@ class MessagePersistanceCookies implements IMessagePersistance
 		{
 			$msg = CookieManager::get(CookieManager::MESSAGE_INFO);
 			foreach($msg as $m)
-			/** @var Message $m */
+				/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_INFO, $m);
 			}
@@ -62,7 +62,7 @@ class MessagePersistanceCookies implements IMessagePersistance
 		{
 			$msg = CookieManager::get(CookieManager::MESSAGE_SQL);
 			foreach($msg as $m)
-			/** @var Message $m */
+				/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_SQL, $m);
 			}
@@ -73,7 +73,7 @@ class MessagePersistanceCookies implements IMessagePersistance
 		{
 			$msg = CookieManager::get(CookieManager::MESSAGE_WARNING);
 			foreach($msg as $m)
-			/** @var Message $m */
+				/** @var Message $m */
 			{
 				$message->save(Message::MESSAGE_WARNING, $m);
 			}

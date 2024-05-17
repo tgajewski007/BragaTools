@@ -1,8 +1,8 @@
 <?php
 namespace braga\tools\security;
-use CoderCat\JWKToPEM\JWKConverter;
 use braga\tools\exception\NoRecordFoundException;
 use braga\tools\tools\JsonSerializer;
+use CoderCat\JWKToPEM\JWKConverter;
 /**
  * @author tgaje
  * error prefix BR:916

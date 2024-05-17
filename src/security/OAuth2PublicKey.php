@@ -1,7 +1,7 @@
 <?php
 namespace braga\tools\security;
-use GuzzleHttp\Client;
 use braga\tools\exception\CantRetrivePublicKeyException;
+use GuzzleHttp\Client;
 trait OAuth2PublicKey
 {
 	private $publicKeysUrl = "/protocol/openid-connect/certs";

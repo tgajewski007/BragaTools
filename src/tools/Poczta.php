@@ -34,11 +34,13 @@ class Poczta
 	{
 		$headers = "From: " . $this->from->getFormatedAddress() . "\n";
 		// $headers .= "To: " . $to->getFormatedAddress() . "\n";
-		foreach($this->cc as $cc) /* @var $cc EmailAddress */
+		foreach($this->cc as $cc)
+			/* @var $cc EmailAddress */
 		{
 			$headers .= "CC: " . $cc->getFormatedAddress() . "\n";
 		}
-		foreach($this->bcc as $bcc)/* @var $bcc EmailAddress */
+		foreach($this->bcc as $bcc)
+			/* @var $bcc EmailAddress */
 		{
 			$headers .= "BCC: " . $bcc->getFormatedAddress() . "\n";
 		}

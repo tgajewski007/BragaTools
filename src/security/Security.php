@@ -1,5 +1,9 @@
 <?php
 namespace braga\tools\security;
+use braga\graylogger\BaseLogger;
+use braga\tools\exception\AuthenticationExcepion;
+use braga\tools\exception\AuthorizationException;
+use Exception;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -7,16 +11,13 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
-use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
-use Lcobucci\JWT\Validation\Validator;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
+use Lcobucci\JWT\Validation\Validator;
 use Monolog\Level;
-use Monolog\Logger;
-use braga\tools\exception\AuthenticationExcepion;
-use braga\tools\exception\AuthorizationException;
-use braga\graylogger\BaseLogger;
+use Throwable;
 /**
  * @author Toamsz Gajewski
  * error prefix BR:910
@@ -78,7 +79,7 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\User
+	 * @return User
 	 */
 	public function getUser()
 	{
@@ -101,7 +102,7 @@ class Security
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param Plain $token
-	 * @return \Lcobucci\JWT\Token\Plain
+	 * @return Plain
 	 * @throws AuthenticationExcepion
 	 */
 	protected function valdateJwtToken(Plain $token)
@@ -140,7 +141,7 @@ class Security
 					"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
 				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
 			}
-			catch(\Throwable $e)
+			catch(Throwable $e)
 			{
 				BaseLogger::exception($e);
 				throw new AuthenticationExcepion("BR:91009 Błąd veryfikacji tokenu", 91009);
@@ -154,7 +155,7 @@ class Security
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected function getTokenStringFromHeader()
 	{
@@ -173,7 +174,7 @@ class Security
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return string
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected function getTokenStringFromHttpHeader()
 	{
@@ -214,7 +215,7 @@ class Security
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @return \braga\tools\security\User
+	 * @return User
 	 */
 	public function authenticate()
 	{
@@ -268,7 +269,7 @@ class Security
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param array ...$roleName
-	 * @return \braga\tools\security\User
+	 * @return User
 	 */
 	public function check(?array ...$roleName)
 	{

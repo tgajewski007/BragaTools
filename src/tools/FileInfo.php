@@ -61,11 +61,11 @@ class FileInfo
 	protected function formatBytes($bytes, $precision = 1)
 	{
 		$units = array(
-						'B',
-						'KiB',
-						'MiB',
-						'GiB',
-						'TiB' );
+			'B',
+			'KiB',
+			'MiB',
+			'GiB',
+			'TiB' );
 
 		$bytes = max($bytes, 0);
 		$pow = floor(($bytes ? log($bytes) : 0) / log(1024));
@@ -73,7 +73,6 @@ class FileInfo
 		$bytes /= pow(1024, $pow);
 		return round($bytes, $precision) . ' ' . $units[$pow];
 	}
-
 	// -------------------------------------------------------------------------
 	public function setFileName($fileName)
 	{

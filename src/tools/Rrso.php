@@ -1,5 +1,6 @@
 <?php
 namespace braga\tools\tools;
+use Exception;
 class Rrso
 {
 	// ------------------------------------------------------------------------------------------------------------------
@@ -8,8 +9,8 @@ class Rrso
 	const ILOSC_DNI_W_ROKU = 365;
 	// ------------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \braga\tools\tools\RrsoCashFlow[] $collection
-	 * @throws \Exception
+	 * @param RrsoCashFlow[] $collection
+	 * @throws Exception
 	 */
 	public static function szacuj($collection)
 	{
@@ -28,14 +29,14 @@ class Rrso
 				$bestGuess = $rate;
 				if($bestGuess == -1 || $bestGuess <= 0)
 				{
-					throw new \Exception("BR:13001 RRSO znajduje się poza zakresem dopuszczalnych obliczeń");
+					throw new Exception("BR:13001 RRSO znajduje się poza zakresem dopuszczalnych obliczeń");
 				}
 			}
 			return round($bestGuess, 2);
 		}
 		if($bestGuess == -1 || $bestGuess <= 0)
 		{
-			throw new \Exception("BR:13001 RRSO znajduje się poza zakresem dopuszczalnych obliczeń");
+			throw new Exception("BR:13001 RRSO znajduje się poza zakresem dopuszczalnych obliczeń");
 		}
 		return round($bestGuess, 2);
 	}

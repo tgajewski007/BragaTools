@@ -1,5 +1,6 @@
 <?php
 namespace braga\tools\tools;
+use Exception;
 /**
  * Created on 12 sty 2014 17:35:45
  * error prefix
@@ -37,7 +38,7 @@ class CookieManager
 		}
 		else
 		{
-			throw new \Exception("BT:10201 Header already sends");
+			throw new Exception("BT:10201 Header already sends");
 		}
 	}
 	// -------------------------------------------------------------------------

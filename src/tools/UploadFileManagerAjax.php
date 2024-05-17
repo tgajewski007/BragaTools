@@ -1,6 +1,7 @@
 <?php
 namespace braga\tools\tools;
 use braga\tools\exception\UploadMangerException;
+use Exception;
 
 /**
  * Created on 25.12.2016 14:26:14
@@ -16,8 +17,8 @@ class UploadFileManagerAjax extends UploadFileManager
 	// -------------------------------------------------------------------------
 	/**
 	 * @param string $postName
-	 * @throws \Exception
-	 * @return \braga\tools\tools\UploadFileManager
+	 * @return UploadFileManager
+	 * @throws Exception
 	 */
 	public static function getFileContent($postName)
 	{
@@ -40,14 +41,14 @@ class UploadFileManagerAjax extends UploadFileManager
 		$startPos = strpos($this->getInputFromPost(), ';base64,');
 		if(false === $startPos)
 		{
-			throw new \Exception("BT::10005 Transmision error, see log");
+			throw new Exception("BT::10005 Transmision error, see log");
 		}
 		$startPos += +strlen(';base64,');
 		$contentBase64 = substr($this->getInputFromPost(), $startPos);
 		$content = base64_decode($contentBase64);
 		if(false === $content)
 		{
-			throw new \Exception("BT::10006 Transmision error: error decode content from base64");
+			throw new Exception("BT::10006 Transmision error: error decode content from base64");
 		}
 		$this->setContent($content);
 	}

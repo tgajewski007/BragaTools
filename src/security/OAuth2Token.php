@@ -1,11 +1,12 @@
 <?php
 namespace braga\tools\security;
-use GuzzleHttp\Client;
-use Lcobucci\JWT\Encoding\JoseEncoder;
-use Lcobucci\JWT\Token\Parser;
 use braga\tools\exception\AuthenticationExcepion;
 use braga\tools\exception\CantRetriveTokenException;
 use braga\tools\tools\JsonSerializer;
+use GuzzleHttp\Client;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\Token\Plain;
 trait OAuth2Token
 {
 	private $publicClientAuthUrl = "/protocol/openid-connect/token";
@@ -19,7 +20,7 @@ trait OAuth2Token
 		$obj = JsonSerializer::fromJson($jsonString, AuthTokenResponse::class);
 		$parser = new Parser(new JoseEncoder());
 		$jwt = $parser->parse($obj->access_token);
-		if($jwt instanceof \Lcobucci\JWT\Token\Plain)
+		if($jwt instanceof Plain)
 		{
 			return $jwt;
 		}
@@ -33,15 +34,15 @@ trait OAuth2Token
 	{
 		$c = new Client();
 		$headers = [
-						"Content-Type" => "application/x-www-form-urlencoded" ];
+			"Content-Type" => "application/x-www-form-urlencoded" ];
 		$formsParams = [
-						"grant_type" => "client_credentials",
-						"client_id" => $clientId,
-						"client_secret" => $clientSecret,
-						"scope" => "profile email" ];
+			"grant_type"    => "client_credentials",
+			"client_id"     => $clientId,
+			"client_secret" => $clientSecret,
+			"scope"         => "profile email" ];
 		$req = [
-						"headers" => $headers,
-						"form_params" => $formsParams ];
+			"headers"     => $headers,
+			"form_params" => $formsParams ];
 		$res = $c->post($isseRealms . $this->publicClientAuthUrl, $req);
 		if($res->getStatusCode() == 200)
 		{

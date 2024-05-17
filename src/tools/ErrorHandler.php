@@ -1,5 +1,6 @@
 <?php
 namespace braga\tools\tools;
+use Exception;
 /**
  * Klasa utworzona na potrzeby zorganizowania kodu do przechwytywania i logownaia błędów.
  * Nie należy jej używać w kodzie oprócz metody ::setErrorHandler
@@ -25,14 +26,14 @@ class ErrorHandler
 	{
 		self::$logFolder = $logFolder;
 		register_shutdown_function(array(
-				__NAMESPACE__ . '\ErrorHandler',
-				'fatalErrorHandler'));
+			__NAMESPACE__ . '\ErrorHandler',
+			'fatalErrorHandler' ));
 		set_error_handler(array(
-				__NAMESPACE__ . '\ErrorHandler',
-				'errorHandler'));
+			__NAMESPACE__ . '\ErrorHandler',
+			'errorHandler' ));
 		set_exception_handler(array(
-				__NAMESPACE__ . '\ErrorHandler',
-				'exceptionHandler'));
+			__NAMESPACE__ . '\ErrorHandler',
+			'exceptionHandler' ));
 	}
 	// -------------------------------------------------------------------------
 	protected static function getCallStack()
@@ -42,8 +43,7 @@ class ErrorHandler
 		$trace = ob_get_contents();
 		ob_end_clean();
 		$trace = preg_replace('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $trace, 1);
-		$trace = preg_replace_callback('/^#(\d+)/m', function ($m)
-		{
+		$trace = preg_replace_callback('/^#(\d+)/m', function ($m) {
 			return ('#' . (intval($m[1]) - 1));
 		}, $trace);
 
@@ -103,7 +103,7 @@ class ErrorHandler
 			case E_RECOVERABLE_ERROR:
 				$filePrefix = "recoverable_error";
 				self::saveErrorToLogFile($filePrefix, $retval);
-				throw new \Exception($errstr, $errno);
+				throw new Exception($errstr, $errno);
 				break;
 			case E_DEPRECATED:
 				$filePrefix = "php_deprec";
@@ -125,7 +125,7 @@ class ErrorHandler
 	/**
 	 * Nie używać metody poza jej klasą!!!
 	 */
-	public static function exceptionHandler(\Exception $exception)
+	public static function exceptionHandler(Exception $exception)
 	{
 		$filePrefix = "php_exception";
 		$retval = date("Y-m-d H:i:s");

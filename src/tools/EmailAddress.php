@@ -1,6 +1,5 @@
 <?php
 namespace braga\tools\tools;
-use braga\tools\exception\BragaException;
 use braga\tools\exception\BadEmailAdress;
 
 /**

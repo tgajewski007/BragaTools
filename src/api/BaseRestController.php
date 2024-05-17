@@ -5,6 +5,8 @@ use braga\tools\api\types\response\ErrorResponseType;
 use braga\tools\api\types\type\ContentType;
 use braga\tools\api\types\type\ErrorType;
 use braga\tools\tools\JsonSerializer;
+use Exception;
+use Throwable;
 
 /**
  * Created on 26 lut 2018 17:49:06
@@ -159,11 +161,11 @@ abstract class BaseRestController
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param \Throwable $e
+	 * @param Throwable $e
 	 * @param string $responseCode
 	 * @return void
 	 */
-	protected function sendError(\Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
+	protected function sendError(Throwable $e, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
 	{
 		$retval = new ErrorResponseType();
 		$retval->error[] = ErrorType::convertFromThrowrable($e);
@@ -186,7 +188,7 @@ abstract class BaseRestController
 	/**
 	 * @param $jsonString
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws Exception
 	 * @deprecated use getBodyObjectMapped or getBodyArrayMapped
 	 */
 	protected function importFromJSON($jsonString)
@@ -194,7 +196,7 @@ abstract class BaseRestController
 		if(empty($jsonString))
 		{
 			$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " importFromJson(pusty string)", array());
-			throw new \Exception("BT:10101 Nie przekazano poprawnej struktury danych JSON");
+			throw new Exception("BT:10101 Nie przekazano poprawnej struktury danych JSON");
 		}
 		else
 		{
@@ -206,7 +208,7 @@ abstract class BaseRestController
 				{
 					$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Błąd parsowania", array(
 						"string" => $jsonString ));
-					throw new \Exception("BT:10102 Błąd parsowania danych wejściowych");
+					throw new Exception("BT:10102 Błąd parsowania danych wejściowych");
 				}
 			}
 			return $retval;

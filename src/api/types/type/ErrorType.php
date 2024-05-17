@@ -29,6 +29,11 @@ class ErrorType
 		{
 			$retval->idBerkas = $e->idBerkas;
 		}
+		if(empty($retval->number))
+		{
+			preg_match('/\d+/', $e->getMessage(), $matches);
+			$retval->number = $matches[0] ?? "-1";
+		}
 		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------

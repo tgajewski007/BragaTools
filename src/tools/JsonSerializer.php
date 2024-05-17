@@ -1,6 +1,6 @@
 <?php
 namespace braga\tools\tools;
-use phpseclib3\Math\BigInteger\Engines\PHP\Reductions\Classic;
+use JsonMapper;
 class JsonSerializer
 {
 	// -----------------------------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ class JsonSerializer
 			}
 			else
 			{
-				$mapper = new \JsonMapper();
+				$mapper = new JsonMapper();
 				$mapper->bStrictNullTypes = false;
 				$obj = $mapper->map($json, new $className());
 			}
@@ -50,7 +50,7 @@ class JsonSerializer
 			}
 			else
 			{
-				$mapper = new \JsonMapper();
+				$mapper = new JsonMapper();
 				$mapper->bStrictNullTypes = false;
 				$obj = $mapper->mapArray($json, array(), $className);
 			}

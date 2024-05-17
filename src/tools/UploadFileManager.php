@@ -1,6 +1,8 @@
 <?php
 namespace braga\tools\tools;
 use braga\tools\exception\UploadMangerException;
+use Exception;
+use SplFileInfo;
 
 /**
  * Created on 25.12.2016 14:26:14
@@ -20,8 +22,8 @@ class UploadFileManager
 	// -------------------------------------------------------------------------
 	/**
 	 * @param string $postName
-	 * @throws \Exception
-	 * @return \braga\tools\tools\UploadFileManager
+	 * @return UploadFileManager
+	 * @throws Exception
 	 */
 	public static function getFileContent($postName)
 	{
@@ -93,7 +95,7 @@ class UploadFileManager
 	// -------------------------------------------------------------------------
 	public function getOrginalFilenameFlated()
 	{
-		$file = new \SplFileInfo($this->orginalFilename);
+		$file = new SplFileInfo($this->orginalFilename);
 		$retval = plCharset($file->getBasename('.' . $file->getExtension()));
 		$retval .= ".";
 		$retval .= plCharset($file->getExtension());

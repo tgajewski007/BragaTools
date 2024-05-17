@@ -36,7 +36,7 @@ abstract class RestClient
 	/**
 	 * @param string $url
 	 * @param mixed $body
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	protected function post($url, $body)
 	{
@@ -63,7 +63,7 @@ abstract class RestClient
 	/**
 	 * @param string $url
 	 * @param mixed $body
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	protected function put($url, $body)
 	{
@@ -89,7 +89,7 @@ abstract class RestClient
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $url
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	protected function get($url)
 	{
@@ -111,7 +111,7 @@ abstract class RestClient
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $url
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	protected function delete($url)
 	{
@@ -229,7 +229,8 @@ abstract class RestClient
 		if(count($resError->error) > 0)
 		{
 			$err = reset($resError->error);
-			throw new BusinesException($err->number . " " . $err->description, intval(preg_replace('/[^0-9]/', '', $err->number)));
+			preg_match('/\d+/', $err->number ?? $err->description, $matches);
+			throw new BusinesException($err->number . " " . $err->description, $matches[0] ?? "-1");
 		}
 		else
 		{

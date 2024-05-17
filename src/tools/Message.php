@@ -79,7 +79,7 @@ class Message
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 *
-	 * @return \braga\tools\tools\Message
+	 * @return Message
 	 */
 	public static function getInstance()
 	{
@@ -103,7 +103,7 @@ class Message
 	/**
 	 *
 	 * @param string $typ
-	 * @return \braga\tools\tools\Message[]
+	 * @return Message[]
 	 */
 	public function getAllByTyp($typ)
 	{

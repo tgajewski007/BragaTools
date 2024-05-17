@@ -1,5 +1,6 @@
 <?php
 namespace braga\tools\api;
+use Closure;
 class ApiFiltr
 {
 	// -----------------------------------------------------------------------------------------------------------------
@@ -16,9 +17,9 @@ class ApiFiltr
 	// -----------------------------------------------------------------------------------------------------------------
 	public string $method;
 	public string $urlRegExp;
-	public \Closure $function;
+	public Closure $function;
 	// -----------------------------------------------------------------------------------------------------------------
-	function __construct(string $method, string $url, \Closure $function)
+	function __construct(string $method, string $url, Closure $function)
 	{
 		$this->method = $method;
 		$this->urlRegExp = $this->convertToRegExp($url);
