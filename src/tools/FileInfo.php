@@ -11,7 +11,6 @@ class FileInfo
 	protected $folder;
 	protected $pathFileName;
 	protected $fileSize;
-	protected $fileSizeFormated;
 	protected $link;
 	// -------------------------------------------------------------------------
 	public static function getStandardFileName($fileName)
@@ -24,7 +23,7 @@ class FileInfo
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	public static function scan($folder)
+	public static function scan($folder, $urlPrefix)
 	{
 		$dir = scandir($folder);
 		$retval = array();
@@ -32,46 +31,24 @@ class FileInfo
 		{
 			if(is_file($folder . $fileName))
 			{
-				$retval[] = new static($folder, $fileName);
+				$retval[] = new static($folder, $fileName, $urlPrefix);
 			}
 		}
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	public function __construct($folder, $fileName)
+	public function __construct($folder, $fileName, $urlPrefix)
 	{
 		$this->setFileName(basename($fileName));
 		$this->setFolder($folder);
 		$this->setPathFileName($this->getFolder() . $this->getFileName());
 		$this->setFileSize(filesize($this->getPathFileName()));
-		$this->setFileSizeFormated($this->formatBytes($this->getFileSize()));
-		$this->setLink(FRONT_BASE_URL . "download/" . $this->getFileName());
-	}
-	// -------------------------------------------------------------------------
-	public function setFileSizeFormated($fileSizeFormated)
-	{
-		$this->fileSizeFormated = $fileSizeFormated;
+		$this->setLink($urlPrefix . "/" . $this->getFileName());
 	}
 	// -------------------------------------------------------------------------
 	public function getFileSizeFormated()
 	{
-		return $this->fileSizeFormated;
-	}
-	// -------------------------------------------------------------------------
-	protected function formatBytes($bytes, $precision = 1)
-	{
-		$units = array(
-			'B',
-			'KiB',
-			'MiB',
-			'GiB',
-			'TiB' );
-
-		$bytes = max($bytes, 0);
-		$pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-		$pow = min($pow, count($units) - 1);
-		$bytes /= pow(1024, $pow);
-		return round($bytes, $precision) . ' ' . $units[$pow];
+		return formatBytes($this->getFileSize());
 	}
 	// -------------------------------------------------------------------------
 	public function setFileName($fileName)

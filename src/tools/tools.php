@@ -287,7 +287,8 @@ function formatBytes($bytes)
 			'B',
 			'kiB',
 			'MiB',
-			'GiB' );
+			'GiB',
+			'TiB' );
 
 		if(array_key_exists($unit, $units) === true)
 		{
