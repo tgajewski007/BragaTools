@@ -104,7 +104,6 @@ class ErrorHandler
 				$filePrefix = "recoverable_error";
 				self::saveErrorToLogFile($filePrefix, $retval);
 				throw new Exception($errstr, $errno);
-				break;
 			case E_DEPRECATED:
 				$filePrefix = "php_deprec";
 				break;
@@ -155,7 +154,6 @@ class ErrorHandler
 				case E_USER_ERROR:
 					self::errorHandler($error["type"], $error["message"], $error["file"], $error["line"]);
 					exit();
-					break;
 			}
 		}
 	}

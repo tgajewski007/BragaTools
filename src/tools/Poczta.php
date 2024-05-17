@@ -10,6 +10,7 @@ namespace braga\tools\tools;
  * żaden nadawca nie wie do kogo jeszcze poszła wiadomość
  * możliwe jest określenie jednego adresu DW (do wiadomości)
  * takiego samego dla wszystkich wiadomości
+ * @deprecated
  */
 class Poczta
 {
