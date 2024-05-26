@@ -95,7 +95,7 @@ abstract class RestClient
 	{
 		$options = array();
 		$options["headers"] = $this->getHeaders();
-		$this->logRequest($url, null);
+		$this->logRequest($this->baseUrl . $url, null);
 		try
 		{
 			$this->response = $this->client->get($this->baseUrl . $url, $options);
@@ -117,7 +117,7 @@ abstract class RestClient
 	{
 		$options = array();
 		$options["headers"] = $this->getHeaders();
-		$this->logRequest($url, null);
+		$this->logRequest($this->baseUrl . $url, null);
 		try
 		{
 			$this->response = $this->client->delete($this->baseUrl . $url, $options);
