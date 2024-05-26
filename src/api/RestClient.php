@@ -45,17 +45,17 @@ abstract class RestClient
 		if(!is_null($body))
 		{
 			$options["body"] = JsonSerializer::toJson($body);
-			$this->logRequest($url, $options["body"]);
+			$this->logRequest($this->baseUrl . $url, $options["body"]);
 		}
 		try
 		{
 			$this->response = $this->client->post($this->baseUrl . $url, $options);
-			$this->logResponse($url, $this->response);
+			$this->logResponse($this->baseUrl . $url, $this->response);
 		}
 		catch(BadResponseException $e)
 		{
 			$this->response = $e->getResponse();
-			$this->logResponse($url, $this->response, Level::Error);
+			$this->logResponse($this->baseUrl . $url, $this->response, Level::Error);
 		}
 		return $this->response;
 	}
@@ -72,17 +72,17 @@ abstract class RestClient
 		if(!is_null($body))
 		{
 			$options["body"] = JsonSerializer::toJson($body);
-			$this->logRequest($url, $options["body"]);
+			$this->logRequest($this->baseUrl . $url, $options["body"]);
 		}
 		try
 		{
 			$this->response = $this->client->put($this->baseUrl . $url, $options);
-			$this->logResponse($url, $this->response);
+			$this->logResponse($this->baseUrl . $url, $this->response);
 		}
 		catch(BadResponseException $e)
 		{
 			$this->response = $e->getResponse();
-			$this->logResponse($url, $this->response, Level::Error);
+			$this->logResponse($this->baseUrl . $url, $this->response, Level::Error);
 		}
 		return $this->response;
 	}
@@ -99,12 +99,12 @@ abstract class RestClient
 		try
 		{
 			$this->response = $this->client->get($this->baseUrl . $url, $options);
-			$this->logResponse($url, $this->response);
+			$this->logResponse($this->baseUrl . $url, $this->response);
 		}
 		catch(BadResponseException $e)
 		{
 			$this->response = $e->getResponse();
-			$this->logResponse($url, $this->response, Level::Error);
+			$this->logResponse($this->baseUrl . $url, $this->response, Level::Error);
 		}
 		return $this->response;
 	}
@@ -121,12 +121,12 @@ abstract class RestClient
 		try
 		{
 			$this->response = $this->client->delete($this->baseUrl . $url, $options);
-			$this->logResponse($url, $this->response);
+			$this->logResponse($this->baseUrl . $url, $this->response);
 		}
 		catch(BadResponseException $e)
 		{
 			$this->response = $e->getResponse();
-			$this->logResponse($url, $this->response, Level::Error);
+			$this->logResponse($this->baseUrl . $url, $this->response, Level::Error);
 		}
 		return $this->response;
 	}
