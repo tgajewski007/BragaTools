@@ -9,5 +9,5 @@ namespace braga\tools\exception;
  */
 class WithDocumentException extends BragaException
 {
-	public ?int $idBerkas;
+	public ?int $idBerkas = null;
 }
