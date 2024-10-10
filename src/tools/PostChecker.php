@@ -68,19 +68,20 @@ class PostChecker
 		$retval = array();
 		foreach($array as $name => $val)
 		{
-			$name = strtolower($name);
-			$retval[$name] = self::checkVal($val, $argName . "[" . $name . "]");
+			$name = mb_strtolower($name);
+			$retval[$name] = self::cleanValue($val, $argName . "[" . $name . "]");
 		}
 		return $retval;
 	}
 	// -------------------------------------------------------------------------
-	protected static function checkVal($argumentValue, $argumentName)
+	protected static function cleanValue($argumentValue, $argumentName)
 	{
 		if(!is_array($argumentValue))
 		{
 			$retval = $argumentValue;
 			$retval = preg_replace('/[[:cntrl:]]/', '', $retval);
-			$retval = htmlspecialchars($argumentValue, ENT_QUOTES, "UTF-8");
+			$retval = htmlspecialchars($retval, ENT_QUOTES, "UTF-8");
+			$retval = mb_convert_encoding($retval, 'UTF-8', 'UTF-8');
 			$retval = trim($retval);
 			return $retval;
 		}
@@ -89,8 +90,8 @@ class PostChecker
 			$retval = array();
 			foreach($argumentValue as $klucz => $wartosc)
 			{
-				$klucz = strtolower($klucz);
-				$retval[$klucz] = self::checkVal($wartosc, $argumentName);
+				$klucz = mb_strtolower($klucz);
+				$retval[$klucz] = self::cleanValue($wartosc, $argumentName);
 			}
 			return $retval;
 		}
