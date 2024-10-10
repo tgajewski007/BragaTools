@@ -79,9 +79,8 @@ class PostChecker
 		if(!is_array($argumentValue))
 		{
 			$retval = $argumentValue;
-			$retval = preg_replace('/[[:cntrl:]]/', '', $retval);
+			$retval = iconv('UTF-8', 'UTF-8//IGNORE', $retval);
 			$retval = htmlspecialchars($retval, ENT_QUOTES, "UTF-8");
-			$retval = mb_convert_encoding($retval, 'UTF-8', 'UTF-8');
 			$retval = trim($retval);
 			return $retval;
 		}
