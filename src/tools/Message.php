@@ -126,8 +126,8 @@ class Message
 		if($text != "")
 		{
 			$msgArray = explode(" ", $text, 2);
-			$retval->numer = $msgArray[0];
-			$retval->opis = $msgArray[1];
+			$retval->numer = $msgArray[0] ?? -1;
+			$retval->opis = $msgArray[1] ?? "Brak szczegółów";
 			return $retval;
 		}
 		else
