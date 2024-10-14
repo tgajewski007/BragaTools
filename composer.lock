@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9880e1ff921c4faee56579416e60f18f",
+    "content-hash": "c8b07e92c1fa481dffbb1e914e64c839",
     "packages": [
         {
             "name": "braga/enginerule",
