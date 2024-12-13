@@ -32,7 +32,7 @@ class RestController extends BaseRestController
 	{
 		Benchmark::add(__METHOD__);
 		$tmp = parse_url($_SERVER["REQUEST_URI"]);
-		$path = isset($tmp["path"]) ? $tmp["path"] : null;
+		$path = $tmp["path"] ?? "";
 
 		if(!empty($this->urlPrefix))
 		{
