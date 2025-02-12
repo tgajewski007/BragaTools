@@ -99,6 +99,7 @@ class Benchmark
 					$context["Events"] = JsonSerializer::toJson($events);
 					$context["Progres"] = floatval($this->events[self::END_INDEX]->progres);
 					$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
+					$context["Page"] = $i;
 					$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->progres, $context);
 
 					$i = 0;
@@ -111,6 +112,7 @@ class Benchmark
 				$context["Events"] = JsonSerializer::toJson($events);
 				$context["Progres"] = floatval($this->events[self::END_INDEX]->progres);
 				$context["_REQUEST"] = JsonSerializer::toJson($_REQUEST);
+				$context["Page"] = $i + 1;
 				$this->loggerClassNama::info("BENCHMARK: " . $this->events[self::END_INDEX]->progres, $context);
 			}
 		}
