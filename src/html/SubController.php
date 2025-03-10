@@ -13,5 +13,5 @@ interface SubController
 	 * @param callable[] $actions
 	 * @return void
 	 */
-	public function registerActions(array $actions): void;
+	public function registerActions(array &$actions): void;
 }
