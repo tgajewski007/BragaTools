@@ -2,16 +2,23 @@
 
 namespace braga\tools\html;
 
+use braga\tools\tools\Retval;
 /**
  * Created 10.03.2025 10:40
  * error prefix
  * @autor Tomasz Gajewski
  */
-interface SubController
+abstract class SubController
 {
+	// -----------------------------------------------------------------------------------------------------------------
+	public function __construct(protected Retval $r)
+	{
+	}
+	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param callable[] $actions
 	 * @return void
 	 */
-	public function registerActions(array &$actions): void;
+	abstract public function registerActions(array &$actions): void;
+	// -----------------------------------------------------------------------------------------------------------------
 }

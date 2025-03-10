@@ -78,7 +78,7 @@ abstract class Controler extends BaseRestController
 	{
 		if(isset($this->actions[$action]))
 		{
-			$this->actions[$action]($this->r);
+			$this->actions[$action]();
 		}
 		else
 		{
