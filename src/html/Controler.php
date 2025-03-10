@@ -86,6 +86,12 @@ abstract class Controler extends BaseRestController
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param string $action
+	 * @param callable $fn
+	 * @return void
+	 * @throws BragaException
+	 */
 	public function registerAction(string $action, callable $fn): void
 	{
 		if(!isset($this->actions[$action]))
