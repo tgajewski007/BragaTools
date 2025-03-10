@@ -4,6 +4,7 @@ namespace braga\tools\benchmark;
 
 use braga\graylogger\BaseLogger;
 use braga\tools\tools\JsonSerializer;
+use Closure;
 use Throwable;
 /**
  * Created 29.12.2022 18:37
@@ -106,7 +107,7 @@ class Benchmark
 					$events = [];
 				}
 			}
-			if(count($events) > 0)
+			if(!empty($events))
 			{
 				$context = [];
 				$context["Events"] = JsonSerializer::toJson($events);

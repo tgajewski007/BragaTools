@@ -4,6 +4,7 @@ use braga\graylogger\BaseLogger;
 use braga\tools\api\types\response\ErrorResponseType;
 use braga\tools\api\types\type\ContentType;
 use braga\tools\api\types\type\ErrorType;
+use braga\tools\exception\BragaException;
 use braga\tools\tools\JsonSerializer;
 use Exception;
 use Throwable;
@@ -111,7 +112,7 @@ abstract class BaseRestController
 	 */
 	protected function sendHtml($retval, $responseCode = self::HTTP_STATUS_200_OK): void
 	{
-		$this->sendBasic($retval, $responseCode, ContentType::HTML);
+		$this->sendBasic($retval, $responseCode);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -123,7 +124,7 @@ abstract class BaseRestController
 	protected function sendBasic($retval, $responseCode = self::HTTP_STATUS_200_OK, ContentType $contentType = ContentType::HTML): void
 	{
 		$this->sendStandardsHeaders($contentType);
-		header("HTTP/1.0 " . $responseCode);
+		header("HTTP/1.1 " . $responseCode);
 		self::sendResponse($retval);
 		if($contentType != ContentType::DOWNLOAD)
 		{
@@ -156,8 +157,7 @@ abstract class BaseRestController
 	 */
 	protected function forwardError(ErrorResponseType $retval, $responseCode = self::HTTP_STATUS_500_INTERNAL_ERROR): void
 	{
-		$retval = json_encode($retval);
-		$this->sendBasic($retval, $responseCode, ContentType::JSON);
+		$this->sendJson($retval, $responseCode);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -188,7 +188,7 @@ abstract class BaseRestController
 	/**
 	 * @param $jsonString
 	 * @return mixed
-	 * @throws Exception
+	 * @throws BragaException
 	 * @deprecated use getBodyObjectMapped or getBodyArrayMapped
 	 */
 	protected function importFromJSON($jsonString)
@@ -196,7 +196,7 @@ abstract class BaseRestController
 		if(empty($jsonString))
 		{
 			$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " importFromJson(pusty string)", array());
-			throw new Exception("BT:10101 Nie przekazano poprawnej struktury danych JSON");
+			throw new BragaException("BT:10101 Nie przekazano poprawnej struktury danych JSON");
 		}
 		else
 		{
@@ -208,7 +208,7 @@ abstract class BaseRestController
 				{
 					$this->loggerClassNama::alert($_SERVER["REQUEST_URI"] . " Błąd parsowania", array(
 						"string" => $jsonString ));
-					throw new Exception("BT:10102 Błąd parsowania danych wejściowych");
+					throw new BragaException("BT:10102 Błąd parsowania danych wejściowych");
 				}
 			}
 			return $retval;
