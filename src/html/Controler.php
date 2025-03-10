@@ -66,7 +66,7 @@ abstract class Controler extends BaseRestController
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function registerSubController(SubController $subController)
 	{
-		$subController->registerActions($this->actions);
+		$subController->registerActions();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -83,6 +83,18 @@ abstract class Controler extends BaseRestController
 		else
 		{
 			throw new BragaException("BT:10401 Akcja " . $action . " nie jest obsługiwana ", 10401);
+		}
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	public function registerAction(string $action, callable $fn): void
+	{
+		if(!isset($this->actions[$action]))
+		{
+			$this->actions[$action] = $fn;
+		}
+		else
+		{
+			throw new BragaException("BT:10402 Akcja " . $action . " jest już zarejestrowana ", 10402);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------

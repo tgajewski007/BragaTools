@@ -11,14 +11,13 @@ use braga\tools\tools\Retval;
 abstract class SubController
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	public function __construct(protected Retval $r)
+	public function __construct(protected Controler $parentController)
 	{
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param callable[] $actions
 	 * @return void
 	 */
-	abstract public function registerActions(array &$actions): void;
+	abstract public function registerActions(): void;
 	// -----------------------------------------------------------------------------------------------------------------
 }
