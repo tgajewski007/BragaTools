@@ -11,6 +11,13 @@ use braga\tools\process\exception\ProcessException;
 class ProcessController
 {
 	// -----------------------------------------------------------------------------------------------------------------
+	protected ?string $firedEvent = null;
+	// -----------------------------------------------------------------------------------------------------------------
+	public function getFiredEvent(): string
+	{
+		return $this->firedEvent ?? "";
+	}
+	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @var ProcessCallback[][]
 	 */
@@ -30,6 +37,7 @@ class ProcessController
 				ProcessLogger::debug("FireEvent: " . $event, [ "event" => $event, "classname" => get_class($callback) ]);
 				try
 				{
+					$this->firedEvent = $event;
 					$callback->call($this, ...$arg);
 				}
 				catch(ProcessException $e)
