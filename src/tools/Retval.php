@@ -49,10 +49,10 @@ abstract class Retval
 		$this->ajax .= BaseTags::customShortXML("closePopUp", "id='" . $id . "'");
 	}
 	// -------------------------------------------------------------------------
-	public function popUpWin($title, $retval, $idContener = "#InputBox")
+	public function popUpWin($title, $retval, $idContener = "#InputBox", $size = "")
 	{
 		$id = str_replace("#", "", $idContener);
-		$this->ajax .= BaseTags::customShortXML("popup", "id='" . $id . "' title='" . $title . "'");
+		$this->ajax .= BaseTags::customShortXML("popup", "id='" . $id . "' title='" . $title . "' size='" . $size . "'");
 		$this->addChange($retval, $idContener);
 	}
 	// -------------------------------------------------------------------------
