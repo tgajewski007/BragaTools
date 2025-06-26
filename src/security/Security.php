@@ -58,11 +58,11 @@ class Security
 	 */
 	public static function getInstance()
 	{
-		if(empty(self::$instance))
+		if(empty(static::$instance))
 		{
-			self::$instance = new static();
+			static::$instance = new static();
 		}
-		return self::$instance;
+		return static::$instance;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public function setConfig(SecurityConfig $config)
