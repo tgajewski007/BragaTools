@@ -120,10 +120,11 @@ class Security
 			}
 			else
 			{
-				throw new AuthenticationExcepion("BR:91002 Nieobsugiwany algorytm weryfikacji tokenu", 91002);
+				throw new AuthenticationExcepion("BR:91002 Nieobsługiwany algorytm weryfikacji tokenu", 91002);
 			}
 			$key = InMemory::plainText($this->config->getPublicKey($token->headers()->get("kid")));
 			$v = new Validator();
+			$issuedBy = null;
 			if(!empty($this->config->getIssuedBy()))
 			{
 				$issuedBy = new IssuedBy($this->config->getIssuedBy());
@@ -132,7 +133,14 @@ class Security
 			$signedWith = new SignedWith($signer, $key);
 			try
 			{
-				$v->assert($token, $issuedBy, $validAt, $signedWith);
+				if(!empty($issuedBy))
+				{
+					$v->assert($token, $issuedBy, $validAt, $signedWith);
+				}
+				else
+				{
+					$v->assert($token, $validAt, $signedWith);
+				}
 				return $token;
 			}
 			catch(RequiredConstraintsViolated $e)
