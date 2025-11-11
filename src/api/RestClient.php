@@ -19,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
 abstract class RestClient
 {
 	// -----------------------------------------------------------------------------------------------------------------
+	const MAX_LOGGED_BODY_SIZE = 2048;
+	// -----------------------------------------------------------------------------------------------------------------
 	protected Client $client;
 	protected ?ResponseInterface $response = null;
 	// -----------------------------------------------------------------------------------------------------------------
@@ -134,7 +136,14 @@ abstract class RestClient
 	protected function logRequest($url, $body)
 	{
 		$context = array();
-		$context["body"] = $body;
+		if(mb_strlen($body) < self::MAX_LOGGED_BODY_SIZE)
+		{
+			$context["body"] = $body;
+		}
+		else
+		{
+			$context["body"] = mb_substr($body, 0, self::MAX_LOGGED_BODY_SIZE) . "...";
+		}
 		$context["class"] = static::class;
 		$this->loggerClassNama::info($url, $context);
 	}
@@ -142,7 +151,15 @@ abstract class RestClient
 	protected function logResponse($url, ResponseInterface $res, $level = Level::Info)
 	{
 		$context = array();
-		$context["body"] = $res->getBody()->getContents();
+		$body = $res->getBody()->getContents();
+		if(mb_strlen($body) < self::MAX_LOGGED_BODY_SIZE)
+		{
+			$context["body"] = $body;
+		}
+		else
+		{
+			$context["body"] = mb_substr($body, 0, self::MAX_LOGGED_BODY_SIZE) . "...";
+		}
 		$context["class"] = static::class;
 		$context["status"] = strval($res->getStatusCode());
 		$this->loggerClassNama::log($level, $url . " Response: " . $res->getStatusCode(), $context);
