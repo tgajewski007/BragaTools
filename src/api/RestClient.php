@@ -136,13 +136,13 @@ abstract class RestClient
 	protected function logRequest($url, $body)
 	{
 		$context = array();
-		if(mb_strlen($body) < self::MAX_LOGGED_BODY_SIZE)
+		if(mb_strlen($body ?? "") < self::MAX_LOGGED_BODY_SIZE)
 		{
 			$context["body"] = $body;
 		}
 		else
 		{
-			$context["body"] = mb_substr($body, 0, self::MAX_LOGGED_BODY_SIZE) . "...";
+			$context["body"] = mb_substr($body ?? "", 0, self::MAX_LOGGED_BODY_SIZE) . "...";
 		}
 		$context["class"] = static::class;
 		$this->loggerClassNama::info($url, $context);
@@ -152,13 +152,13 @@ abstract class RestClient
 	{
 		$context = array();
 		$body = $res->getBody()->getContents();
-		if(mb_strlen($body) < self::MAX_LOGGED_BODY_SIZE)
+		if(mb_strlen($body ?? "") < self::MAX_LOGGED_BODY_SIZE)
 		{
 			$context["body"] = $body;
 		}
 		else
 		{
-			$context["body"] = mb_substr($body, 0, self::MAX_LOGGED_BODY_SIZE) . "...";
+			$context["body"] = mb_substr($body ?? "", 0, self::MAX_LOGGED_BODY_SIZE) . "...";
 		}
 		$context["class"] = static::class;
 		$context["status"] = strval($res->getStatusCode());
