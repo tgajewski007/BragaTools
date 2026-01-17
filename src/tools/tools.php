@@ -783,5 +783,43 @@ function cleanToNumbers($search)
 	$search = preg_replace("/\D/", "", $search ?? "");
 	return $search;
 }
-// =============================================================================
-?>
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Zamienia tekst wieloliniowy na tablicę linii.
+ * Obsługuje dowolne zakończenia linii (\n, \r\n, \r, itd.).
+ *
+ * @param string $text
+ * @param bool $trimLines Czy przycinać białe znaki na początku/końcu linii
+ * @param bool $removeEmpty Czy usuwać puste linie
+ * @return string[]
+ */
+function textToLines(string $text, bool $trimLines = true, bool $removeEmpty = true): array
+{
+	// Usuń BOM, jeśli występuje (czasem pojawia się przy wklejaniu/plikach UTF-8)
+	$text = preg_replace('/^\x{FEFF}/u', '', $text) ?? $text;
+
+	$flags = $removeEmpty ? PREG_SPLIT_NO_EMPTY : 0;
+
+	// \R = dowolny separator końca linii (CRLF/LF/CR/itd.)
+	$lines = preg_split("/\R/u", $text, -1, $flags);
+
+	if($lines === false)
+	{
+		// W praktyce rzadkie; fallback: zwróć całość jako jedną linię
+		$lines = [ $text ];
+	}
+
+	if($trimLines)
+	{
+		$lines = array_map('trim', $lines);
+	}
+
+	if($removeEmpty)
+	{
+		// gdyby trim zrobił z czegoś pusty string
+		$lines = array_values(array_filter($lines, static fn(string $l) => $l !== ''));
+	}
+
+	return $lines;
+}
+// ---------------------------------------------------------------------------------------------------------------------
