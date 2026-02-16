@@ -194,7 +194,7 @@ abstract class RestClient
 		}
 		else
 		{
-			$this->throwBusinesException($json);
+			$this->throwBusinesException($json, $res->getStatusCode(), $res->getReasonPhrase());
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ abstract class RestClient
 		}
 		else
 		{
-			$this->throwBusinesException($json);
+			$this->throwBusinesException($json, $res->getStatusCode(), $res->getReasonPhrase());
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
@@ -236,11 +236,11 @@ abstract class RestClient
 		}
 		else
 		{
-			$this->throwBusinesException($res->getBody()->getContents());
+			$this->throwBusinesException($json, $res->getStatusCode(), $res->getReasonPhrase());
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	protected function throwBusinesException($responseContent)
+	protected function throwBusinesException(string $responseContent, int $code, string $message)
 	{
 		$resError = JsonSerializer::fromJson($responseContent, ErrorResponseType::class);
 		if(count($resError->error) > 0)
@@ -251,7 +251,7 @@ abstract class RestClient
 		}
 		else
 		{
-			throw new BragaException("BT:11003 Błąd: brak szczegółów :(", 11003);
+			throw new BragaException("BT:11003 Błąd HTTP: {$code} {$message}", 11003);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
