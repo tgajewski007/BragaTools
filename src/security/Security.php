@@ -147,17 +147,17 @@ class Security
 			{
 				BaseLogger::exception($e, Level::Critical, [
 					"couse" => json_encode($e->violations(), JSON_PRETTY_PRINT) ]);
-				throw new AuthenticationExcepion("BR:91003 Błąd veryfikacji tokenu", 91003);
+				throw new AuthenticationExcepion("BR:91003 Błąd weryfikacji tokenu", 91003);
 			}
 			catch(Throwable $e)
 			{
 				BaseLogger::exception($e);
-				throw new AuthenticationExcepion("BR:91009 Błąd veryfikacji tokenu", 91009);
+				throw new AuthenticationExcepion("BR:91009 Błąd weryfikacji tokenu", 91009);
 			}
 		}
 		else
 		{
-			throw new AuthenticationExcepion("BR:91004 Błędy typ tokenu", 91004);
+			throw new AuthenticationExcepion("BR:91004 Błędny typ tokenu", 91004);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
