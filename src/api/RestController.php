@@ -1,6 +1,7 @@
 <?php
 namespace braga\tools\api;
 use braga\tools\benchmark\Benchmark;
+use braga\tools\exception\BusinesException;
 use braga\tools\tools\JsonSerializer;
 class RestController extends BaseRestController
 {
@@ -74,6 +75,24 @@ class RestController extends BaseRestController
 			$retval = array_merge($retval, $p);
 		}
 		return $retval;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	protected function response(callable $action): void
+	{
+		try
+		{
+			$this->sendJson($action());
+		}
+		catch(BusinesException $e)
+		{
+			$this->loggerClassNama::exception($e);
+			$this->sendError($e, self::HTTP_STATUS_422_BUSINES_ERROR);
+		}
+		catch(\Throwable $e)
+		{
+			$this->loggerClassNama::exception($e);
+			$this->sendError($e);
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
