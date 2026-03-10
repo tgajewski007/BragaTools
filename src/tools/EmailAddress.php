@@ -24,7 +24,7 @@ class EmailAddress
 	 */
 	public function __construct($fullName, $email)
 	{
-		if($email != null)
+		if(isEmail($email))
 		{
 			$this->setEmail($email);
 			$this->setFullName($fullName);
@@ -37,12 +37,12 @@ class EmailAddress
 	// -------------------------------------------------------------------------
 	public function setEmail($email)
 	{
-		$this->email = substr($email, 0, 255);
+		$this->email = substr($email ?? "", 0, 255);
 	}
 	// -------------------------------------------------------------------------
 	public function setFullName($fullName)
 	{
-		$this->fullName = mb_substr($fullName, 0, 255);
+		$this->fullName = mb_substr($fullName ?? "", 0, 255);
 	}
 	// -------------------------------------------------------------------------
 	public function getEmail()
