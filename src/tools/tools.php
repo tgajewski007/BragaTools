@@ -220,9 +220,9 @@ function plCharset($string)
 // =============================================================================
 function formatMonney($kwota)
 {
-	if(!is_null($kwota))
+	if(is_numeric($kwota))
 	{
-		return number_format($kwota, 2, ",", " ");
+		return number_format(floatval($kwota), 2, ",", " ");
 	}
 	return "";
 }
