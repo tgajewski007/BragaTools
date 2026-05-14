@@ -1,7 +1,9 @@
 <?php
 namespace braga\tools\api;
 use braga\tools\benchmark\Benchmark;
+use braga\tools\exception\BragaException;
 use braga\tools\exception\BusinesException;
+use braga\tools\exception\MethodNotAllowedException;
 use braga\tools\tools\JsonSerializer;
 class RestController extends BaseRestController
 {
@@ -29,6 +31,12 @@ class RestController extends BaseRestController
 		$this->filtr[] = $a;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return void
+	 * @throws MethodNotAllowedException
+	 * @throws BusinesException
+	 * @throws BragaException
+	 */
 	public function doAction()
 	{
 		Benchmark::add(__METHOD__);
@@ -63,7 +71,7 @@ class RestController extends BaseRestController
 			}
 		}
 		$this->loggerClassNama::error(self::HTTP_STATUS_405_METHOD_NOT_ALLOWED, [ "REQUEST_METHOD" => $_SERVER["REQUEST_METHOD"], "REQUEST_URI" => $_SERVER["REQUEST_URI"], "parsedUri" => JsonSerializer::toJson($this) ]);
-		$this->sendMethodNotAllowed();
+		throw new MethodNotAllowedException("BR:92001 Method not allowed {$_SERVER["REQUEST_METHOD"]}: {$_SERVER["REQUEST_URI"]}", 92001);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	private function cleanMatches($param)
