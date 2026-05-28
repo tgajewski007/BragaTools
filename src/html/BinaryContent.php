@@ -14,10 +14,10 @@ class BinaryContent
 	/**
 	 * Metoda wysyła binarną zawartość z określonym Content-Type
 	 */
-	public static function send($filename, $content, string $contentType = "application/x-download")
+	public static function send($filename, $content, string $contentType = "application/x-download", $contentDisposition = "attachment")
 	{
 		Benchmark::add(__METHOD__);
-		self::sendHeader($filename, strlen($content), $contentType);
+		self::sendHeader($filename, strlen($content), $contentType, $contentDisposition);
 		echo $content;
 		flush();
 		Benchmark::add(__METHOD__ . "_END");
@@ -27,13 +27,13 @@ class BinaryContent
 	/**
 	 * Metoda wysyła nagłówki niezbędne do pobrania pliku
 	 */
-	private static function sendHeader($filename, $size, $contentType)
+	private static function sendHeader($filename, $size, $contentType, $contentDisposition = "attachment")
 	{
 		Benchmark::add(__METHOD__);
 		header("Expires: " . date("c"));
 		header("Cache-Control: no-transform; max-age=0; proxy-revalidate; no-cache; must-revalidate; no-store; post-check=0; pre-check=0");
 		header("Pragma: public");
-		header("Content-Disposition: attachment; filename=\"" . rawurlencode($filename) . "\"");
+		header("Content-Disposition: {$contentDisposition}; filename=\"" . rawurlencode($filename) . "\"");
 		header("Content-Type: " . $contentType);
 		header('Content-Length: ' . $size);
 		header('Connection: close');
