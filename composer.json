@@ -19,6 +19,7 @@
     "braga/graylogger": "@stable",
     "braga/enginerule": "@stable",
     "lcobucci/jwt": "@stable",
+    "lcobucci/clock": "@stable",
     "codercat/jwk-to-pem": "@stable",
     "netresearch/jsonmapper": "@stable",
     "guzzlehttp/guzzle": "@stable",
