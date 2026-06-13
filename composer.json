@@ -16,12 +16,12 @@
   "description": "Many difrent tools lib",
   "license": "MIT",
   "require": {
-    "braga/graylogger": "~2.1",
-    "braga/enginerule": "~1.0",
+    "braga/graylogger": "@stable",
+    "braga/enginerule": "@stable",
     "lcobucci/jwt": "@stable",
-    "codercat/jwk-to-pem": "~1.1",
-    "netresearch/jsonmapper": "~v4.5",
-    "guzzlehttp/guzzle": "~7.11",
+    "codercat/jwk-to-pem": "@stable",
+    "netresearch/jsonmapper": "@stable",
+    "guzzlehttp/guzzle": "@stable",
     "php": ">=8.3",
     "ext-json": "*",
     "ext-calendar": "*",
@@ -29,7 +29,7 @@
     "ext-iconv": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~12.5"
+    "phpunit/phpunit": "@stable"
   },
   "minimum-stability": "stable"
 }
