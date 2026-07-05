@@ -9,6 +9,7 @@ use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Rsa\Sha512;
+use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
@@ -88,15 +89,23 @@ class Security
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function parseTokenString($tokenString)
 	{
-		$parser = new Parser(new JoseEncoder());
-		$jwt = $parser->parse($tokenString);
-		if($jwt instanceof Plain)
+		try
 		{
-			return $jwt;
+			$parser = new Parser(new JoseEncoder());
+			$jwt = $parser->parse($tokenString);
+			if($jwt instanceof Plain)
+			{
+				return $jwt;
+			}
+			else
+			{
+				throw new AuthenticationExcepion("BR:91001 Błąd parsowania tokenu", 91001);
+			}
 		}
-		else
+		catch(InvalidTokenStructure $e)
 		{
-			throw new AuthenticationExcepion("BR:91001 Błąd parsowania tokenu", 91001);
+			BaseLogger::exception($e);
+			throw new AuthenticationExcepion("BR:91010 Błąd parsowania tokenu", 91010);
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
