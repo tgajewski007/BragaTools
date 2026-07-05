@@ -24,6 +24,7 @@ abstract class BaseRestController
 	protected $loggerClassNama = BaseLogger::class;
 	// -----------------------------------------------------------------------------------------------------------------
 	const HTTP_STATUS_200_OK = "200 OK";
+	const HTTP_STATUS_201_CREATED = "201 Created";
 	const HTTP_STATUS_202_ACCEPTED = "202 Accepted";
 	/**
 	 * @deprecated
