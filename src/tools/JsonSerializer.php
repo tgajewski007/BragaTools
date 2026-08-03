@@ -68,7 +68,7 @@ class JsonSerializer
 	 */
 	public static function toJson($obj): string
 	{
-		return json_encode($obj, JSON_PRETTY_PRINT);
+		return json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
