@@ -32,7 +32,7 @@ class Benchmark
 	/**
 	 * @var Benchmark
 	 */
-	private static ?Benchmark $instance;
+	private static ?Benchmark $instance = null;
 	// -----------------------------------------------------------------------------------------------------------------
 	private function __construct($loggerClassNama = null, $maxItem = 100)
 	{
@@ -61,8 +61,17 @@ class Benchmark
 		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
+	public static function turnOff(): void
+	{
+		self::$instance = null;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
 	public static function add($mark, $context = null)
 	{
+		if(self::$instance === null)
+		{
+			return;
+		}
 		try
 		{
 			self::$instance->events[] = new Item($mark, $context);
@@ -75,6 +84,10 @@ class Benchmark
 	// -----------------------------------------------------------------------------------------------------------------
 	public function __destruct()
 	{
+		if(self::$instance !== $this)
+		{
+			return;
+		}
 		try
 		{
 			$this->events[self::END_INDEX] = new Item("#END");
