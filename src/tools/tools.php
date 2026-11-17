@@ -725,12 +725,12 @@ function addMonth($date, $countOfMonth)
 	{
 		if($year != $yearOut)
 		{
-			$lastDayOfMonth = cal_days_in_month(CAL_GREGORIAN, $m, $yearOut);
+			$lastDayOfMonth = date("t", mktime(0, 0, 0, $m, 1, $yearOut));
 			$dateOut = mktime(0, 0, 0, $m, $lastDayOfMonth, $yearOut);
 		}
 		else
 		{
-			$lastDayOfMonth = cal_days_in_month(CAL_GREGORIAN, $month + $countOfMonth, $year);
+			$lastDayOfMonth = date("t", mktime(0, 0, 0, $month + $countOfMonth, 1, $year));
 			$dateOut = mktime(0, 0, 0, $month + $countOfMonth, $lastDayOfMonth, $year);
 		}
 	}
