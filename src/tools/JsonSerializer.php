@@ -14,7 +14,7 @@ class JsonSerializer
 	{
 		if(!empty($jsonString))
 		{
-			$json = json_decode($jsonString);
+			$json = json_decode($jsonString, false, 512, JSON_THROW_ON_ERROR);
 			if(empty($json))
 			{
 				$obj = new $className();
@@ -43,7 +43,7 @@ class JsonSerializer
 	{
 		if(!empty($jsonString))
 		{
-			$json = json_decode($jsonString);
+			$json = json_decode($jsonString, false, 512, JSON_THROW_ON_ERROR);
 			if(empty($json))
 			{
 				$obj = [];
